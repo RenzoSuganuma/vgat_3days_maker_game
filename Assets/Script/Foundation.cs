@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ public static class Foundation
     public const string TITLE_SCENE_NAME = "Title";
     public const string INGAME_SCENE_NAME = "InGame";
     public const string RESULT_SCENE_NAME = "Result";
+
+    public static List<GameObject>[] InGameLane { get; private set; }
 
     /// <summary>
     /// シーンロード時のイベント
@@ -45,6 +48,13 @@ public static class Foundation
 
     private static async UniTask StartGameAsync()
     {
+        // 配列確保
+        InGameLane = new List<GameObject>[6];
+        for (int i = 0; i < InGameLane.Length; i++)
+        {
+            InGameLane[i] = new List<GameObject>();
+        }
+
         await LoadSceneAdditiveAsync(INGAME_SCENE_NAME);
         await LoadSceneAdditiveAsync(RESULT_SCENE_NAME);
 
@@ -63,6 +73,7 @@ public static class Foundation
 
         TaskOnChangedScene?.Invoke(RESULT_SCENE_NAME);
 
+        InGameLane = Array.Empty<List<GameObject>>();
         DisposeScene(INGAME_SCENE_NAME);
     }
 
