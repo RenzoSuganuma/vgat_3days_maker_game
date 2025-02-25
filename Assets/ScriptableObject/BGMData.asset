@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 629a5ef4c8ab18748afc38d165dd5456, type: 3}
+  m_Name: BGMData
+  m_EditorClassIdentifier: 
+  Clips:
+  - ClipName: Title
+    Clip: {fileID: 8300000, guid: 05d9512065c1bc44c9a988b6aca7ab0a, type: 3}
+    Volume: 1
+  - ClipName: InGame
+    Clip: {fileID: 8300000, guid: 2acd3b69045c6014db06ccecf4d87378, type: 3}
+    Volume: 1
+  - ClipName: Result
+    Clip: {fileID: 8300000, guid: a416504d2826ee54d8af4c59ad348f80, type: 3}
+    Volume: 1
