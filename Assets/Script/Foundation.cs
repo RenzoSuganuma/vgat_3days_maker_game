@@ -21,9 +21,15 @@ public static class Foundation
     public static event Action<string> TaskOnStartGame;
     public static event Action<string> TaskOnChangedScene;
 
+    public static event Action OnGameOver;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void FadePanel()
     {
+        #if DONT_LOAD_TITLE_SCENE
+        return;
+        #endif
+
         SceneManager.LoadScene(TITLE_SCENE_NAME);
 
         var p = Resources.Load<GameObject>("pref_FadeCanvas");
@@ -46,7 +52,12 @@ public static class Foundation
         EndGameAsync().Forget();
     }
 
-    private static async UniTask StartGameAsync()
+    public static void NotifyGameOver()
+    {
+        OnGameOver?.Invoke();
+    }
+
+private static async UniTask StartGameAsync()
     {
         // 配列確保
         InGameLane = new List<GameObject>[6];
