@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using Sequence = DG.Tweening.Sequence;
 
 /// <summary>
 /// 振り子挙動を制御する
@@ -30,7 +31,7 @@ public class PendulumController : MonoBehaviour
             .Append(transform.DOLocalRotate(new Vector3(0, 0, _swingAngle), _duration, RotateMode.LocalAxisAdd)
                 .SetEase(_easeType).OnComplete(OnReach))
             .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd)
-                .SetEase(_easeType)).OnComplete(OnReach);
+                .SetEase(_easeType).OnComplete(OnReach));
 
         sequence.SetLoops(-1);
     }
@@ -40,10 +41,9 @@ public class PendulumController : MonoBehaviour
     /// </summary>
     private void OnReach()
     {
-        // _swingAngleがマイナスの値であっても正しい方向に到達するように調整
-        if (transform.localEulerAngles.z > _swingAngle / 2)
+        if ((_swingAngle < 0 && transform.localEulerAngles.z < 360 + _swingAngle) ||// TODO: アングルにマイナスを設定している場合がうまくいかない
+            (_swingAngle > 0 && transform.localEulerAngles.z < _swingAngle / 2))
         {
-            Debug.Log(transform.gameObject.name + "右端に到達");
             OnReachTheEdge?.Invoke();
         }
     }
