@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class ObstacleGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject _obstaclePref;
+    [SerializeField] RandomObjectChooser _chooser;
     [SerializeField] float _probability = 0.1f;
     [SerializeField] int[] _generatedIndex = new int[6];
     int _seedAdd;
@@ -34,7 +34,7 @@ public class ObstacleGenerator : MonoBehaviour
 
             var pos = prev + (below - prev) / 2;
 
-            Instantiate(_obstaclePref, pos, Quaternion.identity);
+            Instantiate(_chooser.Choose(), pos, Quaternion.identity);
         }
     }
 }

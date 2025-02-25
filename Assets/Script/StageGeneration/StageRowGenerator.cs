@@ -31,7 +31,8 @@ public class StageRowGenerator : MonoBehaviour
                 return;
             }
 
-            var pref = Random.value < _fireRingProbability ? _fireRingPrefab : _ringPrefab;
+            var isFire = Random.value < _fireRingProbability;
+            var pref = isFire ? _fireRingPrefab : _ringPrefab;
             var obj = Instantiate(pref, new Vector3(x, _height), Quaternion.identity);
 
             Foundation.InGameLane?[_layer].Add(obj);
