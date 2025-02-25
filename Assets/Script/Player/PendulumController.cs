@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,9 +8,10 @@ using DG.Tweening;
 public class PendulumController : MonoBehaviour
 {
     [Header("初期設定")]
-    [SerializeField] private float _swingAngle = 90f; //
-    [SerializeField] private float _duration = 2f;
-    [SerializeField] private Ease _easeType = Ease.InOutSine; // 次の振り子に飛び乗るevent
+    [SerializeField, Tooltip("振り子が動く角度")] private float _swingAngle = 90f; //
+    [SerializeField, Tooltip("往復する時間の半分")] private float _duration = 2f;
+    [SerializeField, Tooltip("イージングの種類")] private Ease _easeType = Ease.InOutSine; // 次の振り子に飛び乗るevent
+    private event Action OnReachTheEdge; // 端に到達した時のEvent
 
     private void Start()
     {
@@ -25,9 +27,16 @@ public class PendulumController : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
 
         sequence
-            .Append(transform.DOLocalRotate(new Vector3(0, 0, _swingAngle), _duration, RotateMode.LocalAxisAdd).SetEase(_easeType))
-            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd).SetEase(_easeType));
+            .Append(transform.DOLocalRotate(new Vector3(0, 0, _swingAngle), _duration, RotateMode.LocalAxisAdd)
+                .SetEase(_easeType).OnComplete(OnReach))
+            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd)
+                .SetEase(_easeType).OnComplete(OnReach));
 
         sequence.SetLoops(-1, LoopType.Yoyo);
     }
+
+    /// <summary>
+    /// 振り子が端に到達した時にEventを発火する
+    /// </summary>
+    private void OnReach() => OnReachTheEdge?.Invoke();
 }
