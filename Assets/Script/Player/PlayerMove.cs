@@ -6,11 +6,11 @@ using UnityEngine;
 /// </summary>
 public class PlayerMove : MonoBehaviour
 {
-    [Header("ジャンプの設定")] [SerializeField, Tooltip("ジャンプ時間")]
-    private float _jumpDuration = 1.0f;
-
+    [Header("ジャンプの設定")]
+    [SerializeField, Tooltip("ジャンプ時間")] private float _jumpDuration = 1.0f;
     [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
     [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
+    [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
 
     [SerializeField] private Transform _targetTrans;
     private Transform _target;
@@ -36,6 +36,8 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = _initialLocalPos;
+
+        _playerJumpingSprite.SpriteChange(); // プレイヤーの画像を変更する
 
         float peakTime = _jumpDuration / 2f; // 頂点に達する時間
         float gravity = (2 * height) / (peakTime * peakTime); // 自然な重力値
