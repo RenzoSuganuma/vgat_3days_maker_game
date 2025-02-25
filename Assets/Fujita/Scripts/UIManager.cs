@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
 
     float time = 0f;
 
+    [SerializeField] GameObject cube;
+
     void Start()
     {
         SetUp();
@@ -27,6 +29,9 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         Timer();
+
+        float dis = Vector2.Distance(this.transform.position, cube.transform.position);
+        distanceText.text= "distance: " + dis/10f+"m";
     }
 
     void SetUp()
