@@ -8,6 +8,8 @@ public class StageGenerator : MonoBehaviour
 {
     [SerializeField] Transform _player;
     [SerializeField] GameObject _ringPrefab;
+    [SerializeField] GameObject _fireRingPrefab;
+    [SerializeField] StageRowGenerator _stageRowGenerator;
     [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
     [SerializeField] ObstacleGenerator _obstacleGenerator;
 
@@ -30,7 +32,10 @@ public class StageGenerator : MonoBehaviour
         {
             var space = _baseWidth + _widthPerLayer * layer;
             var height = (layer - _initialLayer) * _heightPerLayer;
-            _generator.Add(new StageRowGenerator(_ringPrefab, space, height, layer));
+
+            var row = Instantiate(_stageRowGenerator);
+            row.Initialize(space, height, layer);
+            _generator.Add(row);
 
             if (_indObstacleGenerator)
             {
@@ -69,43 +74,43 @@ public class StageGenerator : MonoBehaviour
     }
 }
 
-
-/// <summary>
-/// レーン毎にステージを生成するクラス
-/// </summary>
-[System.Serializable] // デバッグ用
-public class StageRowGenerator
+[System.Serializable]
+public class ObstacleRowGenerator
 {
     [SerializeField] GameObject _prefab;
     [SerializeField] float _space;
     [SerializeField] float _height;
     [SerializeField] int _layer;
+    [SerializeField] float _offsetX;
+    [SerializeField] float _probability;
 
     [SerializeField] int _generateIndex; // 生成時に使用するindex
 
-    public StageRowGenerator(GameObject prefab, float space, float height, int layer)
+    public ObstacleRowGenerator(GameObject prefab, float space, float height, int layer, float offsetX, float probability)
     {
         _prefab = prefab;
         _space = space;
         _height = height;
         _layer = layer;
+        _offsetX = offsetX;
+        _probability = probability;
     }
 
-    public void Generate(float maxX, Transform parent)
+    public void Generate(float maxX, Transform parent = null)
     {
         for (int i = 0; i < 1000; i++)
         {
-            var x = _generateIndex * _space;
+            var x = _generateIndex * _space + _offsetX;
             if (x > maxX)
             {
                 return;
             }
 
-            var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
-
-            Foundation.InGameLane?[_layer].Add(obj);
-
-            if (parent) obj.transform.parent = parent;
+            if (_probability < Random.value)
+            {
+                var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
+                if (parent) obj.transform.parent = parent;
+            }
 
             _generateIndex++;
         }
