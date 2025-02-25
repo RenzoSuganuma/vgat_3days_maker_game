@@ -1,7 +1,20 @@
+using System;
 using UnityEngine;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int mileage;
+    [SerializeField] private TextMeshProUGUI distanceText;
+    [SerializeField] GameObject player;
 
+    private void Start()
+    {
+        distanceText.text = "0m";
+    }
+
+    private void Update()
+    {
+        float dis = Vector2.Distance(this.transform.position, player.transform.position);
+        distanceText.text= "distance: " + (Mathf.RoundToInt(dis/2f))+"m";
+    }
 }

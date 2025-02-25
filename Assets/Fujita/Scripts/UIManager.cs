@@ -13,13 +13,10 @@ public class UIManager : MonoBehaviour
 
     //スコアText
     [Header("Score")]
-    [SerializeField] private TextMeshProUGUI distanceText;
     [SerializeField] private TextMeshProUGUI heightText;
     [SerializeField] private TextMeshProUGUI timeText;
 
     float time = 0f;
-
-    [SerializeField] GameObject cube;
 
     void Start()
     {
@@ -29,16 +26,12 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         Timer();
-
-        float dis = Vector2.Distance(this.transform.position, cube.transform.position);
-        distanceText.text= "distance: " + dis/10f+"m";
     }
 
     void SetUp()
     {
         decibelText.text = "0dB";
         nextWordsText.text = "Hello World!";
-        distanceText.text = "0m";
         heightText.text = "0m";
         timeText.text = "0";
     }
