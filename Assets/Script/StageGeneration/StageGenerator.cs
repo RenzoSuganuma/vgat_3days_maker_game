@@ -37,7 +37,6 @@ public class StageGenerator : MonoBehaviour
         }
 
         GenerateStage();
-        _obstacleGenerator.Initialize();
 
         for ( int layer = 0; layer < _generateLayers; layer++)
         {
@@ -75,6 +74,8 @@ public class StageGenerator : MonoBehaviour
         {
             row.Generate(_player.position.x + _generateDistance, row.gameObject.transform);
         }
+
+        _obstacleGenerator.Generate();
 
         _nextGeneratePosX = _player.position.x + _generatePerMoveDistance;
     }
