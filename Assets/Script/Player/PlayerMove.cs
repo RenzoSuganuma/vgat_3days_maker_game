@@ -1,5 +1,3 @@
-using System;
-using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -8,9 +6,6 @@ using UnityEngine;
 /// </summary>
 public class PlayerMove : MonoBehaviour
 {
-    public bool CanMove { get; set; } // 音声入力があったらtrueにする
-    [SerializeField] private PendulumController _pendulumController;
-
     [Header("ジャンプの設定")]
     [SerializeField, Tooltip("ジャンプ時間")] private float _jumpDuration = 1.0f;
     [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
@@ -21,18 +16,9 @@ public class PlayerMove : MonoBehaviour
 
     public bool IsJumping { get; private set; } // ジャンプ中か
 
-    // 次の飛び移るオブジェクトを取得する
-
     private void Start()
     {
-        _pendulumController.OnReachTheEdge += Move;
-        _target = _pendulumController.transform;
         _initialLocalPos = transform.localPosition;
-    }
-
-    private void OnDestroy()
-    {
-        _pendulumController.OnReachTheEdge -= Move;
     }
 
     /// <summary>
