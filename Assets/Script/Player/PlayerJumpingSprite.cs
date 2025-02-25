@@ -15,6 +15,8 @@ public class PlayerJumpingSprite : MonoBehaviour
     /// </summary>
     public void SpriteChange()
     {
+        if(_sprites == null) return;
+        
         int rand = Random.Range(0, _sprites.Count);
         _image.sprite = _sprites[rand];
     }

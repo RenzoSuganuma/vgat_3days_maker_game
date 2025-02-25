@@ -12,15 +12,12 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
     [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
 
-    [SerializeField] private Transform _targetTrans;
-    private Transform _target;
     private Vector3 _initialLocalPos;
 
     public bool IsJumping { get; private set; } // ジャンプ中か
 
     private void Start()
     {
-        _target = _targetTrans;
         _initialLocalPos = transform.localPosition;
     }
 
@@ -31,7 +28,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (IsJumping) return;
 
-        transform.SetParent(_target); // 一時的に親を変更
+        transform.SetParent(target); // 一時的に親を変更
         IsJumping = true;
 
         Vector3 startPos = transform.localPosition;
@@ -39,9 +36,11 @@ public class PlayerMove : MonoBehaviour
 
         _playerJumpingSprite.SpriteChange(); // プレイヤーの画像を変更する
 
+        /*
         float peakTime = _jumpDuration / 2f; // 頂点に達する時間
         float gravity = (2 * height) / (peakTime * peakTime); // 自然な重力値
         float initialVelocityY = Mathf.Sqrt(2 * gravity * height); // 放物線の初速
+        */
 
         DOVirtual.Float(0, _jumpDuration, _jumpDuration, elapsedTime =>
             {
