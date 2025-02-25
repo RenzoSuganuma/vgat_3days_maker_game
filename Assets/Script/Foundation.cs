@@ -26,6 +26,10 @@ public static class Foundation
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void FadePanel()
     {
+        #if DONT_LOAD_TITLE_SCENE
+        return;
+        #endif
+
         SceneManager.LoadScene(TITLE_SCENE_NAME);
 
         var p = Resources.Load<GameObject>("pref_FadeCanvas");
