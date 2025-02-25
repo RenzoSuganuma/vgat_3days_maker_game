@@ -10,7 +10,7 @@ public class StageGenerator : MonoBehaviour
     [SerializeField] Transform _player;
     [SerializeField] StageRowGenerator _stageRowGenerator;
     [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
-    [SerializeField] ObstacleGenerator _obstacleGenerator;
+    [SerializeField] LaneObjectGenerator _obstacleGenerator;
 
     [SerializeField, Tooltip("Šî–{‰¡•")] float _baseWidth = 5;
     [SerializeField, Tooltip("ŠK‘w‚ªã‚ª‚é‚²‚Æ‚É‘‚¦‚é‰¡•")] float _widthPerLayer = 1;

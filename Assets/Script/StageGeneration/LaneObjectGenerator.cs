@@ -1,21 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// レーン内に障害物を生成するクラス。移動しない障害物に使用
+/// レーン内にオブジェクトを生成するクラス。
 /// レーン生成と同時に生成する
 /// </summary>
-public class ObstacleGenerator : MonoBehaviour
+public class LaneObjectGenerator : MonoBehaviour
 {
     [SerializeField] RandomObjectChooser _chooser;
     [SerializeField] float _probability = 0.1f;
     [SerializeField] int[] _generatedIndex = new int[6];
+    List<Transform> _parents = new();
     int _seedAdd;
 
     public void Generate()
     {
-        for (int i = 0; i < 6; i++)
+        for (int layer = 0; layer < 6; layer++)
         {
-            Generate(i);
+            _parents.Add(new GameObject("ObstacleRow").transform);
+            Generate(layer);
         }
     }
 
@@ -34,7 +37,7 @@ public class ObstacleGenerator : MonoBehaviour
 
             var pos = prev + (below - prev) / 2;
 
-            Instantiate(_chooser.Choose(), pos, Quaternion.identity);
+            Instantiate(_chooser.Choose(), pos, Quaternion.identity, _parents[layer]);
         }
     }
 }
