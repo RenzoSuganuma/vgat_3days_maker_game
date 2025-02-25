@@ -6,11 +6,13 @@ using UnityEngine;
 /// </summary>
 public class PlayerMove : MonoBehaviour
 {
-    [Header("ジャンプの設定")]
-    [SerializeField, Tooltip("ジャンプ時間")] private float _jumpDuration = 1.0f;
+    [Header("ジャンプの設定")] [SerializeField, Tooltip("ジャンプ時間")]
+    private float _jumpDuration = 1.0f;
+
     [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
     [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
 
+    [SerializeField] private Transform _targetTrans;
     private Transform _target;
     private Vector3 _initialLocalPos;
 
@@ -18,21 +20,14 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        _target = _targetTrans;
         _initialLocalPos = transform.localPosition;
-    }
-
-    /// <summary>
-    /// プレイヤーが次の振り子に飛び移るメソッド
-    /// </summary>
-    private void Move()
-    {
-        JumpToNextPendulum();
     }
 
     /// <summary>
     /// 次の振り子に飛び移る
     /// </summary>
-    public void JumpToNextPendulum()
+    public void JumpToNextPendulum(Transform target)
     {
         if (IsJumping) return;
 
@@ -42,26 +37,27 @@ public class PlayerMove : MonoBehaviour
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = _initialLocalPos;
 
-        float peakTime = _jumpDuration / 2; // 頂点に達する時間
-        float initialVelocityY = (2 * height) / peakTime; // 放物線の初速
+        float peakTime = _jumpDuration / 2f; // 頂点に達する時間
+        float gravity = (2 * height) / (peakTime * peakTime); // 自然な重力値
+        float initialVelocityY = Mathf.Sqrt(2 * gravity * height); // 放物線の初速
 
-        float elapsedTime = 0f;
+        DOVirtual.Float(0, _jumpDuration, _jumpDuration, elapsedTime =>
+            {
+                float t = elapsedTime / _jumpDuration;
 
-        DOTween.To(
-            () => elapsedTime,
-            x => elapsedTime = x,
-            _jumpDuration,
-            _jumpDuration
-        ).SetEase(Ease.Linear).OnUpdate(() =>
-        {
-            float t = elapsedTime / _jumpDuration;
-            float x = Mathf.Lerp(startPos.x, endPos.x, t);
-            float z = Mathf.Lerp(startPos.z, endPos.z, t);
-            float y = startPos.y + (initialVelocityY * elapsedTime) - (0.5f * _gravity * elapsedTime * elapsedTime);
+                // X, Zはイージングを使って補間
+                float curvedT = t * (2 - t);
+                float x = Mathf.Lerp(startPos.x, endPos.x, curvedT);
+                float z = Mathf.Lerp(startPos.z, endPos.z, curvedT);
 
-            transform.localPosition = new Vector3(x, y, z);
-        })
-        .OnComplete(Catch);
+                // Yは放物運動
+                float y = Mathf.Lerp(startPos.y, endPos.y, curvedT);
+                //float y = startPos.y + (initialVelocityY * elapsedTime) - (0.5f * gravity * elapsedTime * elapsedTime);
+
+                transform.localPosition = new Vector3(x, y, z);
+            })
+            .SetEase(Ease.Linear)
+            .OnComplete(Catch);
     }
 
     /// <summary>
@@ -72,13 +68,5 @@ public class PlayerMove : MonoBehaviour
         transform.localPosition = _initialLocalPos;
         transform.localRotation = Quaternion.identity;
         IsJumping = false;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) // テスト用
-        {
-            Move();
-        }
     }
 }

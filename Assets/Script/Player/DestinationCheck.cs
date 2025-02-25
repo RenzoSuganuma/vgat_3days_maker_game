@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +7,7 @@ public class DestinationCheck : MonoBehaviour
 {
     [SerializeField] private PendulumController _pendulumController;
     [SerializeField] private Transform _playerTransform;
+    private PlayerMove _move;
 
     public bool CanMove { get; set; } // 音声入力があったらtrueにする
     private int _currentLaneIndex; // 現在プレイヤーがいるレーンのindex（0~5）
@@ -15,6 +15,7 @@ public class DestinationCheck : MonoBehaviour
     private void Start()
     {
         _pendulumController.OnReachTheEdge += Move;
+        _move = _playerTransform.GetComponent<PlayerMove>();
     }
 
     private void OnDestroy()
@@ -22,8 +23,18 @@ public class DestinationCheck : MonoBehaviour
         _pendulumController.OnReachTheEdge -= Move;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) // テスト用
+        {
+            CanMove = true;
+        }
+    }
+
     private void Move()
     {
+        if(!CanMove) return; // 成功判定が出ていなかったら処理を行わない
+
         if (_currentLaneIndex < 0)
         {
             // インデックスがマイナスになった時＝地面に落ちた時ゲームオーバー処理を呼ぶ
@@ -32,6 +43,8 @@ public class DestinationCheck : MonoBehaviour
 
         // Indexを変更する処理
         _currentLaneIndex++;
+        _move.JumpToNextPendulum(Search());
+        CanMove = false;
     }
 
     /// <summary>
@@ -39,6 +52,8 @@ public class DestinationCheck : MonoBehaviour
     /// </summary>
     private Transform Search()
     {
+        return transform; // デバッグ用
+        /*
         Transform currentPendulum = _playerTransform.parent; // 現在掴まっている振り子オブジェクトを取得
         var objects = Foundation.InGameLane[_currentLaneIndex]; // 配列を取得
         Transform nextPendulum = null; // 移動先の振り子オブジェクト
@@ -59,5 +74,6 @@ public class DestinationCheck : MonoBehaviour
         }
 
         return nextPendulum;
+        */
     }
 }
