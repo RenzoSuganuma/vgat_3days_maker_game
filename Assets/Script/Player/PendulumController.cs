@@ -29,13 +29,22 @@ public class PendulumController : MonoBehaviour
         sequence
             .Append(transform.DOLocalRotate(new Vector3(0, 0, _swingAngle), _duration, RotateMode.LocalAxisAdd)
                 .SetEase(_easeType).OnComplete(OnReach))
-            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd).SetEase(_easeType));
+            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd)
+                .SetEase(_easeType)).OnComplete(OnReach);
 
-        sequence.SetLoops(-1, LoopType.Yoyo);
+        sequence.SetLoops(-1);
     }
 
     /// <summary>
-    /// 振り子が端に到達した時にEventを発火する
+    /// 振り子が右端に到達した時にEventを発火する
     /// </summary>
-    private void OnReach() => OnReachTheEdge?.Invoke();
+    private void OnReach()
+    {
+        // _swingAngleがマイナスの値であっても正しい方向に到達するように調整
+        if (transform.localEulerAngles.z > _swingAngle / 2)
+        {
+            Debug.Log(transform.gameObject.name + "右端に到達");
+            OnReachTheEdge?.Invoke();
+        }
+    }
 }
