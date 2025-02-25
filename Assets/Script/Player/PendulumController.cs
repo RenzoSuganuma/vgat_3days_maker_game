@@ -11,7 +11,7 @@ public class PendulumController : MonoBehaviour
     [SerializeField, Tooltip("振り子が動く角度")] private float _swingAngle = 90f; //
     [SerializeField, Tooltip("往復する時間の半分")] private float _duration = 2f;
     [SerializeField, Tooltip("イージングの種類")] private Ease _easeType = Ease.InOutSine; // 次の振り子に飛び乗るevent
-    private event Action OnReachTheEdge; // 端に到達した時のEvent
+    public event Action OnReachTheEdge; // 端に到達した時のEvent
 
     private void Start()
     {
@@ -29,8 +29,7 @@ public class PendulumController : MonoBehaviour
         sequence
             .Append(transform.DOLocalRotate(new Vector3(0, 0, _swingAngle), _duration, RotateMode.LocalAxisAdd)
                 .SetEase(_easeType).OnComplete(OnReach))
-            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd)
-                .SetEase(_easeType).OnComplete(OnReach));
+            .Append(transform.DOLocalRotate(new Vector3(0, 0, -_swingAngle), _duration, RotateMode.LocalAxisAdd).SetEase(_easeType));
 
         sequence.SetLoops(-1, LoopType.Yoyo);
     }
