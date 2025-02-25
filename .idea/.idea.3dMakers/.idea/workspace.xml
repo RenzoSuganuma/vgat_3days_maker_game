@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41b0359d-92ec-48b3-b099-95f45b97e0ac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.3dMakers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3dMakers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Title.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Title.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Script/Foundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Foundation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/temp/dev.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/temp/dev.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +95,7 @@
       <updated>1740447948235</updated>
       <workItem from="1740447949454" duration="210000" />
       <workItem from="1740448772764" duration="143000" />
-      <workItem from="1740449851426" duration="2838000" />
+      <workItem from="1740449851426" duration="3174000" />
     </task>
     <servers />
   </component>

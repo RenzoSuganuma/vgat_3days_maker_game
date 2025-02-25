@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public sealed class FadePanelImpl : MonoBehaviour
 {
-    public static FadePanelImpl Instance { get; private set; }
-
     [SerializeField] float _duration;
 
     Image _fadePanel;
 
     private void Awake()
     {
-        Instance = this;
-
-        Foundation.TaskOnStartGame += FadeInOut;
+        Foundation.TaskOnChangedScene += FadeInOut;
     }
 
     private void Start()
@@ -26,9 +22,7 @@ public sealed class FadePanelImpl : MonoBehaviour
 
     private void OnDestroy()
     {
-        Instance = null;
-
-        Foundation.TaskOnStartGame -= FadeInOut;
+        Foundation.TaskOnChangedScene -= FadeInOut;
     }
 
     private void FadeInOut(string obj)

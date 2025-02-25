@@ -16,14 +16,21 @@ public static class Foundation
     public static event Action<string> TaskOnLoadScene;
 
     public static event Action<string> TaskOnStartGame;
+    public static event Action<string> TaskOnChangedScene;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void FadePanel()
     {
         SceneManager.LoadScene(TITLE_SCENE_NAME);
+
         var p = Resources.Load<GameObject>("pref_FadeCanvas");
         var obj = Object.Instantiate(p);
         Object.DontDestroyOnLoad(obj);
+
+        var sl = Object.Instantiate(new GameObject());
+        sl.name = nameof(SceneLoaderImpl);
+        sl.AddComponent<SceneLoaderImpl>();
+        Object.DontDestroyOnLoad(sl);
     }
 
     public static void StartGame()
@@ -44,6 +51,8 @@ public static class Foundation
         // Activate InGame
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(INGAME_SCENE_NAME));
 
+        TaskOnChangedScene?.Invoke(INGAME_SCENE_NAME);
+
         DisposeScene(TITLE_SCENE_NAME);
     }
 
@@ -51,6 +60,8 @@ public static class Foundation
     {
         // Activate InGame
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(RESULT_SCENE_NAME));
+
+        TaskOnChangedScene?.Invoke(RESULT_SCENE_NAME);
 
         DisposeScene(INGAME_SCENE_NAME);
     }
