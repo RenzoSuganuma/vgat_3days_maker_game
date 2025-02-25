@@ -12,7 +12,7 @@ public class StageRowGenerator : MonoBehaviour
     float _height;
     int _layer;
 
-    int _generateIndex; // ¶¬‚Ég—p‚·‚éindex
+    int _generateIndex; // ‚Ç‚±‚Ü‚Å¶¬‚µ‚½‚©‚ğ•Û‘¶‚·‚éindex
 
     public void Initialize(float space, float height, int layer)
     {

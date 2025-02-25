@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// レーン内にオブジェクトを生成するクラス。
+/// 各レーンにオブジェクトを生成するクラス（振り子の間に生成）<br></br>
 /// レーン生成と同時に生成する
 /// </summary>
 public class LaneObjectGenerator : MonoBehaviour
@@ -27,16 +27,18 @@ public class LaneObjectGenerator : MonoBehaviour
         var lane = Foundation.InGameLane[layer];
         for (int i = _generatedIndex[layer]; i < lane.Count - 1; i++)
         {
+            // 確立で生成
             Random.InitState(System.DateTime.Now.Millisecond + _seedAdd);
             _seedAdd++;
             _generatedIndex[layer]++;
             if (Random.value > _probability) continue;
 
+            // 振り子の中点を取得
             var prev = lane[i].transform.position;
             var below = lane[i + 1].transform.position;
-
             var pos = prev + (below - prev) / 2;
 
+            // ランダムなオブジェクトを生成
             Instantiate(_chooser.Choose(), pos, Quaternion.identity, _parents[layer]);
         }
     }

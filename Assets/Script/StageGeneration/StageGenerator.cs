@@ -27,6 +27,7 @@ public class StageGenerator : MonoBehaviour
 
     private void Start()
     {
+        // 各レーンのジェネレーターを生成、プロパティをセット
         for (int layer = 0; layer < _generateLayers; layer++)
         {
             var space = _baseWidth + _widthPerLayer * layer;
@@ -36,13 +37,13 @@ public class StageGenerator : MonoBehaviour
             _generator.Add(row);
         }
 
+        // ステージ生成
         GenerateStage();
 
         for ( int layer = 0; layer < _generateLayers; layer++)
         {
             var space = _baseWidth + _widthPerLayer * layer;
             var height = (layer - _initialLayer) * _heightPerLayer;
-
 
             if (_indObstacleGenerator != null)
             {
@@ -58,12 +59,16 @@ public class StageGenerator : MonoBehaviour
 
     private void Update()
     {
+        // 一定距離移動するごとに生成
         if (_player.position.x > _nextGeneratePosX)
         {
             GenerateStage();
         }
     }
 
+    /// <summary>
+    /// 各レーンでステージ生成する。
+    /// </summary>
     private void GenerateStage()
     {
         if (Foundation.InGameLane == null) Debug.Log("Foundation.InGameLane is null");
