@@ -9,19 +9,28 @@ public class StageGenerator : MonoBehaviour
     [SerializeField] GameObject _ringPrefab;
 
     // ‚‚³‚ÆŠÔŠu‚Ì‘Î‰
-    [SerializeField, Tooltip("Å’á‰¡•")] float _baseWidth = 5;
-    [SerializeField, Tooltip("ŠK‘w‚ªã‚ª‚é‚²‚Æ‚É‘‚¦‚é‰¡•")] float _widthScale = 1;
-    [SerializeField, Tooltip("ŠK‘w–ˆ‚Ì‚‚³•")] float _layerHeight = 5;
-    
+    [SerializeField, Tooltip("Šî–{‰¡•")] float _baseWidth = 5;
+    [SerializeField, Tooltip("ŠK‘w‚ªã‚ª‚é‚²‚Æ‚É‘‚¦‚é‰¡•")] float _widthPerLayer = 1;
+    [SerializeField, Tooltip("ŠK‘w–ˆ‚Ì‚‚³‚Ì•")] float _heightPerLayer = 5;
 
-    [SerializeField, Tooltip("‰ŠúŠK‘w")] int _baseHeightLayer = 10;
-    [SerializeField, Tooltip("ˆê“x‚É¶¬‚·‚é‹——£")] float _maxWidth = 100;
+    [SerializeField, Tooltip("¶¬‚·‚éŠK‘w‚Ì”")] int _generateLayers = 30;
+    [SerializeField, Tooltip("Y=0‚É¶¬‚³‚ê‚éŠK‘w")] int _initialLayer = 10;
+    [SerializeField, Tooltip("ˆê“x‚É¶¬‚·‚é‹——£")] float _generateDistance = 100;
     [SerializeField, Tooltip("¶¬‚ğŠJn‚·‚éˆÚ“®‹——£")] float _generatePerMoveDistance = 50;
+
+    List<StageRowGenerator> _generator = new();
 
     private float _nextGeneratePosX;
 
     private void Start()
     {
+        for (int layer = 1; layer <= _generateLayers; layer++)
+        {
+            var space = _baseWidth + _widthPerLayer * layer;
+            var height = (layer - _initialLayer) * _heightPerLayer;
+            _generator.Add(new StageRowGenerator(_ringPrefab, space, height));
+        }
+
         GenerateStage();
     }
 
@@ -35,24 +44,11 @@ public class StageGenerator : MonoBehaviour
 
     private void GenerateStage()
     {
-        for (int height = 1; height < 20; height++)
+        var stageParent = new GameObject("Stage").transform;
+
+        foreach (var row in _generator)
         {
-            for (int x = 0; x < 20; x++)
-            {
-                var spacing = _nextGeneratePosX;
-                var ringX = spacing + _baseWidth + _widthScale * height * x;
-                if (ringX > _maxWidth)
-                {
-                    break;
-                }
-
-                var ringY = (height - _baseHeightLayer) * _layerHeight; // height = _baseHeightLayer‚Ì‚Æ‚«‚É0
-                
-                var relativePos = new Vector3(ringX, ringY);
-                var absPos = _player.position + relativePos;
-
-                Instantiate(_ringPrefab, absPos, Quaternion.identity);
-            }
+            row.Generate(_player.position.x + _generateDistance, stageParent);
         }
 
         _nextGeneratePosX = _player.position.x + _generatePerMoveDistance;
@@ -62,6 +58,7 @@ public class StageGenerator : MonoBehaviour
 public class StageRowGenerator
 {
     [SerializeField] GameObject _prefab;
+    [SerializeField] Transform _parent;
     [SerializeField] int _index;
     [SerializeField] float _space;
     [SerializeField] float _height;
@@ -73,17 +70,20 @@ public class StageRowGenerator
         _height = height;
     }
 
-    public void Generate(float maxX)
+    public void Generate(float maxX, Transform parent = null)
     {
         for (int i = 0; i < 1000; i++)
         {
             var x = _index * _space;
             if (x > maxX)
             {
-                return;
+                return ;
             }
 
-            Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
+            var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
+
+            if (parent) obj.transform.parent = parent;
+
             _index++;
         }
     }
