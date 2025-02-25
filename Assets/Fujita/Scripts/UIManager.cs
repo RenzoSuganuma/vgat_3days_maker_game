@@ -22,6 +22,11 @@ public class UIManager : MonoBehaviour
         SetUp();
     }
 
+    void Update()
+    {
+        Timer();
+    }
+
     void SetUp()
     {
         decibelText.text = "0dB";
@@ -29,5 +34,10 @@ public class UIManager : MonoBehaviour
         distanceText.text = "0m";
         heightText.text = "0m";
         timeText.text = "0";
+    }
+
+    void Timer()
+    {
+        timeText.text = Time.deltaTime.ToString("0.00");
     }
 }
