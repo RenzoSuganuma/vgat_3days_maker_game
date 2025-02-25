@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heightText;
     [SerializeField] private TextMeshProUGUI timeText;
 
+    float time = 0f;
+
     void Start()
     {
         SetUp();
@@ -30,7 +32,7 @@ public class UIManager : MonoBehaviour
     void SetUp()
     {
         decibelText.text = "0dB";
-        nextWordsText.text = " ";
+        nextWordsText.text = "Hello World!";
         distanceText.text = "0m";
         heightText.text = "0m";
         timeText.text = "0";
@@ -38,6 +40,7 @@ public class UIManager : MonoBehaviour
 
     void Timer()
     {
-        timeText.text = Time.deltaTime.ToString("0.00");
+        time+=Time.deltaTime;
+        timeText.text = "Time:"+Mathf.RoundToInt(time);
     }
 }
