@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// レーン生成から独立して障害物を生成するクラス
+/// レーン生成から独立して障害物を生成するクラス<br></br>
+/// 同じ場所に何度生成されても問題ないオブジェクトに使用してください
 /// </summary>
 public class IndependenceObstacleGenerator : MonoBehaviour
 {

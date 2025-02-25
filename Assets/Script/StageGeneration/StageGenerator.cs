@@ -8,7 +8,8 @@ public class StageGenerator : MonoBehaviour
 {
     [SerializeField] Transform _player;
     [SerializeField] GameObject _ringPrefab;
-    [SerializeField] IndependenceObstacleGenerator _obstacleGenerator;
+    [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
+    [SerializeField] ObstacleGenerator _obstacleGenerator;
 
     [SerializeField, Tooltip("äÓñ{â°ïù")] float _baseWidth = 5;
     [SerializeField, Tooltip("äKëwÇ™è„Ç™ÇÈÇ≤Ç∆Ç…ëùÇ¶ÇÈâ°ïù")] float _widthPerLayer = 1;
@@ -30,7 +31,16 @@ public class StageGenerator : MonoBehaviour
             var space = _baseWidth + _widthPerLayer * layer;
             var height = (layer - _initialLayer) * _heightPerLayer;
             _generator.Add(new StageRowGenerator(_ringPrefab, space, height, layer));
-            _obstacleGenerator.StartGenerate(_player, height, layer);
+
+            if (_indObstacleGenerator)
+            {
+                _indObstacleGenerator.StartGenerate(_player, height, layer);
+            }
+
+            if (_obstacleGenerator)
+            {
+                
+            }
         }
 
         GenerateStage();
@@ -46,6 +56,8 @@ public class StageGenerator : MonoBehaviour
 
     private void GenerateStage()
     {
+        if (Foundation.InGameLane == null) Debug.Log("Foundation.InGameLane is null");
+
         var stageParent = new GameObject("Stage").transform;
 
         foreach (var row in _generator)
@@ -70,7 +82,6 @@ public class StageRowGenerator
     [SerializeField] int _layer;
 
     [SerializeField] int _generateIndex; // ê∂ê¨éûÇ…égópÇ∑ÇÈindex
-    [SerializeField] ObstacleGenerator _obstacleGenerator;
 
     public StageRowGenerator(GameObject prefab, float space, float height, int layer)
     {
@@ -80,7 +91,7 @@ public class StageRowGenerator
         _layer = layer;
     }
 
-    public void Generate(float maxX, Transform parent = null)
+    public void Generate(float maxX, Transform parent)
     {
         for (int i = 0; i < 1000; i++)
         {
@@ -91,7 +102,8 @@ public class StageRowGenerator
             }
 
             var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
-            Foundation.InGameLane[_layer].Add(obj);
+
+            Foundation.InGameLane?[_layer].Add(obj);
 
             if (parent) obj.transform.parent = parent;
 
