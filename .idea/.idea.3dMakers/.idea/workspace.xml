@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="41b0359d-92ec-48b3-b099-95f45b97e0ac" name="Changes" comment="" />
+    <list default="true" id="41b0359d-92ec-48b3-b099-95f45b97e0ac" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Foundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Foundation.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,7 +24,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "foundation",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   },
@@ -82,6 +88,7 @@
       <updated>1740447948235</updated>
       <workItem from="1740447949454" duration="210000" />
       <workItem from="1740448772764" duration="143000" />
+      <workItem from="1740449851426" duration="308000" />
     </task>
     <servers />
   </component>

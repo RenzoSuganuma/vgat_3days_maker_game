@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Foundation : MonoBehaviour
+public static class Foundation
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public const string TITLE_SCENE_NAME = "Title";
+    public const string INGAME_SCENE_NAME = "InGame";
+    public const string RESULT_SCENE_NAME = "Result";
+
+    public static void LoadSceneAdditive(string sceneName)
     {
-        
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void LoadScene(string sceneName)
     {
-        
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
+    public static AsyncOperation DisposeScene(string sceneName)
+    {
+        return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName));
     }
 }
