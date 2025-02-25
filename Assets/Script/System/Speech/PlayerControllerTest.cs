@@ -3,7 +3,7 @@ using R3;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerTest : MonoBehaviour
 {
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
     private int _currentLane = 0; // 現在のレーン
