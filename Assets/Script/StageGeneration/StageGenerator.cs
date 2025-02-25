@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
 /// ステージを生成するクラス
@@ -7,8 +8,6 @@ using UnityEngine;
 public class StageGenerator : MonoBehaviour
 {
     [SerializeField] Transform _player;
-    [SerializeField] GameObject _ringPrefab;
-    [SerializeField] GameObject _fireRingPrefab;
     [SerializeField] StageRowGenerator _stageRowGenerator;
     [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
     [SerializeField] ObstacleGenerator _obstacleGenerator;
@@ -32,23 +31,30 @@ public class StageGenerator : MonoBehaviour
         {
             var space = _baseWidth + _widthPerLayer * layer;
             var height = (layer - _initialLayer) * _heightPerLayer;
-
             var row = Instantiate(_stageRowGenerator);
             row.Initialize(space, height, layer);
             _generator.Add(row);
+        }
 
-            if (_indObstacleGenerator)
+        GenerateStage();
+        _obstacleGenerator.Initialize();
+
+        for ( int layer = 0; layer < _generateLayers; layer++)
+        {
+            var space = _baseWidth + _widthPerLayer * layer;
+            var height = (layer - _initialLayer) * _heightPerLayer;
+
+
+            if (_indObstacleGenerator != null)
             {
                 _indObstacleGenerator.StartGenerate(_player, height, layer);
             }
 
-            if (_obstacleGenerator)
+            if (_obstacleGenerator != null)
             {
-                
+                _obstacleGenerator.Generate(layer);
             }
         }
-
-        GenerateStage();
     }
 
     private void Update()
@@ -63,56 +69,13 @@ public class StageGenerator : MonoBehaviour
     {
         if (Foundation.InGameLane == null) Debug.Log("Foundation.InGameLane is null");
 
-        var stageParent = new GameObject("Stage").transform;
+        // var stageParent = new GameObject("Stage").transform;
 
         foreach (var row in _generator)
         {
-            row.Generate(_player.position.x + _generateDistance, stageParent);
+            row.Generate(_player.position.x + _generateDistance, row.gameObject.transform);
         }
 
         _nextGeneratePosX = _player.position.x + _generatePerMoveDistance;
-    }
-}
-
-[System.Serializable]
-public class ObstacleRowGenerator
-{
-    [SerializeField] GameObject _prefab;
-    [SerializeField] float _space;
-    [SerializeField] float _height;
-    [SerializeField] int _layer;
-    [SerializeField] float _offsetX;
-    [SerializeField] float _probability;
-
-    [SerializeField] int _generateIndex; // 生成時に使用するindex
-
-    public ObstacleRowGenerator(GameObject prefab, float space, float height, int layer, float offsetX, float probability)
-    {
-        _prefab = prefab;
-        _space = space;
-        _height = height;
-        _layer = layer;
-        _offsetX = offsetX;
-        _probability = probability;
-    }
-
-    public void Generate(float maxX, Transform parent = null)
-    {
-        for (int i = 0; i < 1000; i++)
-        {
-            var x = _generateIndex * _space + _offsetX;
-            if (x > maxX)
-            {
-                return;
-            }
-
-            if (_probability < Random.value)
-            {
-                var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
-                if (parent) obj.transform.parent = parent;
-            }
-
-            _generateIndex++;
-        }
     }
 }

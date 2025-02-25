@@ -1,21 +1,38 @@
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// レーン内に障害物を生成するクラス。移動しない障害物に使用
+/// レーン生成と同時に生成する
 /// </summary>
 public class ObstacleGenerator : MonoBehaviour
 {
-    [SerializeField] Transform _player;
     [SerializeField] GameObject _obstaclePref;
-    [SerializeField, Tooltip("プレイヤーからどれだけ離して生成するか")] float _distance = 20;
-    [SerializeField, Tooltip("生成個数")] AnimationCurve[] _duration;
-    [SerializeField] float _yOffset;
+    [SerializeField] float _probability = 0.1f;
+    int[] _generatedIndex;
+    int _seedAdd;
+
+    public void Initialize()
+    {
+        _generatedIndex = new int[6];
+    }
 
     public void Generate(int layer)
     {
+        var lane = Foundation.InGameLane[layer];
+        for (int i = 2; i < lane.Count; i++)
+        {
+            Random.InitState(System.DateTime.Now.Millisecond + _seedAdd);
+            _seedAdd++;
+            if (Random.value > _probability) continue;
 
+            var index = _generatedIndex[layer] + i;
+
+            var prev = lane[index - 1].transform.position;
+            var below = lane[index].transform.position;
+
+            var pos = prev + (below - prev) / 2;
+
+            Instantiate(_obstaclePref, pos, Quaternion.identity);
+        }
     }
 }

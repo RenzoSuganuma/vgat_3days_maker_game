@@ -5,7 +5,9 @@ using UnityEngine;
 /// </summary>
 public class StageRowGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject _prefab;
+    [SerializeField] GameObject _ringPrefab;
+    [SerializeField] GameObject _fireRingPrefab;
+    [SerializeField] float _fireRingProbability = 0.1f;
     float _space;
     float _height;
     int _layer;
@@ -29,10 +31,10 @@ public class StageRowGenerator : MonoBehaviour
                 return;
             }
 
-            var obj = Object.Instantiate(_prefab, new Vector3(x, _height), Quaternion.identity);
+            var pref = Random.value < _fireRingProbability ? _fireRingPrefab : _ringPrefab;
+            var obj = Instantiate(pref, new Vector3(x, _height), Quaternion.identity);
 
             Foundation.InGameLane?[_layer].Add(obj);
-
             if (parent) obj.transform.parent = parent;
 
             _generateIndex++;
