@@ -45,8 +45,14 @@ public class DestinationCheck : MonoBehaviour
             Foundation.NotifyGameOver();
         }
 
-        // Indexを変更する処理
-        _currentLaneIndex++;
+        // TODO: Indexを変更する処理
+
+        // インデックスが5を超える場合は5に戻しておく
+        if (_currentLaneIndex >= 6)
+        {
+            _currentLaneIndex = 5;
+        }
+
         _move.JumpToNextPendulum(Search());
         CanMove = false;
     }
