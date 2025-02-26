@@ -21,6 +21,6 @@ public class AudienceBeatSync : MonoBehaviour
 
     private void OnBeat()
     {
-        _sprite.DOMoveY(transform.position.y + 0.2f, 0.1f).SetLoops(2, LoopType.Yoyo);
+        _sprite.DOMoveY(transform.position.y + 0.2f, 0.24f).SetLoops(2, LoopType.Yoyo);
     }
 }
