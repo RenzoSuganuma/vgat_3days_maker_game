@@ -125,7 +125,6 @@ public static class Foundation
     {
         // InGameシーンとResultシーンをアンロード
         await DisposeSceneAsync(INGAME_SCENE_NAME);
-        await DisposeSceneAsync(RESULT_SCENE_NAME);
 
         // タイトルシーンをロード
         await LoadSceneAsync(TITLE_SCENE_NAME);
@@ -135,6 +134,8 @@ public static class Foundation
 
         // イベントを発火
         TaskOnChangedScene?.Invoke(TITLE_SCENE_NAME);
+
+        await DisposeSceneAsync(RESULT_SCENE_NAME);
     }
 
     private static void LoadSceneAdditive(string sceneName)
