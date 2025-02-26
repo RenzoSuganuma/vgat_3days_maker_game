@@ -18,11 +18,17 @@ public class GameSettings : ScriptableObject
     [SerializeField, Header("オーディオボリュームの設定")]
     private AudioVolumeSettings _audioVolumeSettings = new AudioVolumeSettings();
 
-    [SerializeField, Header("プレイヤーの設定")] private PlayerSettings _playerSettings = new PlayerSettings();
+    [SerializeField, Header("プレイヤーの設定")]
+    private PlayerSettings _playerSettings = new PlayerSettings();
 
-    [SerializeField, Header("ステージの設定")] private StageSettings _stageSettings = new StageSettings();
+    [SerializeField, Header("ステージの設定")]
+    private StageSettings _stageSettings = new StageSettings();
 
-    [SerializeField, Header("フェードパネルの設定")] private FadePanelSettings _fadePanelSettings = new FadePanelSettings();
+    [SerializeField, Header("オブジェクトのビートの設定")]
+    private ObjectBeatSettings _objectBeatSettings = new ObjectBeatSettings();
+
+    [SerializeField, Header("フェードパネルの設定")]
+    private FadePanelSettings _fadePanelSettings = new FadePanelSettings();
 
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
     public GameFlowSettings GameFlowSettings => _gameFlowSettings;
@@ -31,6 +37,7 @@ public class GameSettings : ScriptableObject
     public AudioVolumeSettings AudioVolumeSettings => _audioVolumeSettings;
     public PlayerSettings PlayerSettings => _playerSettings;
     public StageSettings StageSettings => _stageSettings;
+    public ObjectBeatSettings ObjectBeatSettings => _objectBeatSettings;
     public FadePanelSettings FadePanelSettings => _fadePanelSettings;
 }
 
@@ -98,6 +105,18 @@ public class GameLoadResourcesSettings
 
     [SerializeField, Tooltip("セーブデータのパスJson")]
     private string _saveDataPath = "saveData";
+
+    public string ResourcesLoadSpeechTextPath
+    {
+        get => _resourcesLoadSpeechTextPath;
+        set => _resourcesLoadSpeechTextPath = value;
+    }
+
+    public string SaveDataPath
+    {
+        get => _saveDataPath;
+        set => _saveDataPath = value;
+    }
 }
 
 
@@ -284,5 +303,31 @@ public class FadePanelSettings
     {
         get => _duration;
         set => _duration = value;
+    }
+}
+
+[Serializable]
+public class ObjectBeatSettings
+{
+    [SerializeField, Tooltip("1回の揺れ時間")] private float _shakeDuration = 0.1f;
+    [SerializeField, Tooltip("UIの拡大率")] private float _scaleMultiplier = 1.05f;
+    [SerializeField, Tooltip("曲のBPM")] private float _bpm = 128f;
+
+    public float ShakeDuration
+    {
+        get => _shakeDuration;
+        set => _shakeDuration = value;
+    }
+
+    public float ScaleMultiplier
+    {
+        get => _scaleMultiplier;
+        set => _scaleMultiplier = value;
+    }
+
+    public float Bpm
+    {
+        get => _bpm;
+        set => _bpm = value;
     }
 }
