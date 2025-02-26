@@ -19,13 +19,13 @@ public class DestinatinCheck : MonoBehaviour
 
     private void Start()
     {
-        _pendulumController.OnReachTheEdge += Move;
         _move = FindAnyObjectByType<PlayerMove>();
         _playerTransform = _move.transform;
 
         _voiceInputHandler = FindAnyObjectByType<VoiceInputHandler>();
 
         _pendulumController = GetComponent<PendulumController>();
+        _pendulumController.OnReachTheEdge += Move;
 
         #region 音声認識との結合部分
 
@@ -81,6 +81,7 @@ public class DestinatinCheck : MonoBehaviour
     private void MovePlayer(int laneChange)
     {
         _currentLaneIndex += laneChange;
+        CanMove = true;
         Debug.Log($"現在のレーン: {_currentLaneIndex}");
     }
 
@@ -90,6 +91,7 @@ public class DestinatinCheck : MonoBehaviour
     private void Move()
     {
         if (!CanMove) return; // 成功判定が出ていなかったら処理を行わない
+        Debug.Log("音声入力成功→プレイヤーを移動させる");
 
         if (_currentLaneIndex < 0)
         {

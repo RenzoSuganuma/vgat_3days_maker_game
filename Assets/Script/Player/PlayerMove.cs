@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
     [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
     [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
+    [SerializeField] private PlayerAnimation _animation;
 
     private Vector3 _initialLocalPos;
 
@@ -19,6 +21,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         _initialLocalPos = transform.localPosition;
+        _animation.SetPendulumController(transform.parent.GetComponent<PendulumController>());
     }
 
     /// <summary>
@@ -28,13 +31,14 @@ public class PlayerMove : MonoBehaviour
     {
         if (IsJumping) return;
 
-        transform.SetParent(target); // 一時的に親を変更
+        transform.SetParent(target); // 親を変更
+        _animation.SetPendulumController(target.gameObject.GetComponent<PendulumController>());
         IsJumping = true;
 
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = _initialLocalPos;
 
-        _playerJumpingSprite.SpriteChange(); // プレイヤーの画像を変更する
+        _playerJumpingSprite.Jump().Forget(); // プレイヤーの画像を変更する
 
         /*
         float peakTime = _jumpDuration / 2f; // 頂点に達する時間
