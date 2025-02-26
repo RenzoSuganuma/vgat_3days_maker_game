@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1948331689}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &683034991
@@ -929,6 +929,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63bb34cd1e9cd204d99e7ab30f8e75f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hideOnScneChange: {fileID: 0}
+  _ddols: []
+  _buttonStart: {fileID: 1948331691}
 --- !u!4 &1483435055
 Transform:
   m_ObjectHideFlags: 0
