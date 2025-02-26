@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Searcher;
 using UnityEngine;
 
 /// <summary>
@@ -51,9 +52,40 @@ public class LaneObjectGenerator : MonoBehaviour
             }
             else
             {
-                // 振り子を中心に生成
-                Instantiate(obj, lane[i].transform.position, Quaternion.identity, _parents[layer]);
+                bool existUp = layer != 5;
+
+                var right = Search(lane[i].transform, i, layer + (existUp ? 1 : -1)).position;
+                var left = lane[i].transform.position;
+
+                var pos = left + (right - left) / 2;
+                Debug.DrawLine(left, right, Color.red, 1000);
+                
+                Instantiate(obj, pos, Quaternion.identity, _parents[layer]);
             }
         }
+    }
+
+    private Transform Search(Transform current, int index, int layer)
+    {
+        var lane = Foundation.InGameLane[layer];
+
+        Transform nextPendulum = null; // 移動先の振り子オブジェクト
+        float currMinDistance = float.MaxValue; // 検索用
+
+        foreach (var target in lane)
+        {
+            // 現在いる位置よりX座標でマイナス側にあるオブジェクトと現在掴まっているオブジェクトは検索に含めない
+            if (target.transform.position.x <= current.position.x) continue;
+
+            float distance = target.transform.position.x - current.position.x;
+            if (distance < currMinDistance)
+            {
+                nextPendulum = target.transform;
+                currMinDistance = target.transform.position.x - current.position.x;
+            }
+        }
+
+        Debug.Log($"検索された移動先のオブジェクト:{nextPendulum.name}");
+        return nextPendulum;
     }
 }
