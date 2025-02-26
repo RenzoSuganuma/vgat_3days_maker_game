@@ -765,7 +765,7 @@ MonoBehaviour:
   - {fileID: 306845026}
   - {fileID: 1868132399}
   - {fileID: 750821256}
-  _resultManager: {fileID: 0}
+  _tween: {fileID: 424710541}
 --- !u!4 &424710540
 Transform:
   m_ObjectHideFlags: 0
@@ -794,8 +794,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 1179072388}
-  _duration: 1.5
-  _text: {fileID: 757872437}
+  _movementDistance: 125
+  _moveDuration: 0.8
+  _countUpDuration: 1.5
+  _tweenDuration: 2
+  _backTitleButton: {fileID: 1878793240}
+  _rankingBoard: {fileID: 423857588}
 --- !u!1 &429216833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,7 +1419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -378, y: -55.440002}
+  m_AnchoredPosition: {x: -375, y: -55.440002}
   m_SizeDelta: {x: 752.14, y: 1088.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1179072389
@@ -2059,7 +2063,7 @@ RectTransform:
   m_GameObject: {fileID: 1878793239}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 525542571}

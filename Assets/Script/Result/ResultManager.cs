@@ -51,5 +51,9 @@ public class ResultManager : MonoBehaviour
             _rankingTexts[i].gameObject.SetActive(true); // アクティブにする
             await UniTask.Delay(500);
         }
+
+        await UniTask.Delay(1000);
+
+        _tween.BackTitle();
     }
 }

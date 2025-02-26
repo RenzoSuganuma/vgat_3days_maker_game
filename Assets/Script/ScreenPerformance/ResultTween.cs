@@ -2,6 +2,8 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 /// <summary>
 /// Result画面で使用するtweenをまとめたクラス
@@ -14,13 +16,18 @@ public class ResultTween : MonoBehaviour
     [SerializeField, Tooltip("移動にかける時間")] private float _moveDuration = 0.8f;
 
     [Header("テキストのカウントアップTweenの設定")]
-    [SerializeField] private float _duration = 1.5f; // カウントアップにかける時間
+    [SerializeField] private float _countUpDuration = 1.5f; // カウントアップにかける時間
     private int _startValue = 0;
 
-    [SerializeField] private TextMeshProUGUI _text;
+    [Header("ランキング表示後のTweenの設定")]
+    [SerializeField] private float _tweenDuration = 1f;
+    [SerializeField] private Transform _backTitleButton;
+    [SerializeField] private Transform _rankingBoard;
 
     private void Start()
     {
+        _backTitleButton.localScale = new Vector3(1.1f, 1.1f, 1.1f);
+        _backTitleButton.gameObject.SetActive(false); // ボタンは最初は非表示に
         MoveCharacter();
     }
 
@@ -42,8 +49,20 @@ public class ResultTween : MonoBehaviour
         DOTween.To(() => currentValue, x => {
             currentValue = x;
             text.text = $"{currentValue.ToString()}m";
-        }, endValue, _duration).SetEase(Ease.OutQuad);
+        }, endValue, _countUpDuration).SetEase(Ease.OutQuad);
 
-        await UniTask.Delay((int)_duration * 1000);
+        await UniTask.Delay((int)_countUpDuration * 1000);
+    }
+
+    /// <summary>
+    /// ランキングを表示し終わった後のTween
+    /// </summary>
+    public void BackTitle()
+    {
+        // ボタンのスケールを1に戻す
+        _backTitleButton.gameObject.SetActive(true);
+        _backTitleButton.DOScale(Vector3.one, _tweenDuration) // ボタンのscaleを元に戻す
+            .OnComplete(()=>_rankingBoard.DOScale(new Vector3(1.01f,1.01f,1.01f), _tweenDuration).SetLoops(-1, LoopType.Yoyo));
+
     }
 }
