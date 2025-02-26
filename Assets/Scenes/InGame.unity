@@ -1128,6 +1128,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8835834876489346930, guid: d645617f8236f4effa919b083e5f18ff, type: 3}
+      propertyPath: _scorebord
+      value: 
+      objectReference: {fileID: 1905621979}
+    - target: {fileID: 8835834876489346930, guid: d645617f8236f4effa919b083e5f18ff, type: 3}
+      propertyPath: _displayTime
+      value: 
+      objectReference: {fileID: 129130076}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2379,8 +2387,12 @@ MonoBehaviour:
   _timeScoreText: {fileID: 129130076}
   _successImage: {fileID: 318245056}
   _failImage: {fileID: 941677493}
-  _messagePanel: {fileID: 0}
-  _messageSprites: []
+  _messagePanel: {fileID: 430111333}
+  _messageSprites:
+  - {fileID: 4129234782542611564, guid: 8c272f47d997a144aa0adb0f2ad35ebb, type: 3}
+  - {fileID: 7131226365715400469, guid: e4f84b1619fe22a4fb0c9df335d51c3f, type: 3}
+  - {fileID: -8735568780219086195, guid: 99594f356d85da543bb286c320f1fd30, type: 3}
+  - {fileID: -8358501711268302292, guid: 7c60758ca0fa002498887cbf76ea15ec, type: 3}
 --- !u!114 &1905621981 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4882676905074503849, guid: 58bd3efc47028254b9f31c59c8756b84, type: 3}
