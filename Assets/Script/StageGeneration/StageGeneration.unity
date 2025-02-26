@@ -375,15 +375,19 @@ MonoBehaviour:
   - obj: {fileID: 1726598866916628614, guid: 3af36fe01c14a5f499baebd063b80e6f, type: 3}
     weight: 3
     mid: 1
+    isObstacle: 1
   - obj: {fileID: 1726598866916628614, guid: 06ff655c49cac25449729173429ae896, type: 3}
     weight: 2
     mid: 1
+    isObstacle: 0
   - obj: {fileID: 1726598866916628614, guid: 10698559cfa88a148a64a8d39823c0d6, type: 3}
     weight: 1
     mid: 1
+    isObstacle: 0
   - obj: {fileID: 1726598866916628614, guid: 078aec7bc8d562848908b1cdbe31ad7f, type: 3}
     weight: 2
     mid: 0
+    isObstacle: 1
 --- !u!1 &1980841887
 GameObject:
   m_ObjectHideFlags: 0

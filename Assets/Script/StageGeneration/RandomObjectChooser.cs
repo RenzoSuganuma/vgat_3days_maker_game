@@ -49,4 +49,5 @@ public class RObject
     public GameObject obj;
     public int weight;
     public bool mid;
+    public bool isObstacle;
 }

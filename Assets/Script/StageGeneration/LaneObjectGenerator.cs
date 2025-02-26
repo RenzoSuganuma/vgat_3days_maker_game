@@ -43,6 +43,15 @@ public class LaneObjectGenerator : MonoBehaviour
 
             if (randObj.mid)
             {
+                // 炎の輪の右には障害物を生成しない
+                if (randObj.isObstacle && lane[i].GetComponent<SkipObstacle>() != null)
+                {
+                    var l = lane[i].transform.position;
+                    var r = lane[i + 1].transform.position;
+                    Debug.DrawLine(l, r, Color.yellow, 1000);
+                    continue;
+                }
+
                 // 振り子の中点を中心に生成
                 var left = lane[i].transform.position;
                 var right = lane[i + 1].transform.position;
