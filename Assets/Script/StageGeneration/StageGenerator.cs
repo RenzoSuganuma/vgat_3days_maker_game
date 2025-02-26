@@ -9,8 +9,7 @@ public class StageGenerator : MonoBehaviour
 {
     [SerializeField] Transform _player;
     [SerializeField] StageRowGenerator _stageRowGenerator;
-    [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
-    [SerializeField] ObstacleGenerator _obstacleGenerator;
+    [SerializeField] LaneObjectGenerator _obstacleGenerator;
 
     [SerializeField, Tooltip("基本横幅")] float _baseWidth = 5;
     [SerializeField, Tooltip("階層が上がるごとに増える横幅")] float _widthPerLayer = 1;
@@ -27,6 +26,7 @@ public class StageGenerator : MonoBehaviour
 
     private void Start()
     {
+        // 各レーンのジェネレーターを生成、プロパティをセット
         for (int layer = 0; layer < _generateLayers; layer++)
         {
             var space = _baseWidth + _widthPerLayer * layer;
@@ -36,20 +36,11 @@ public class StageGenerator : MonoBehaviour
             _generator.Add(row);
         }
 
+        // ステージ生成
         GenerateStage();
-        _obstacleGenerator.Initialize();
 
         for ( int layer = 0; layer < _generateLayers; layer++)
         {
-            var space = _baseWidth + _widthPerLayer * layer;
-            var height = (layer - _initialLayer) * _heightPerLayer;
-
-
-            if (_indObstacleGenerator != null)
-            {
-                _indObstacleGenerator.StartGenerate(_player, height, layer);
-            }
-
             if (_obstacleGenerator != null)
             {
                 _obstacleGenerator.Generate(layer);
@@ -59,12 +50,16 @@ public class StageGenerator : MonoBehaviour
 
     private void Update()
     {
+        // 一定距離移動するごとに生成
         if (_player.position.x > _nextGeneratePosX)
         {
             GenerateStage();
         }
     }
 
+    /// <summary>
+    /// 各レーンでステージ生成する。
+    /// </summary>
     private void GenerateStage()
     {
         if (Foundation.InGameLane == null) Debug.Log("Foundation.InGameLane is null");
@@ -75,6 +70,8 @@ public class StageGenerator : MonoBehaviour
         {
             row.Generate(_player.position.x + _generateDistance, row.gameObject.transform);
         }
+
+        _obstacleGenerator.Generate();
 
         _nextGeneratePosX = _player.position.x + _generatePerMoveDistance;
     }
