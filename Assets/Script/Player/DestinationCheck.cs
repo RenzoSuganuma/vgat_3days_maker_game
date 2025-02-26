@@ -8,17 +8,21 @@ using R3;
 [RequireComponent(typeof(PendulumController))]
 public class DestinatinCheck : MonoBehaviour
 {
+    [SerializeField] private MissionsDisplay _missionsDisplay;
     private PendulumController _pendulumController;
     private Transform _playerTransform;
     private PlayerMove _move;
     private VoiceInputHandler _voiceInputHandler;
+    private SpeechBubbleManager _speechBubbleManager;
 
     public bool CanMove { get; set; } // 音声入力があったらtrueにする
     private int _currentLaneIndex; // 現在プレイヤーがいるレーンのindex（0~5）
 
     private void Start()
     {
-        _pendulumController = GetComponent<PendulumController>();
+        _pendulumController = GetComponent<PendulumController>(); // 親オブジェクトのPendulumControllerを取得する
+
+        _speechBubbleManager = new SpeechBubbleManager(_missionsDisplay); // 音声入力に対して吹きだしを表示・ボイス再生をするクラスを生成
 
         _pendulumController.OnReachTheEdge += Move;
         _move = FindAnyObjectByType<PlayerMove>();
@@ -29,7 +33,8 @@ public class DestinatinCheck : MonoBehaviour
         #region 音声認識との結合部分
 
         // 音声認識結果を監視
-        _voiceInputHandler?.RecognizedText.Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
+        _voiceInputHandler?.RecognizedText
+            .Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
 
         // 音量を監視
         _voiceInputHandler?.MaxSpeechVolume.Subscribe(volume => { Debug.Log($"📊 最大音量: {volume} dB"); });
@@ -41,6 +46,16 @@ public class DestinatinCheck : MonoBehaviour
             {
                 Debug.Log("音声入力成功: プレイヤーが移動可能");
                 MovePlayer(_voiceInputHandler.LaneChange.Value);
+
+                VoiceNameEnum voiceName = _voiceInputHandler.LaneChange.Value switch
+                {
+                    -1 => VoiceNameEnum.dB60, // 一段下がる＝ 60デシベルのとき
+                    0 => VoiceNameEnum.dB70, // 維持＝ 70デシベルのとき
+                    1 => VoiceNameEnum.dB80, // 一段上がる＝ 80デシベルのとき
+                    _ => VoiceNameEnum.dB50,
+                };
+
+                _speechBubbleManager.ChangeDialogueAndPlayVoice(voiceName);
             }
         });
 
@@ -94,6 +109,7 @@ public class DestinatinCheck : MonoBehaviour
 
         if (_currentLaneIndex < 0)
         {
+            AudioManager.Instance.PlaySE(SENameEnum.Falling);
             // インデックスがマイナスになった時＝地面に落ちた時ゲームオーバー処理を呼ぶ
             Foundation.NotifyGameOver();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,9 @@ public class MissionsDisplay : MonoBehaviour
     [SerializeField] private GameObject _successImage;
     [SerializeField] private GameObject _failImage;
 
+    [SerializeField] private GameObject _messagePanel;
+    [SerializeField] List<Sprite> _messageSprites = new List<Sprite>();
+
     private Color _defaultTextColor;
 
     private void Awake()
@@ -32,6 +36,7 @@ public class MissionsDisplay : MonoBehaviour
 
         _successImage.SetActive(false);
         _failImage.SetActive(false);
+        _messagePanel.SetActive(false);
 
         _defaultTextColor = _wordsText.color;
     }
@@ -125,5 +130,32 @@ public class MissionsDisplay : MonoBehaviour
         {
             _wordsText.color = _defaultTextColor; // 元の色に戻す
         });
+    }
+
+    /// <summary>
+    /// メッセージパネルを表示する場合のUIアニメーション
+    /// </summary>
+    public void ShowMessagePanel()
+    {
+        _messagePanel.SetActive(true);
+        _messagePanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+        // 3秒後に非表示にする
+        DOVirtual.DelayedCall(3f,
+            () =>
+            {
+                _messagePanel.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+                {
+                    _messagePanel.SetActive(false);
+                });
+            });
+    }
+
+    /// <summary>
+    /// メッセージパネルの画像を設定する
+    /// </summary>
+    public void SetMessagePanel(VoiceNameEnum index)
+    {
+        _messagePanel.GetComponent<Image>().sprite = _messageSprites[(int)index];
     }
 }
