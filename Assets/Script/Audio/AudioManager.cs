@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     [Header("音声データ")]
     [SerializeField] private ClipDataSO _bgm;
     [SerializeField] private ClipDataSO _se;
+    [SerializeField] private VoiceDataSO _voice;
 
     private void Awake()
     {
@@ -39,11 +40,21 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Indexで指定したSEを再生する
+    /// Enumで指定したSEを再生する
     /// </summary>
-    public void PlaySE(int index)
+    public void PlaySE(SENameEnum seName)
     {
-        ClipData data = _se.GetClipData(index);
+        ClipData data = _se.GetClipData((int)seName);
+        _seAudioSource.clip = data.Clip;
+        _seAudioSource.volume = data.Volume;
+    }
+
+    /// <summary>
+    /// Enumで指定したVoiceの中からランダムなClipを取得して再生する
+    /// </summary>
+    public void PlayRandomVoice(VoiceNameEnum voiceName)
+    {
+        (AudioClip Clip, float Volume) data = _voice.GetRandomVoiceClip(voiceName);
         _seAudioSource.clip = data.Clip;
         _seAudioSource.volume = data.Volume;
     }
