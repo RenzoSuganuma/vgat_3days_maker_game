@@ -14,39 +14,37 @@ public class GameManager : MonoBehaviour
 
     private Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
-    private float _lowThreshold = -30f; // 小さい声
-    private float _midThreshold = -20f; // 普通の声
-    private float _highThreshold = -10f; // 大きい声
-    private float _similarity = 0.8f; // 以上一致したらOK
 
-    private int _stackSize = 10;
-    private int _nextTurnMillisecDelay = 1000;
+    private VoiceRecognitionSettings _voiceRecognitionSettings;
+    private GameFlowSettings _gameFlowSettings;
+
 
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
     private TextGenerator _textGenerator;
     private string _currentPhrase;
 
+    public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
+    public GameFlowSettings GameFlowSettings => _gameFlowSettings;
 
     public SpeechToTextVolume SpeechToTextVolume => _speechToTextVolume;
     public VoiceJudgement VoiceJudgement => _voiceJudgement;
     public Dictionary<string, string> VoiceData => _voiceData;
-    public float LowThreshold => _lowThreshold;
-    public float MidThreshold => _midThreshold;
-    public float HighThreshold => _highThreshold;
-    public float Similarity => _similarity;
+
 
     private void Awake()
     {
         var settings = Resources.Load<GameSettings>("GameSettings");
         if (settings != null)
         {
-            _lowThreshold = settings.VoiceRecognitionSettings.LowThreshold;
-            _midThreshold = settings.VoiceRecognitionSettings.MidThreshold;
-            _highThreshold = settings.VoiceRecognitionSettings.HighThreshold;
-            _similarity = settings.VoiceRecognitionSettings.Similarity;
-            _stackSize = settings.GameFlowSettings.StackSize;
-            _nextTurnMillisecDelay = settings.GameFlowSettings.NextTurnMilliSecDelay;
+            _voiceRecognitionSettings.LowThreshold = settings.VoiceRecognitionSettings.LowThreshold;
+            _voiceRecognitionSettings.MidThreshold = settings.VoiceRecognitionSettings.MidThreshold;
+            _voiceRecognitionSettings.HighThreshold = settings.VoiceRecognitionSettings.HighThreshold;
+            _voiceRecognitionSettings.Similarity = settings.VoiceRecognitionSettings.Similarity;
+
+            _gameFlowSettings.StackSize = settings.GameFlowSettings.StackSize;
+            _gameFlowSettings.NextTurnMilliSecDelay = settings.GameFlowSettings.NextTurnMilliSecDelay;
+
             _resourcesLoadPath = settings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
         }
 
@@ -61,7 +59,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _speechToTextVolume = new SpeechToTextVolume();
+        _speechToTextVolume = new SpeechToTextVolume(settings);
         _voiceJudgement = new VoiceJudgement(this);
 
         _voiceInputHandler.Initialize(this);
@@ -104,7 +102,7 @@ public class GameManager : MonoBehaviour
 
         int index = 0;
 
-        while (_wordStack.Count < _stackSize)
+        while (_wordStack.Count < _gameFlowSettings.StackSize)
         {
             if (index >= keys.Count)
             {
@@ -142,7 +140,7 @@ public class GameManager : MonoBehaviour
     public async void OnMissionSuccess()
     {
         _missionsDisplay.MissionSuccess();
-        await UniTask.Delay(TimeSpan.FromMilliseconds(_nextTurnMillisecDelay));
+        await UniTask.Delay(TimeSpan.FromMilliseconds(_gameFlowSettings.NextTurnMilliSecDelay));
         SetNextMission();
     }
 

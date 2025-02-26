@@ -198,6 +198,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &430049085 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2702818904600997036, guid: 64768e4f8dd5b7e449d8d1f7fd2cdbfb, type: 3}
+  m_PrefabInstance: {fileID: 1416782382}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &566510269 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6402434113288119350, guid: e2d15889c2c720d4e94f984fd1d43fcf, type: 3}
@@ -348,7 +353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 143371816355578230, guid: 64768e4f8dd5b7e449d8d1f7fd2cdbfb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6071480263796343226, guid: 64768e4f8dd5b7e449d8d1f7fd2cdbfb, type: 3}
       propertyPath: m_Pivot.x
@@ -430,6 +435,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6822978510356805355, guid: 64768e4f8dd5b7e449d8d1f7fd2cdbfb, type: 3}
+      propertyPath: _messagePanel
+      value: 
+      objectReference: {fileID: 430049085}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -779,6 +788,10 @@ PrefabInstance:
       propertyPath: _soundType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2902032689781857108, guid: 4e03429ae3378be4fb2efa423eef9b4e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 3788813552008013090, guid: 4e03429ae3378be4fb2efa423eef9b4e, type: 3}
       propertyPath: _soundType
       value: 1
@@ -1066,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2754807059663511439, guid: 9ebb31be068b4164cbaa0be553de2f46, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7658202002199759813, guid: 9ebb31be068b4164cbaa0be553de2f46, type: 3}
       propertyPath: _missionsText

@@ -271,8 +271,7 @@ public class StageSettings
 
     [SerializeField, Tooltip("レーンの幅の増加量")] private float _widthPerLayer = 1f;
 
-    [SerializeField, Tooltip("レーンの高さの増加量")]
-    private float _heightPerLayer = 5f;
+    [SerializeField, Tooltip("レーンの高さの増加量")] private float _heightPerLayer = 5f;
 
     [SerializeField, Tooltip("生成するレイヤー数")] private int _generateLayers = 6;
 
@@ -280,9 +279,9 @@ public class StageSettings
 
     [SerializeField, Tooltip("ステージの生成距離")] private float _generateDistance = 100f;
 
-    [SerializeField, Tooltip("プレイヤーが進んだときの追加生成距離")]
-    private float _generatePerMoveDistance = 50f;
+    [SerializeField, Tooltip("プレイヤーが進んだときの追加生成距離")] private float _generatePerMoveDistance = 50f;
 
+    [SerializeField, Tooltip("ステージのタイムリミット")] private float _timeLimit = 120f;
     public float BaseWidth => _baseWidth;
     public float WidthPerLayer => _widthPerLayer;
     public float HeightPerLayer => _heightPerLayer;
@@ -290,6 +289,7 @@ public class StageSettings
     public int InitialLayer => _initialLayer;
     public float GenerateDistance => _generateDistance;
     public float GeneratePerMoveDistance => _generatePerMoveDistance;
+    public float TimeLimit => _timeLimit;
 }
 
 [Serializable]
@@ -328,4 +328,11 @@ public class ObjectBeatSettings
         get => _bpm;
         set => _bpm = value;
     }
+}
+
+[Serializable]
+public class ScoreData
+{
+    [SerializeField] private float _heightScore;
+    [SerializeField] private float _distanceScore;
 }

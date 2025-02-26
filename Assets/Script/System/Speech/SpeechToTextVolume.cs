@@ -8,9 +8,12 @@ using Cysharp.Threading.Tasks;
 
 public class SpeechToTextVolume : IDisposable
 {
+    private GameSettings _gameSettings;
+
     private DictationRecognizer _dictationRecognizer;
     public Subject<string> OnSpeechResult = new Subject<string>(); // 音声認識結果
     public Subject<float> OnSpeechVolume = new Subject<float>(); // 音量データ
+    public Observable<string> OnDeviceName = new Subject<string>(); // デバイス名
 
     private string _deviceName;
     private string _targetDevice = "";
@@ -18,13 +21,15 @@ public class SpeechToTextVolume : IDisposable
     private int _lastAudioPos;
     private CancellationTokenSource _cancellationTokenSource;
 
-    public SpeechToTextVolume()
+    public SpeechToTextVolume(GameSettings gameSettings)
     {
+        _gameSettings = gameSettings;
+
         _dictationRecognizer = new DictationRecognizer();
         _dictationRecognizer.DictationResult += DictationRecResult;
         _dictationRecognizer.DictationError += DictationRecError;
 
-        _deviceName = Microphone.devices[0];
+        _deviceName = _gameSettings.MicDeviceSettings.DeviceName;
         InitMicrophone();
         Debug.Log("SpeechToTextVolume: 初期化完了");
     }
@@ -41,6 +46,10 @@ public class SpeechToTextVolume : IDisposable
             {
                 _targetDevice = device;
             }
+            else
+            {
+                _targetDevice = Microphone.devices[0];
+            }
         }
 
         if (string.IsNullOrEmpty(_targetDevice))
@@ -50,8 +59,9 @@ public class SpeechToTextVolume : IDisposable
         }
 
         Debug.Log($"🎤 録音デバイス: {_targetDevice}");
-        _audioClip = Microphone.Start(_targetDevice, true, 10, 48000);
+        _audioClip = Microphone.Start(_targetDevice, true, 10, _gameSettings.MicDeviceSettings.SampleRate);
     }
+
 
     /// <summary>
     /// デバイス名を設定
@@ -59,6 +69,11 @@ public class SpeechToTextVolume : IDisposable
     public void SetDeviceName(string deviceName)
     {
         _deviceName = deviceName;
+        if (_gameSettings != null)
+        {
+            _gameSettings.MicDeviceSettings.DeviceName = _deviceName;
+        }
+
         InitMicrophone(); // 新しいデバイスでマイクを再初期化
     }
 
