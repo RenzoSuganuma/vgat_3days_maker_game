@@ -13,7 +13,7 @@ public static class Foundation
 
     public static string CurrentScene => SceneManager.GetActiveScene().name;
 
-    public static List<GameObject>[] InGameLane { get; private set; }
+    public static List<GameObject>[] InGameLane { get; private set; } = new List<GameObject>[6];
 
     /// <summary>
     /// シーンロード時のイベント

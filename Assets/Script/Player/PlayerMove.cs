@@ -31,6 +31,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         _initialLocalPos = transform.localPosition;
+        transform.SetParent(Foundation.InGameLane[2][0].transform);
         _animation.SetPendulumController(transform.parent.GetComponent<PendulumController>());
     }
 
