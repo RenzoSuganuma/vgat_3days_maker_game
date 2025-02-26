@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +11,11 @@ using UnityEngine.UI;
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites;
-    [SerializeField] private Image _image;
+    [SerializeField] private SpriteRenderer _image;
     [SerializeField, Tooltip("キャラクターの画像を変更しておく時間")] private float _duration = 1f;
     private PendulumController _pendulumController;
+
+    private  CompositeDisposable _disposable = new  CompositeDisposable();
 
     private void Start()
     {
@@ -21,6 +24,9 @@ public class PlayerAnimation : MonoBehaviour
 
     private void OnDestroy()
     {
+        _disposable?.Dispose();
+
+        if(_pendulumController == null) return;
         _pendulumController.OnEdgeLeft -= OnEdge;
         _pendulumController.OnEdgeRight -= OnRelease;
     }
@@ -40,7 +46,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private void OnEdge()
     {
-        ChangeSprite(2).Forget();
+        ChangeSprite(2, 40).Forget();
     }
 
     /// <summary>
@@ -48,18 +54,37 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private void OnRelease()
     {
-        ChangeSprite(1).Forget();
+        ChangeSprite(1, -40).Forget();
     }
 
     /// <summary>
     /// スプライトを変更する
     /// </summary>
-    private async UniTask ChangeSprite(int index)
+    private async UniTask ChangeSprite(int index, int angle)
     {
         _image.sprite = _sprites[index];
 
-        await UniTask.Delay(TimeSpan.FromSeconds(_duration));
+        float elapsedTime = 0f;
+        var rotationProgress = new ReactiveProperty<float>(0f);
 
-        _image.sprite = _sprites[0]; // 初期のスプライトに戻す
+        rotationProgress
+            .Select(progress => Mathf.Lerp(0f, angle, progress))
+            .Subscribe(angle =>
+            {
+                transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+            })
+            .AddTo(_disposable);
+
+        while (elapsedTime < _duration)
+        {
+            transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(0f, -40f, elapsedTime / _duration));
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield(); // フレームごとに待機
+        }
+
+        transform.localRotation = Quaternion.Euler(0f, 0f, -40f);
+        await UniTask.Delay((int)(_duration * 1000)); // アニメーション時間を待つ
+        transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+
     }
 }
