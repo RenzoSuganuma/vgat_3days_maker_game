@@ -19,7 +19,7 @@ public class PlayerControllerTest : MonoBehaviour
         // 音声入力成功時に移動を実行
         _voiceInputHandler.IsVoiceInputSuccessful.Subscribe(isSuccessful =>
         {
-            if (isSuccessful)
+            if (_voiceInputHandler.IsCorrectVoice.Value)
             {
                 Debug.Log("音声入力成功: プレイヤーが移動可能");
                 MovePlayer(_voiceInputHandler.LaneChange.Value);
