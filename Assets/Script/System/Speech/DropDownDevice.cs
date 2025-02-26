@@ -38,7 +38,7 @@ public class DropDownDevice : MonoBehaviour
         // SpeechToTextVolumeの_deviceNameに設定
         if (_speechToTextVolume != null)
         {
-            _speechToTextVolume.SetDeviceName(device);
+            //_speechToTextVolume.SetDeviceName(device);
         }
     }
 }

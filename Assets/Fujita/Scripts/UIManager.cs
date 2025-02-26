@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ public class UIManager : MonoBehaviour
 
     [Header("制限時間")]
     [SerializeField]float time = 50f;
-
+    
     void Start()
     {
         SetUp();
@@ -24,7 +25,8 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        Timer();
+        if(time>0)
+            Timer();
     }
 
     void SetUp()
