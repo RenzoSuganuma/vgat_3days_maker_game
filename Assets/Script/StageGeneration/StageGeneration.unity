@@ -358,7 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objChooser: {fileID: 1872756771}
   _probability: 0.8
-  _generatedIndex: 000000000000000005000000000000000000000000000000
+  _generatedIndex: 000000000000000003000000000000000000000000000000
 --- !u!114 &1872756771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +376,10 @@ MonoBehaviour:
     weight: 3
     mid: 1
     isObstacle: 1
+  - obj: {fileID: 1726598866916628614, guid: 078aec7bc8d562848908b1cdbe31ad7f, type: 3}
+    weight: 2
+    mid: 0
+    isObstacle: 1
   - obj: {fileID: 1726598866916628614, guid: 06ff655c49cac25449729173429ae896, type: 3}
     weight: 2
     mid: 1
@@ -384,10 +388,6 @@ MonoBehaviour:
     weight: 1
     mid: 1
     isObstacle: 0
-  - obj: {fileID: 1726598866916628614, guid: 078aec7bc8d562848908b1cdbe31ad7f, type: 3}
-    weight: 2
-    mid: 0
-    isObstacle: 1
 --- !u!1 &1980841887
 GameObject:
   m_ObjectHideFlags: 0
