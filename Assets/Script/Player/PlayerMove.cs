@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
@@ -37,7 +38,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 startPos = transform.localPosition;
         Vector3 endPos = _initialLocalPos;
 
-        _playerJumpingSprite.SpriteChange(); // プレイヤーの画像を変更する
+        _playerJumpingSprite.Jump().Forget(); // プレイヤーの画像を変更する
 
         /*
         float peakTime = _jumpDuration / 2f; // 頂点に達する時間
