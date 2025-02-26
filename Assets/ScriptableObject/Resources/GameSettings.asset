@@ -16,7 +16,7 @@ MonoBehaviour:
     _lowThreshold: -20
     _midThreshold: -15
     _highThreshold: -10
-    _similarity: 0.5
+    _similarity: 0.1
   _gameFlowSettings:
     _stackSize: 10
     _nextTurnMilliSecDelay: 1000
@@ -33,7 +33,7 @@ MonoBehaviour:
     _voiceVolume: 0.8
   _playerSettings:
     _jumpDuration: 1
-    height: 3
+    height: 0
     _gravity: 9.8
     _animSpeed: 0.06
     _swingAngle: 90

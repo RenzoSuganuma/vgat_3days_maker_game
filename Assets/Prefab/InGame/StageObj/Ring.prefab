@@ -281,6 +281,7 @@ MonoBehaviour:
   _duration: 2
   _easeType: 4
   _percent: 0.75
+  _playerAnchor: {fileID: 6287249318590577956}
 --- !u!114 &5245464699848290880
 MonoBehaviour:
   m_ObjectHideFlags: 0

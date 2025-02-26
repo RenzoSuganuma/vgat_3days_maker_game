@@ -60,20 +60,6 @@ public class StageGenerator : MonoBehaviour
         _player.GetComponent<PlayerMove>().Initialize();
     }
 
-    private void Update()
-    {
-        // ��苗���ړ����邲�Ƃɐ���
-        if (FindAnyObjectByType<PlayerMove>() == null)
-        {
-            return;
-        }
-
-        if (_player.transform.position.x > _nextGeneratePosX)
-        {
-            GenerateStage();
-        }
-    }
-
     /// <summary>
     /// �e���[���ŃX�e�[�W��������B
     /// </summary>
@@ -88,8 +74,7 @@ public class StageGenerator : MonoBehaviour
             var row = _generator[i];
             if (i == 0 && FindAnyObjectByType<PlayerMove>() != null)
             {
-                row.Generate(_player.transform.position.x + _generateDistance, row.gameObject.transform,
-                    _player.transform);
+                row.Generate(_player.transform.position.x + _generateDistance, row.gameObject.transform);
             }
             else
             {
