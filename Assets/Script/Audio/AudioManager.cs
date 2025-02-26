@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -26,6 +27,13 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        Foundation.TaskOnChangedScene += ChangeBGM; // Foundationクラスのシーン遷移時に呼ばれるイベントを購読
+    }
+
+    private void OnDestroy()
+    {
+        Foundation.TaskOnChangedScene -= ChangeBGM; // 購読解除
     }
 
     /// <summary>
@@ -38,6 +46,22 @@ public class AudioManager : MonoBehaviour
         _bgmAudioSource.clip = data.Clip;
         _bgmAudioSource.volume = data.Volume;
         _bgmAudioSource.Play();
+    }
+
+    /// <summary>
+    /// Foundationクラスでシーン遷移イベントが発火された時に呼び出されるメソッド
+    /// </summary>
+    private void ChangeBGM(string sceneName)
+    {
+        SceneNameEnum nextScene =  sceneName switch
+        {
+            "Title" => SceneNameEnum.Title,
+            "InGame" => SceneNameEnum.InGame,
+            "Result" => SceneNameEnum.Result,
+            _ => throw new InvalidCastException()
+        };
+
+        PlayBGM(nextScene);
     }
 
     /// <summary>
