@@ -94,6 +94,7 @@ public class DestinatinCheck : MonoBehaviour
 
         if (_currentLaneIndex < 0)
         {
+            AudioManager.Instance.PlaySE(SENameEnum.Falling);
             // インデックスがマイナスになった時＝地面に落ちた時ゲームオーバー処理を呼ぶ
             Foundation.NotifyGameOver();
         }
