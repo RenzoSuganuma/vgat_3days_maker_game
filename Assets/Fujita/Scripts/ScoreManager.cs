@@ -14,7 +14,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
+        if (FindAnyObjectByType<PlayerMove>() == null)
+        {
+            return;
+        }
+
         float dis = Vector2.Distance(this.transform.position, player.transform.position);
-        distanceText.text= "distance: " + (Mathf.RoundToInt(dis/2f))+"m";
+        distanceText.text = "distance: " + (Mathf.RoundToInt(dis / 2f)) + "m";
     }
 }

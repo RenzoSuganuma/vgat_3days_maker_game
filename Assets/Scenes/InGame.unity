@@ -647,7 +647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _voiceInputHandler: {fileID: 1666515990}
   _dropDownDevice: {fileID: 1287086106}
-  _missionsDisplay: {fileID: 0}
+  _missionsDisplay: {fileID: 1905621979}
 --- !u!4 &394536522
 Transform:
   m_ObjectHideFlags: 0
@@ -1837,6 +1837,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1391031239982415881, guid: b68b6081526ff9544b72e288c39d0b3c, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1302237009}
     - target: {fileID: 1460074845689769759, guid: b68b6081526ff9544b72e288c39d0b3c, type: 3}
       propertyPath: randomObjects.Array.size
       value: 5
@@ -2900,6 +2904,10 @@ PrefabInstance:
       propertyPath: m_FlipX
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8248214022877258173, guid: 8140346eb7e9ebb469fb13ad5c5308fd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4919480048286668475, guid: df348d4691d904940a12ea350c16bff0, type: 3}
     - target: {fileID: 8248214022877258173, guid: 8140346eb7e9ebb469fb13ad5c5308fd, type: 3}
       propertyPath: m_SortingOrder
       value: 7
