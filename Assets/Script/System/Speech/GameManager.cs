@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private string _resourcesLoadPath = "GloomyBeat_speachText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
+    [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsText _missionsText;
 
     private Dictionary<string, string> _voiceData;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _dropDownDevice.Construct(_speechToTextVolume);
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
 
