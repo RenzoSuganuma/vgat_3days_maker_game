@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
         ClipData data = _bgm.GetClipData((int)sceneName);
         _bgmAudioSource.clip = data.Clip;
         _bgmAudioSource.volume = data.Volume;
+        _bgmAudioSource.Play();
     }
 
     /// <summary>
@@ -45,8 +46,8 @@ public class AudioManager : MonoBehaviour
     public void PlaySE(SENameEnum seName)
     {
         ClipData data = _se.GetClipData((int)seName);
-        _seAudioSource.clip = data.Clip;
         _seAudioSource.volume = data.Volume;
+        _seAudioSource.PlayOneShot(data.Clip);
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public class AudioManager : MonoBehaviour
     public void PlayRandomVoice(VoiceNameEnum voiceName)
     {
         (AudioClip Clip, float Volume) data = _voice.GetRandomVoiceClip(voiceName);
-        _seAudioSource.clip = data.Clip;
         _seAudioSource.volume = data.Volume;
+        _seAudioSource.PlayOneShot(data.Clip);
     }
 }
