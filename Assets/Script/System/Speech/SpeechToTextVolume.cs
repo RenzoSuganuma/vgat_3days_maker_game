@@ -114,7 +114,7 @@ public class SpeechToTextVolume : MonoBehaviour
     }
 
     /// <summary>
-    /// 最新のマイク音量を取得
+    /// マイクから音声データを取得
     /// </summary>
     private float GetUpdatedAudio()
     {
