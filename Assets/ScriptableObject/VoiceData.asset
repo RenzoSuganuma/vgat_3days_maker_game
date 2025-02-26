@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a0c8073da777146a15eac959657443, type: 3}
+  m_Name: VoiceData
+  m_EditorClassIdentifier: 
+  _voiceData:
+  - VoiceName: 0
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 3685b2be975ce2f42a82db84bb61f722, type: 3}
+      Volume: 1.2
+    - Clip: {fileID: 8300000, guid: 8ac1aeaec802ec74e89276c12abf00a8, type: 3}
+      Volume: 1.2
+  - VoiceName: 1
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 731827b4aad6d264789cd0c9a63afa26, type: 3}
+      Volume: 1.2
+    - Clip: {fileID: 8300000, guid: 69ce046fae355ad46810ba8767a924ac, type: 3}
+      Volume: 1.2
+  - VoiceName: 2
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 282f15f0c2f69b24d9a78a8e847a0aee, type: 3}
+      Volume: 1.2
+    - Clip: {fileID: 8300000, guid: 9eb7443aca43d9b41b91b669e8e52805, type: 3}
+      Volume: 1.2
+  - VoiceName: 3
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: ee82e13d8569ea6498daab72db010490, type: 3}
+      Volume: 1.2
+    - Clip: {fileID: 8300000, guid: 31e92a2d5e766d844a0d351b6e1ff2dd, type: 3}
+      Volume: 1.2
