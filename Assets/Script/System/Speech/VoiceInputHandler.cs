@@ -3,10 +3,12 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
 
+// 他の人が簡単に参照出来るようにするために敢えてMonoBehaviourを継承している
 public class VoiceInputHandler : MonoBehaviour
 {
-    [SerializeField] private SpeechToTextVolume _speechToText;
-    [SerializeField] private VoiceJudgement _voiceJudgement;
+    private GameManager _gameManager;
+    private SpeechToTextVolume _speechToText;
+    private VoiceJudgement _voiceJudgement;
 
     // 認識したフレーズ
     public ReactiveProperty<string> RecognizedText = new ReactiveProperty<string>();
@@ -15,7 +17,7 @@ public class VoiceInputHandler : MonoBehaviour
     public ReactiveProperty<bool> IsCorrectVoice = new ReactiveProperty<bool>(false);
 
     // 最大音量
-    public ReactiveProperty<float> MaxSpeechVolume = new ReactiveProperty<float>();
+    public ReactiveProperty<float> MaxSpeechVolume = new ReactiveProperty<float>(-100f);
 
     // 音声入力成功の監視
     public ReactiveProperty<bool> IsVoiceInputSuccessful = new ReactiveProperty<bool>(false);
@@ -23,7 +25,19 @@ public class VoiceInputHandler : MonoBehaviour
     // レーン移動情報 (-1: 下がる, 0: 維持, 1: 上がる)
     public ReactiveProperty<int> LaneChange = new ReactiveProperty<int>(0);
 
-    private void Start()
+    /// <summary>
+    /// GameManager から `SpeechToTextVolume` と `VoiceJudgement` を設定
+    /// </summary>
+    public void Initialize(GameManager gameManager)
+    {
+        _gameManager = gameManager;
+        _speechToText = gameManager.SpeechToTextVolume;
+        _voiceJudgement = gameManager.VoiceJudgement;
+
+        InitializeSubscriptions();
+    }
+
+    private void InitializeSubscriptions()
     {
         if (_speechToText == null)
         {
@@ -60,16 +74,10 @@ public class VoiceInputHandler : MonoBehaviour
     /// <summary>
     /// 音声認識を開始（Presenter経由で呼び出し）
     /// </summary>
-    public void StartSpeechRecognition()
-    {
-        _speechToText?.StartSpeechRecognition();
-    }
+    public void StartSpeechRecognition() => _speechToText?.StartSpeechRecognition();
 
     /// <summary>
     /// 音声認識を停止（Presenter経由で呼び出し）
     /// </summary>
-    public void StopSpeechRecognition()
-    {
-        _speechToText?.StopSpeechRecognition();
-    }
+    public void StopSpeechRecognition() => _speechToText?.StopSpeechRecognition();
 }

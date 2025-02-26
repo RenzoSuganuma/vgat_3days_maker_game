@@ -14,7 +14,7 @@ public class PlayerControllerTest : MonoBehaviour
         _voiceInputHandler.RecognizedText.Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
 
         // 音量を監視
-        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { Debug.Log($"📊 最大音量: {volume} dB"); });
+        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { Debug.Log($"最大音量: {volume} dB"); });
 
         // 音声入力成功時に移動を実行
         _voiceInputHandler.IsVoiceInputSuccessful.Subscribe(isSuccessful =>
