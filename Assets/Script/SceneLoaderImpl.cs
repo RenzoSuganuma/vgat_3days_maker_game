@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public sealed class SceneLoaderImpl : MonoBehaviour
@@ -22,5 +23,10 @@ public sealed class SceneLoaderImpl : MonoBehaviour
     public void EndGame()
     {
         Foundation.EndGame();
+    }
+
+    public void ResetGame()
+    {
+        Foundation.ResetGame();
     }
 }
