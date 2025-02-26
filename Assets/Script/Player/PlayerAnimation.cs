@@ -13,12 +13,10 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private Image _image;
     [SerializeField, Tooltip("キャラクターの画像を変更しておく時間")] private float _duration = 1f;
     private PendulumController _pendulumController;
-    private Vector3 pos;
 
     private void Start()
     {
         _image.sprite = _sprites[0];
-        pos = transform.localPosition;
     }
 
     private void OnDestroy()
@@ -43,8 +41,6 @@ public class PlayerAnimation : MonoBehaviour
     private void OnEdge()
     {
         ChangeSprite(2).Forget();
-        float posX = transform.localPosition.x - 50f; // 画像をずらす（手の位置がずれてしまうため）
-        transform.localPosition = new Vector3(posX, transform.localPosition.y, transform.localPosition.z);
     }
 
     /// <summary>
@@ -53,8 +49,6 @@ public class PlayerAnimation : MonoBehaviour
     private void OnRelease()
     {
         ChangeSprite(1).Forget();
-        float posX = transform.localPosition.x + 50f;　// 画像をずらす（手の位置がずれてしまうため）
-        transform.localPosition = new Vector3(posX, transform.localPosition.y, transform.localPosition.z);
     }
 
     /// <summary>
@@ -66,7 +60,6 @@ public class PlayerAnimation : MonoBehaviour
 
         await UniTask.Delay(TimeSpan.FromSeconds(_duration));
 
-        transform.localPosition = pos;
         _image.sprite = _sprites[0]; // 初期のスプライトに戻す
     }
 }
