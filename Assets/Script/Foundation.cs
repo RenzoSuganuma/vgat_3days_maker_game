@@ -28,9 +28,10 @@ public static class Foundation
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void FadePanel()
     {
-        #if DONT_LOAD_TITLE_SCENE
+#if DONT_LOAD_TITLE_SCENE
+        StartGame();
         return;
-        #endif
+#endif
 
         SceneManager.LoadScene(TITLE_SCENE_NAME);
 
@@ -46,6 +47,11 @@ public static class Foundation
 
     public static void StartGame()
     {
+#if DONT_LOAD_TITLE_SCENE
+        // DEBUG_StartGameAsync().Forget();
+        return;
+#endif
+
         StartGameAsync().Forget();
     }
 
@@ -59,7 +65,7 @@ public static class Foundation
         OnGameOver?.Invoke();
     }
 
-private static async UniTask StartGameAsync()
+    private static async UniTask StartGameAsync()
     {
         // 配列確保
         InGameLane = new List<GameObject>[6];
@@ -69,6 +75,26 @@ private static async UniTask StartGameAsync()
         }
 
         await LoadSceneAdditiveAsync(INGAME_SCENE_NAME);
+        await LoadSceneAdditiveAsync(RESULT_SCENE_NAME);
+
+        // Activate InGame
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(INGAME_SCENE_NAME));
+
+        TaskOnChangedScene?.Invoke(INGAME_SCENE_NAME);
+
+        DisposeScene(TITLE_SCENE_NAME);
+    }
+
+    private static async UniTask DEBUG_StartGameAsync()
+    {
+        // 配列確保
+        InGameLane = new List<GameObject>[6];
+        for (int i = 0; i < InGameLane.Length; i++)
+        {
+            InGameLane[i] = new List<GameObject>();
+        }
+
+        LoadScene(INGAME_SCENE_NAME);
         await LoadSceneAdditiveAsync(RESULT_SCENE_NAME);
 
         // Activate InGame
@@ -110,6 +136,11 @@ private static async UniTask StartGameAsync()
 
     private static AsyncOperation DisposeScene(string sceneName)
     {
+        if (!SceneManager.GetSceneByName(sceneName).IsValid())
+        {
+            return null;
+        }
+
         return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName));
     }
 }

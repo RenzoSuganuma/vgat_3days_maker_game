@@ -11,15 +11,15 @@ public class PlayerControllerTest : MonoBehaviour
     private void Start()
     {
         // 音声認識結果を監視
-        _voiceInputHandler.RecognizedText.Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
+        _voiceInputHandler.RecognizedText.Skip(1).Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
 
         // 音量を監視
-        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { Debug.Log($"最大音量: {volume} dB"); });
+        _voiceInputHandler.MaxSpeechVolume.Skip(1).Subscribe(volume => { Debug.Log($"最大音量: {volume} dB"); });
 
         // 音声入力成功時に移動を実行
         _voiceInputHandler.IsVoiceInputSuccessful.Subscribe(isSuccessful =>
         {
-            if (isSuccessful)
+            if (_voiceInputHandler.IsCorrectVoice.Value)
             {
                 Debug.Log("音声入力成功: プレイヤーが移動可能");
                 MovePlayer(_voiceInputHandler.LaneChange.Value);

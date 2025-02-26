@@ -15,7 +15,7 @@ public class MicTest : MonoBehaviour
     private float m_AudioLevel;
 
 
-    [SerializeField] private GameObject m_Cube;
+    [SerializeField] private GameObject m_Image;
     [SerializeField, Range(10, 100)] private float m_AmpGain = 10;
 
     void Start() {
@@ -39,7 +39,7 @@ public class MicTest : MonoBehaviour
         if (waveData.Length == 0) return;
 
         m_AudioLevel = waveData.Average(Mathf.Abs);
-        m_Cube.transform.localScale = new Vector2(1, 1 + m_AmpGain * m_AudioLevel);
+        m_Image.transform.localScale = new Vector2(1, 1 + m_AmpGain * m_AudioLevel);
 
         //decibelText.text = Mathf.RoundToInt(m_AudioLevel)+"dB";
         decibelText.text = Mathf.RoundToInt(waveData.Average(Mathf.Abs)*500)+"dB";
