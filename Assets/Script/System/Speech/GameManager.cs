@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
-    private Stack<string> _wordStack = new Stack<string>();
+    private Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
     [SerializeField] private float _lowThreshold = -30f; // 小さい声
     [SerializeField] private float _midThreshold = -20f; // 普通の声
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetNextMission()
     {
-        if (_wordStack.Count == 1)
+        if (_wordStack.Count == 0)
         {
             InitializeWordStack();
         }
@@ -89,9 +89,10 @@ public class GameManager : MonoBehaviour
         List<string> keys = new List<string>(_voiceData.Keys);
         Shuffle(keys);
 
-        foreach (var key in keys)
+        for (int i = 0; i < _stackSize; i++)
         {
-            _wordStack.Push(key);
+            string randomWord = keys[UnityEngine.Random.Range(0, keys.Count)];
+            _wordStack.Push(randomWord);
         }
     }
 
