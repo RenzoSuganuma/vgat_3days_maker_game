@@ -11,6 +11,7 @@ public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites;
     [SerializeField] private Image _image;
+    [SerializeField, Tooltip("キャラクターの画像を変更しておく時間")] private float _duration = 1f;
     private PendulumController _pendulumController;
     private Vector3 pos;
 
@@ -22,8 +23,8 @@ public class PlayerAnimation : MonoBehaviour
 
     private void OnDestroy()
     {
-        _pendulumController.OnEdge -= OnEdge;
-        _pendulumController.OnReachTheEdge -= OnRelease;
+        _pendulumController.OnEdgeLeft -= OnEdge;
+        _pendulumController.OnEdgeRight -= OnRelease;
     }
 
     /// <summary>
@@ -32,8 +33,8 @@ public class PlayerAnimation : MonoBehaviour
     public void SetPendulumController(PendulumController pendulumController)
     {
         _pendulumController = pendulumController;
-        _pendulumController.OnEdge += OnEdge;
-        _pendulumController.OnReachTheEdge += OnRelease;
+        _pendulumController.OnEdgeLeft += OnEdge;
+        _pendulumController.OnEdgeRight += OnRelease;
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         _image.sprite = _sprites[index];
 
-        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+        await UniTask.Delay(TimeSpan.FromSeconds(_duration));
 
         transform.localPosition = pos;
         _image.sprite = _sprites[0]; // 初期のスプライトに戻す

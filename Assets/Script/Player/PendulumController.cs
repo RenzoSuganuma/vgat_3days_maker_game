@@ -13,8 +13,14 @@ public class PendulumController : MonoBehaviour
 
     [SerializeField, Tooltip("往復する時間の半分")] private float _duration = 2f;
     [SerializeField, Tooltip("イージングの種類")] private Ease _easeType = Ease.InOutSine; // 次の振り子に飛び乗るevent
+
+    [SerializeField, Tooltip("プレイヤーの画像を変更するtweenの進行度")]
+    private float _percent = 0.75f;
     public event Action OnReachTheEdge; // 端に到達した時のEvent
-    public event Action OnEdge;
+    public event Action OnEdgeLeft;
+    public event Action OnEdgeRight;
+
+    public bool IsChanged { get; set; }
 
     public void SetSwingAngle(float angle)
     {
@@ -40,8 +46,10 @@ public class PendulumController : MonoBehaviour
             .OnUpdate(() =>
             {
                 float elapsedPercentage = tween1.ElapsedPercentage(); // 進行度(0.0 ~ 1.0)
-                if (elapsedPercentage > 0.95f) // 90%以上進んでいたら変更
+                if (elapsedPercentage >= _percent && !IsChanged) // 90%以上進んでいたら変更
                 {
+                    OnEdgeInvokeLeft();
+                    IsChanged = true;
                 }
             })
             .OnComplete(OnReach);
@@ -52,8 +60,10 @@ public class PendulumController : MonoBehaviour
             .OnUpdate(() =>
             {
                 float elapsedPercentage = tween2.ElapsedPercentage(); // 進行度(0.0 ~ 1.0)
-                if (elapsedPercentage > 0.95f) // 90%以上進んでいたら変更
+                if (elapsedPercentage >= _percent && !IsChanged) // 90%以上進んでいたら変更
                 {
+                    OnEdgeInvokeRight();
+                    IsChanged = true;
                 }
             })
             .OnComplete(OnReach);
@@ -73,9 +83,19 @@ public class PendulumController : MonoBehaviour
         {
             OnReachTheEdge?.Invoke();
         }
-        else
-        {
-            OnEdge?.Invoke();
-        }
+
+        IsChanged = false;
+    }
+
+    private void OnEdgeInvokeRight()
+    {
+        if (_swingAngle < 0) OnEdgeRight?.Invoke();
+        else OnEdgeLeft?.Invoke();
+    }
+
+    private void OnEdgeInvokeLeft()
+    {
+        if (_swingAngle < 0) OnEdgeLeft?.Invoke();
+        else OnEdgeRight?.Invoke();
     }
 }
