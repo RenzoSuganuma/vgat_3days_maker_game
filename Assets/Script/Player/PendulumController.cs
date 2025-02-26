@@ -16,6 +16,7 @@ public class PendulumController : MonoBehaviour
 
     [SerializeField, Tooltip("プレイヤーの画像を変更するtweenの進行度")]
     private float _percent = 0.75f;
+
     public event Action OnReachTheEdge; // 端に到達した時のEvent
     public event Action OnEdgeLeft;
     public event Action OnEdgeRight;
@@ -29,6 +30,16 @@ public class PendulumController : MonoBehaviour
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _swingAngle = settings.PlayerSettings.SwingAngle;
+            _duration = settings.PlayerSettings.Duration;
+            _easeType = settings.PlayerSettings.EaseType;
+            _percent = settings.PlayerSettings.Percent;
+        }
+
+
         transform.rotation = Quaternion.Euler(0f, 0f, -_swingAngle / 2); // 振り子の初期の傾きを設定する
         StartPendulumMotion();
     }
