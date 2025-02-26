@@ -8,14 +8,13 @@ using UnityEngine.Serialization;
 /// </summary>
 public class PlayerMove : MonoBehaviour
 {
-    [Header("ジャンプの設定")]
-    [SerializeField, Tooltip("ジャンプ時間")] private float _jumpDuration = 1.0f;
-    [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
-    [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
     [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
     [SerializeField] private PlayerAnimation _animation;
     [SerializeField] private ParticleGenerater _particleGenerater;
 
+    private float _jumpDuration;
+    private float _height;
+    private float _gravity;
     public ParticleGenerater ParticleGenerater => _particleGenerater;
     private Vector3 _initialLocalPos;
 
@@ -23,6 +22,14 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _jumpDuration = settings.PlayerSettings.JumpDuration;
+            _height = settings.PlayerSettings.Height;
+            _gravity = settings.PlayerSettings.Gravity;
+        }
+
         _initialLocalPos = transform.localPosition;
         _animation.SetPendulumController(transform.parent.GetComponent<PendulumController>());
     }

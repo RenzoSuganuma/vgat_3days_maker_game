@@ -4,10 +4,10 @@ using DG.Tweening;
 
 public class ObjectBeatSync : MonoBehaviour
 {
-    [Header("設定")]
+    [Header("設定")] [SerializeField, Tooltip("BGMのAudioSource")]
+    private AudioSource _audioSource;
 
-    [SerializeField, Tooltip("BGMのAudioSource")] private AudioSource _audioSource;
-    [SerializeField, Tooltip("曲のBPM")] private float _bpm = 128f;
+    private float _bpm;
 
     private float _beatInterval;
     private float _nextBeatTime;
@@ -16,6 +16,12 @@ public class ObjectBeatSync : MonoBehaviour
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _bpm = settings.ObjectBeatSettings.Bpm;
+        }
+
         _beatInterval = 60f / _bpm;
         _nextBeatTime = _audioSource.time + _beatInterval;
 

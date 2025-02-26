@@ -7,20 +7,20 @@ using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string _resourcesLoadPath = "GloomyBeat_speachText";
+    private string _resourcesLoadPath = "GloomyBeat_speechText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
     [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
     private Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
-    [SerializeField] private float _lowThreshold = -30f; // 小さい声
-    [SerializeField] private float _midThreshold = -20f; // 普通の声
-    [SerializeField] private float _highThreshold = -10f; // 大きい声
-    [SerializeField] private float _similarity = 0.8f; // 以上一致したらOK
+    private float _lowThreshold = -30f; // 小さい声
+    private float _midThreshold = -20f; // 普通の声
+    private float _highThreshold = -10f; // 大きい声
+    private float _similarity = 0.8f; // 以上一致したらOK
 
-    [SerializeField] private int _stackSize = 10;
-    [SerializeField] private int _nextTurnMillisecDelay = 1000;
+    private int _stackSize = 10;
+    private int _nextTurnMillisecDelay = 1000;
 
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
@@ -38,6 +38,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _lowThreshold = settings.VoiceRecognitionSettings.LowThreshold;
+            _midThreshold = settings.VoiceRecognitionSettings.MidThreshold;
+            _highThreshold = settings.VoiceRecognitionSettings.HighThreshold;
+            _similarity = settings.VoiceRecognitionSettings.Similarity;
+            _stackSize = settings.GameFlowSettings.StackSize;
+            _nextTurnMillisecDelay = settings.GameFlowSettings.NextTurnMilliSecDelay;
+            _resourcesLoadPath = settings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
+        }
+
+
         _dropDownDevice.Construct(_speechToTextVolume);
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
@@ -102,6 +115,7 @@ public class GameManager : MonoBehaviour
             _wordStack.Push(keys[index]);
             index++;
         }
+
         Debug.Log($"ワードリストを初期化しました: {_wordStack.Count} 件");
     }
 
