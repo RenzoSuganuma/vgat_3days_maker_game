@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pendulm_top_0: 7481699135916430859
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

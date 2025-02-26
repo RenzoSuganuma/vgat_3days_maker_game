@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pendulum_buttom_0: 644015068176573672
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
