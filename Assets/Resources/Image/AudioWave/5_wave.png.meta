@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 3ffd8f306ac71f04e85c5b2c6df3f8fd
+guid: 0cf54821a20fd4cf38ead9216bbeb70d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1955448553306655712
-    second: Background_0
+      213: 3387026536922568216
+    second: 5_wave_0
+  - first:
+      213: -5652115316933451834
+    second: 5_wave_1
+  - first:
+      213: -1136838942739115753
+    second: 5_wave_2
+  - first:
+      213: -2149932391068201389
+    second: 5_wave_3
+  - first:
+      213: 1291960198168236414
+    second: 5_wave_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,43 +108,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WindowsStoreApps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background_0
+      name: 5_wave_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 1920
-        height: 1080
+        y: 79
+        width: 30
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +127,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 024fa93b6e9dcd4e0800000000000000
-      internalID: -1955448553306655712
+      spriteID: 816571aa0b2210f20800000000000000
+      internalID: 3387026536922568216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5_wave_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 59
+        width: 30
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cf13a0c017af81b0800000000000000
+      internalID: -5652115316933451834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5_wave_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 39
+        width: 30
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 711543b31032930f0800000000000000
+      internalID: -1136838942739115753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5_wave_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 19
+        width: 30
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 35e064391e7e922e0800000000000000
+      internalID: -2149932391068201389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 5_wave_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 30
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e71d2c384f6fde110800000000000000
+      internalID: 1291960198168236414
       vertices: []
       indices: 
       edges: []
@@ -160,8 +234,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Background_0: -1955448553306655712
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
