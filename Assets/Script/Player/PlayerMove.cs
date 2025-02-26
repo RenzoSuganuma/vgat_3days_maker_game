@@ -20,7 +20,7 @@ public class PlayerMove : MonoBehaviour
 
     public bool IsJumping { get; private set; } // ジャンプ中か
 
-    private void Start()
+    public void Initialize()
     {
         var settings = Resources.Load<GameSettings>("GameSettings");
         if (settings != null)

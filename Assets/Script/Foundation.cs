@@ -83,15 +83,12 @@ public static class Foundation
             InGameLane[i] = new List<GameObject>();
         }
 
-        await LoadSceneAdditiveAsync(INGAME_SCENE_NAME);
-        await LoadSceneAdditiveAsync(RESULT_SCENE_NAME);
+        LoadScene(INGAME_SCENE_NAME);
 
         // Activate InGame
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(INGAME_SCENE_NAME));
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByName(INGAME_SCENE_NAME));
 
         TaskOnChangedScene?.Invoke(INGAME_SCENE_NAME);
-
-        DisposeScene(TITLE_SCENE_NAME);
     }
 
     private static async UniTask DEBUG_StartGameAsync()
@@ -117,7 +114,8 @@ public static class Foundation
     private static async UniTask EndGameAsync()
     {
         // Activate InGame
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(RESULT_SCENE_NAME));
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByName(RESULT_SCENE_NAME));
+        LoadScene(RESULT_SCENE_NAME);
 
         TaskOnChangedScene?.Invoke(RESULT_SCENE_NAME);
 
