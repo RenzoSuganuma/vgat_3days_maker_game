@@ -64,7 +64,7 @@ public class PlayerAnimation : MonoBehaviour
     private async UniTask ChangeSprite(int index, int angle)
     {
         _image.sprite = _sprites[index];
-        
+
         float elapsedTime = 0f;
         var rotationProgress = new ReactiveProperty<float>(0f);
 
@@ -85,5 +85,6 @@ public class PlayerAnimation : MonoBehaviour
 
         _image.sprite = _sprites[0];
         transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        AudioManager.Instance.PlaySE(SENameEnum.Swing);
     }
 }
