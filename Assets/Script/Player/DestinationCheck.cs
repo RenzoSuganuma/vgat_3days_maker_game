@@ -9,9 +9,8 @@ using R3;
 public class DestinatinCheck : MonoBehaviour
 {
     private PendulumController _pendulumController;
-    Transform _playerTransform;
+    private Transform _playerTransform;
     private PlayerMove _move;
-
     private VoiceInputHandler _voiceInputHandler;
 
     public bool CanMove { get; set; } // 音声入力があったらtrueにする
@@ -100,7 +99,11 @@ public class DestinatinCheck : MonoBehaviour
         }
 
         // インデックスが5を超える場合は5の状態を維持する
-        _currentLaneIndex = Mathf.Min(_currentLaneIndex, 5);
+        if (_currentLaneIndex > 5)
+        {
+            _currentLaneIndex = 5;
+            _move.ParticleGenerater.PlayConfettiParticle(); // 紙吹雪エフェクトを再生する
+        }
 
         _move.JumpToNextPendulum(Search());
         CanMove = false;

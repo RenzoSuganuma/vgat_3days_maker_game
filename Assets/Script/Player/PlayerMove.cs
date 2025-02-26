@@ -16,6 +16,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private PlayerAnimation _animation;
     [SerializeField] private ParticleGenerater _particleGenerater;
 
+    public ParticleGenerater ParticleGenerater => _particleGenerater;
     private Vector3 _initialLocalPos;
 
     public bool IsJumping { get; private set; } // ジャンプ中か
