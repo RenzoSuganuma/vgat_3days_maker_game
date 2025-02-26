@@ -5,17 +5,14 @@ using R3;
 /// <summary>
 /// レーンの移動先を決定する
 /// </summary>
-public class DestinationCheck : MonoBehaviour
+[RequireComponent(typeof(PendulumController))]
+public class DestinatinCheck : MonoBehaviour
 {
-    [SerializeField] private PendulumController _pendulumController;
-    [SerializeField] private Transform _playerTransform;
+    private PendulumController _pendulumController;
+    Transform _playerTransform;
     private PlayerMove _move;
 
-    [Header("音声認識部分")]
-    [SerializeField] private VoiceInputHandler _voiceInputHandler;
-
-    [Header("Debug用")]
-    [SerializeField] private List<GameObject> objects;
+    private VoiceInputHandler _voiceInputHandler;
 
     public bool CanMove { get; set; } // 音声入力があったらtrueにする
     private int _currentLaneIndex; // 現在プレイヤーがいるレーンのindex（0~5）
@@ -23,7 +20,12 @@ public class DestinationCheck : MonoBehaviour
     private void Start()
     {
         _pendulumController.OnReachTheEdge += Move;
-        _move = _playerTransform.GetComponent<PlayerMove>();
+        _move = FindAnyObjectByType<PlayerMove>();
+        _playerTransform = _move.transform;
+
+        _voiceInputHandler = FindAnyObjectByType<VoiceInputHandler>();
+
+        _pendulumController = GetComponent<PendulumController>();
 
         #region 音声認識との結合部分
 
@@ -87,7 +89,7 @@ public class DestinationCheck : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        if(!CanMove) return; // 成功判定が出ていなかったら処理を行わない
+        if (!CanMove) return; // 成功判定が出ていなかったら処理を行わない
 
         if (_currentLaneIndex < 0)
         {
@@ -108,7 +110,7 @@ public class DestinationCheck : MonoBehaviour
     private Transform Search()
     {
         Transform currentPendulum = _playerTransform.parent; // 現在掴まっている振り子オブジェクトを取得
-        //var objects = Foundation.InGameLane[_currentLaneIndex]; // 配列を取得
+        var objects = Foundation.InGameLane[_currentLaneIndex]; // 配列を取得
         Transform nextPendulum = null; // 移動先の振り子オブジェクト
         float minDistance = float.MaxValue; // 検索用
 
@@ -116,7 +118,7 @@ public class DestinationCheck : MonoBehaviour
         foreach (var obj in objects)
         {
             // 現在いる位置よりX座標でマイナス側にあるオブジェクトと現在掴まっているオブジェクトは検索に含めない
-            if(obj.transform.position.x <= currentPendulum.position.x) continue;
+            if (obj.transform.position.x <= currentPendulum.position.x) continue;
 
             float distance = obj.transform.position.x - currentPendulum.position.x;
             if (distance < minDistance)
