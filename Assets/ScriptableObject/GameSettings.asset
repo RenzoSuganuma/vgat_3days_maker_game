@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d9e048ddb84a2fb1a563051edbe058, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  lowThreshold: -30
-  midThreshold: -20
+  lowThreshold: -20
+  midThreshold: -15
   highThreshold: -10
-  similarity: 0.8
+  similarity: 0.5
   stackSize: 10
   nextTurnMillisecDelay: 1000
   resourcesLoadPath: GloomyBeat_speachText
