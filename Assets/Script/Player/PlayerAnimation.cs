@@ -56,7 +56,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private void OnEdge()
     {
-        ChangeSprite(2, _angle).Forget();
+        ChangeSprite(2, -_angle).Forget();
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class PlayerAnimation : MonoBehaviour
     /// </summary>
     private void OnRelease()
     {
-        ChangeSprite(1, -_angle).Forget();
+        ChangeSprite(1, _angle).Forget();
     }
 
     /// <summary>
@@ -78,13 +78,13 @@ public class PlayerAnimation : MonoBehaviour
         var rotationProgress = new ReactiveProperty<float>(0f);
 
         rotationProgress
-            .Select(progress => Mathf.Lerp(0f, angle, progress))
+            .Select(progress => Mathf.Lerp(angle + angle, angle, progress))
             .Subscribe(angle => { transform.localRotation = Quaternion.Euler(0f, 0f, angle); })
             .AddTo(_disposable);
 
         while (elapsedTime < _duration)
         {
-            transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(0f, angle, elapsedTime / _duration));
+            transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(angle + angle, angle, elapsedTime / _duration));
             elapsedTime += Time.deltaTime;
             await UniTask.Yield(); // フレームごとに待機
         }
