@@ -16,7 +16,7 @@ public class DestinatinCheck : MonoBehaviour
     private SpeechBubbleManager _speechBubbleManager;
 
     public bool CanMove { get; set; } // 音声入力があったらtrueにする
-    private int _currentLaneIndex; // 現在プレイヤーがいるレーンのindex（0~5）
+    public static int _currentLaneIndex { get; private set; } // 現在プレイヤーがいるレーンのindex（0~5）
 
     private void Start()
     {

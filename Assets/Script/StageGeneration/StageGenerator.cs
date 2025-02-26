@@ -6,18 +6,29 @@ using UnityEngine;
 /// </summary>
 public class StageGenerator : MonoBehaviour
 {
-    Transform _player;
+    [SerializeField] GameObject _player;
     [SerializeField] StageRowGenerator _stageRowGenerator;
     [SerializeField] LaneObjectGenerator _obstacleGenerator;
 
     [SerializeField, Tooltip("��{����")] float _baseWidth = 5;
-    [SerializeField, Tooltip("�K�w���オ�邲�Ƃɑ����鉡��")] float _widthPerLayer = 1;
-    [SerializeField, Tooltip("�K�w���̍����̕�")] float _heightPerLayer = 5;
 
-    [SerializeField, Tooltip("��������K�w�̐�")] int _generateLayers = 6;
-    [SerializeField, Tooltip("Y=0�ɐ��������K�w�i0-origin�j")] int _initialLayer = 2;
-    [SerializeField, Tooltip("��x�ɐ������鋗��")] float _generateDistance = 100;
-    [SerializeField, Tooltip("�������J�n����ړ�����")] float _generatePerMoveDistance = 50;
+    [SerializeField, Tooltip("�K�w���オ�邲�Ƃɑ����鉡��")]
+    float _widthPerLayer = 1;
+
+    [SerializeField, Tooltip("�K�w���̍����̕�")]
+    float _heightPerLayer = 5;
+
+    [SerializeField, Tooltip("��������K�w�̐�")]
+    int _generateLayers = 6;
+
+    [SerializeField, Tooltip("Y=0�ɐ��������K�w�i0-origin�j")]
+    int _initialLayer = 2;
+
+    [SerializeField, Tooltip("��x�ɐ������鋗��")]
+    float _generateDistance = 100;
+
+    [SerializeField, Tooltip("�������J�n����ړ�����")]
+    float _generatePerMoveDistance = 50;
 
     List<StageRowGenerator> _generator = new();
 
@@ -25,9 +36,6 @@ public class StageGenerator : MonoBehaviour
 
     private void Start()
     {
-        // get player
-        _player = FindAnyObjectByType<PlayerMove>().transform;
-
         // �e���[���̃W�F�l���[�^�[�𐶐��A�v���p�e�B���Z�b�g
         for (int layer = 0; layer < _generateLayers; layer++)
         {
@@ -53,7 +61,7 @@ public class StageGenerator : MonoBehaviour
     private void Update()
     {
         // ��苗���ړ����邲�Ƃɐ���
-        if (_player.position.x > _nextGeneratePosX)
+        if (_player.transform.position.x > _nextGeneratePosX)
         {
             GenerateStage();
         }
@@ -68,13 +76,22 @@ public class StageGenerator : MonoBehaviour
 
         // var stageParent = new GameObject("Stage").transform;
 
-        foreach (var row in _generator)
+        for (int i = 0; i < _generator.Count; i++)
         {
-            row.Generate(_player.position.x + _generateDistance, row.gameObject.transform);
+            var row = _generator[i];
+            if (i is 0)
+            {
+                row.Generate(_player.transform.position.x + _generateDistance, row.gameObject.transform,
+                    _player.transform);
+            }
+            else
+            {
+                row.Generate(_player.transform.position.x + _generateDistance, row.gameObject.transform);
+            }
         }
 
         _obstacleGenerator.Generate();
 
-        _nextGeneratePosX = _player.position.x + _generatePerMoveDistance;
+        _nextGeneratePosX = _player.transform.position.x + _generatePerMoveDistance;
     }
 }

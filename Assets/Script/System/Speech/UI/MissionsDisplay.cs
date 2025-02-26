@@ -88,9 +88,9 @@ public class MissionsDisplay : MonoBehaviour
     /// <summary>
     /// 高さスコアを設定
     /// </summary>
-    public void SetHeightScore(int height)
+    public void SetHeightScore(string height)
     {
-        _heightScoreText.text = $"高さ: {height}m";
+        _heightScoreText.text = "高さ: {height}m";
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetTimeScore(string time)
     {
-        _timeScoreText.text = $"時間: {time}s";
+        _timeScoreText.text = "時間: {time}s";
     }
 
     /// <summary>
