@@ -95,6 +95,9 @@ public class DestinatinCheck : MonoBehaviour
     private void MovePlayer(int laneChange)
     {
         _currentLaneIndex += laneChange;
+
+        _currentLaneIndex = Mathf.Clamp(_currentLaneIndex, 0, 5);
+
         CanMove = true;
         Debug.Log($"現在のレーン: {_currentLaneIndex}");
     }
