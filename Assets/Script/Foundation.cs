@@ -48,7 +48,7 @@ public static class Foundation
     public static void StartGame()
     {
 #if DONT_LOAD_TITLE_SCENE
-        DEBUG_StartGameAsync().Forget();
+        // DEBUG_StartGameAsync().Forget();
         return;
 #endif
 
