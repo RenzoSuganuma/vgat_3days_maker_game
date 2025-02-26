@@ -7,9 +7,14 @@ public class HeightText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _displayHeight;
     private float _height = 0f;
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
         _height = DestinatinCheck._currentLaneIndex * 10 + 10;
-        _scorebord.SetHeightScore(_height.ToString("c0"));
+        _scorebord.SetHeightScore(_height);
     }
 }
