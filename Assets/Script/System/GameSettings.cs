@@ -145,12 +145,10 @@ public class MicDeviceSettings
 [Serializable]
 public class AudioVolumeSettings
 {
-    [SerializeField, Tooltip("全体の音量の設定")] private float _masterVolume = 0.8f;
-    [SerializeField, Tooltip("BGMの音量の設定")] private float _bgmVolume = 0.8f;
-    [SerializeField, Tooltip("SEの音量の設定")] private float _seVolume = 0.8f;
-
-    [SerializeField, Tooltip("Voiceの音量の設定")]
-    private float _voiceVolume = 0.8f;
+    [SerializeField,Range(0.0f, 1.0f), Tooltip("全体の音量の設定")] private float _masterVolume = 0.8f;
+    [SerializeField,Range(0.0f, 1.0f), Tooltip("BGMの音量の設定")] private float _bgmVolume = 0.8f;
+    [SerializeField,Range(0.0f, 1.0f), Tooltip("SEの音量の設定")] private float _seVolume = 0.8f;
+    [SerializeField,Range(0.0f, 1.0f), Tooltip("Voiceの音量の設定")] private float _voiceVolume = 0.8f;
 
     public float MasterVolume
     {
