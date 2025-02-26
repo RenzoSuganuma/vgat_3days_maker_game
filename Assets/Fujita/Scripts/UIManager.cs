@@ -18,14 +18,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timeText;
 
     [Header("制限時間")]
-    [SerializeField]float time = 50f;
+    [SerializeField] static float time = 50f;
 
     [Header("読むテキスト")]
     public List<string> words = new List<string>();
 
     private int wordCount;
-
-
 
     void Start()
     {
@@ -59,4 +57,5 @@ public class UIManager : MonoBehaviour
         int i=Random.Range(0, wordCount);
         nextWordsText.text = words[i];
     }
+
 }
