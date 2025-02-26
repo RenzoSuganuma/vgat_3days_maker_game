@@ -9,7 +9,12 @@ public class DropDownDevice : MonoBehaviour
 {
     [SerializeField] TMP_Dropdown _dropdown;
     readonly List<string> _devicelist = new List<string>();
-    [SerializeField] private SpeechToTextVolume _speechToTextVolume;
+    private SpeechToTextVolume _speechToTextVolume;
+
+    public void Construct(SpeechToTextVolume speechToTextVolume)
+    {
+        _speechToTextVolume = speechToTextVolume;
+    }
 
     private void Start()
     {
