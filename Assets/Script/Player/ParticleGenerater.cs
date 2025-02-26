@@ -28,7 +28,7 @@ public class ParticleGenerater : MonoBehaviour
     /// <summary>
     /// 次の振り子を掴んだ時のパーティクルを再生
     /// </summary>
-    [ContextMenu("Generate")] // テスト用
+    [ContextMenu("Generate: CatchParticle")] // テスト用
     public async UniTask PlayCatchParticle()
     {
         _catchParticle.SetActive(true);
@@ -38,8 +38,16 @@ public class ParticleGenerater : MonoBehaviour
         _catchParticle.SetActive(false);
     }
 
+    /// <summary>
+    /// 紙吹雪のパーティクルを再生
+    /// </summary>
+    [ContextMenu("Generate: ConfettiParticle")]
     public async UniTask PlayConfettiParticle()
     {
         _confettiParticle.SetActive(true);
+
+        await UniTask.Delay(1000); // 再生時間は1秒
+
+        _confettiParticle.SetActive(false);
     }
 }
