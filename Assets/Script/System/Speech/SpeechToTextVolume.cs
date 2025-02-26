@@ -65,7 +65,7 @@ public class SpeechToTextVolume : IDisposable
     /// <summary>
     /// 音声認識を開始
     /// </summary>
-    public void StartSpeechRecognition()
+    public async void StartSpeechRecognition()
     {
         if (_dictationRecognizer.Status != SpeechSystemStatus.Stopped) return;
 
@@ -73,6 +73,7 @@ public class SpeechToTextVolume : IDisposable
         Debug.Log("🎤 音声認識開始");
 
         _cancellationTokenSource = new CancellationTokenSource();
+        await UniTask.WaitUntil(() => _dictationRecognizer.Status == SpeechSystemStatus.Running);
         _ = CaptureSpeechVolume(_cancellationTokenSource.Token);
     }
 
@@ -85,8 +86,16 @@ public class SpeechToTextVolume : IDisposable
 
         _dictationRecognizer.Stop();
         Debug.Log("🛑 音声認識停止");
+    }
 
+    /// <summary>
+    /// 音声認識をキャンセル
+    /// </summary>
+    public void CancelSpeechRecognition()
+    {
+        if (_dictationRecognizer.Status != SpeechSystemStatus.Running) return;
         _cancellationTokenSource?.Cancel();
+        Debug.Log("🛑 音量測定がキャンセルされました");
     }
 
     /// <summary>
@@ -115,17 +124,16 @@ public class SpeechToTextVolume : IDisposable
                 await UniTask.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: cancellationToken);
             }
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) // タイムアップ
         {
-            Debug.Log("🛑 音量測定がキャンセルされました");
+            _dictationRecognizer.Stop();
         }
 
-        Debug.Log($"最大音量: {maxVolume} dB");
         OnSpeechVolume.OnNext(maxVolume);
     }
 
     /// <summary>
-    /// ✅ マイクから音声データを取得
+    /// マイクから音声データを取得
     /// </summary>
     private float GetUpdatedAudio()
     {
