@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using R3;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -9,6 +10,7 @@ public class ControlPresenter : MonoBehaviour
 
     private ControlPanelModel _model;
     private OptionModel _optionModel;
+    private readonly CompositeDisposable _disposables = new CompositeDisposable();
 
     public void Initialize(OptionModel optionModel)
     {
@@ -24,52 +26,65 @@ public class ControlPresenter : MonoBehaviour
 
         _model = new ControlPanelModel(_audioMixer, initialVolumes);
 
-        // UI の初期化
+        foreach (var soundType in _model.VolumeProperties.Keys)
+        {
+            _model.VolumeProperties[soundType]
+                .Subscribe(value => SaveToOptionModel(soundType, value))
+                .AddTo(_disposables);
+        }
+
+        InitializeUI();
+    }
+
+    private void InitializeUI()
+    {
+        var initialValues = new Dictionary<SoundType, float>();
+        foreach (var kvp in _model.VolumeProperties)
+        {
+            initialValues[kvp.Key] = Mathf.FloorToInt(kvp.Value.Value * 100f); // 小数点以下を切り捨て
+        }
+
         _controlPanelView.Initialize(
-            _model.GetCurrentVolumes(),
-            onSliderChanged: (soundType, value) => ChangeVolume(soundType, value),
-            onInputChanged: (soundType, value) => ChangeVolumeFromInput(soundType, value)
+            initialValues,
+            onSliderChanged: ChangeVolume,
+            onInputChanged: ChangeVolumeFromInput
         );
     }
 
-    /// <summary>
-    /// スライダーから音量を変更し、OptionModel にデータを保存
-    /// </summary>
     public void ChangeVolume(SoundType soundType, float value)
     {
-        float normalizedValue = _model.ChangeVolumeBySlider(soundType, value);
-        UpdateOptionModel(soundType, normalizedValue);
+        float normalizedValue = Mathf.FloorToInt(value) / 100f; // 100倍されていたら元の値に戻す
+        Debug.Log($"[スライダー変更] {soundType}: {value} -> {normalizedValue}"); // デバッグログ追加
+        _model.ChangeVolumeBySlider(soundType, normalizedValue);
     }
 
-    /// <summary>
-    /// 入力フィールドから音量を変更し、OptionModel にデータを保存
-    /// </summary>
     public void ChangeVolumeFromInput(SoundType soundType, string value)
     {
-        float normalizedValue = _model.ChangeVolumeByInput(soundType, value);
-        UpdateOptionModel(soundType, normalizedValue);
+        if (float.TryParse(value, out float result))
+        {
+            float normalizedValue = Mathf.FloorToInt(result) / 100f;
+            Debug.Log($"[入力変更] {soundType}: {value} -> {normalizedValue}"); // デバッグログ追加
+            _model.ChangeVolumeByInput(soundType, normalizedValue.ToString("F0")); // 小数点なしで出力
+        }
     }
 
-    /// <summary>
-    /// OptionModel に音量データを保存
-    /// </summary>
-    private void UpdateOptionModel(SoundType soundType, float value)
+    private void SaveToOptionModel(SoundType soundType, float value)
     {
+        float normalizedValue = Mathf.FloorToInt(value * 100f) / 100f; // 100倍誤差修正
+        Debug.Log($"[保存] {soundType}: {value} -> {normalizedValue}"); // デバッグログ追加
+
         switch (soundType)
         {
-            case SoundType.MASTER:
-                _optionModel.MasterVolume = value;
-                break;
-            case SoundType.BGM:
-                _optionModel.BGMVolume = value;
-                break;
-            case SoundType.SE:
-                _optionModel.SEVolume = value;
-                break;
-            case SoundType.VOICE:
-                _optionModel.VoiceVolume = value;
-                break;
+            case SoundType.MASTER: _optionModel.MasterVolume = normalizedValue; break;
+            case SoundType.BGM: _optionModel.BGMVolume = normalizedValue; break;
+            case SoundType.SE: _optionModel.SEVolume = normalizedValue; break;
+            case SoundType.VOICE: _optionModel.VoiceVolume = normalizedValue; break;
         }
         _optionModel.SaveSettings();
+    }
+
+    private void OnDestroy()
+    {
+        _disposables.Dispose();
     }
 }
