@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    //声の大きさ
-    [Header("UI")]
-    [SerializeField] private TextMeshProUGUI decibelText;
+
 
     //次のセリフText
     [Header("Next wordsText")]
@@ -31,7 +29,6 @@ public class UIManager : MonoBehaviour
 
     void SetUp()
     {
-        decibelText.text = "0dB";
         nextWordsText.text = "Hello World!";
         heightText.text = "0m";
         timeText.text = "0";
