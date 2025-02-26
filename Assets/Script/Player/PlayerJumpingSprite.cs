@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// プレイヤーがジャンプするタイミングで画像の差分を切り替える
@@ -8,16 +9,23 @@ using UnityEngine.UI;
 public class PlayerJumpingSprite : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites = new List<Sprite>();
-    private Image _image;
+    [SerializeField] private SpriteRenderer _image;
+    [SerializeField] private float _animSpeed = 0.06f;
+    private int _index = 0;
 
     /// <summary>
     /// ランダムにプレイヤーの画像を変更する
     /// </summary>
-    public void SpriteChange()
+    [ContextMenu("Jump")]
+    public async UniTask Jump()
     {
-        int rand = Random.Range(0, _sprites.Count);
-        if(_sprites[rand] == null) return;
+        _index = 0; // 初期化
 
-        _image.sprite = _sprites[rand];
+        for (int i = 0; i < _sprites.Count; i++)
+        {
+            _image.sprite = _sprites[_index];
+            _index++;
+            await UniTask.Delay(TimeSpan.FromSeconds(_animSpeed));
+        }
     }
 }

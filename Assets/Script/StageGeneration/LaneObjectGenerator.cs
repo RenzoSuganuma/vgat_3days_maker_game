@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ŠeƒŒ[ƒ“‚ÉƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éƒNƒ‰ƒXiU‚èq‚ÌŠÔ‚É¶¬j<br></br>
-/// ƒŒ[ƒ“¶¬‚Æ“¯‚É¶¬‚·‚é
+/// ï¿½eï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÉƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½iï¿½Uï¿½ï¿½qï¿½ÌŠÔ‚Éï¿½ï¿½ï¿½ï¿½j<br></br>
+/// ï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 /// </summary>
 public class LaneObjectGenerator : MonoBehaviour
 {
     [SerializeField] RandomObjectChooser _objChooser;
     [SerializeField] float _probability = 0.6f;
-    [SerializeField] int[] _generatedIndex = new int[6];
+    private int[] _generatedIndex = new int[6];
     List<Transform> _parents = new();
     int _seedAdd;
 
@@ -24,17 +24,19 @@ public class LaneObjectGenerator : MonoBehaviour
 
     public void Generate(int layer)
     {
+        Debug.Log($"[log] {Foundation.InGameLane.Length}");
+
         var lane = Foundation.InGameLane[layer];
         for (int i = _generatedIndex[layer]; i < lane.Count - 1; i++)
         {
-            // Šm—¦‚Å¶¬
+            // ï¿½mï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½
             Random.InitState(System.DateTime.Now.Millisecond + _seedAdd);
             _seedAdd++;
             _generatedIndex[layer]++;
 
             if (Random.value > _probability) return;
 
-            // ƒ‰ƒ“ƒ_ƒ€‚ÈƒIƒuƒWƒFƒNƒg‚ğ¶¬
+            // ï¿½ï¿½ï¿½ï¿½ï¿½_ï¿½ï¿½ï¿½ÈƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ğ¶ï¿½
             var randObj = _objChooser.Choose();
             var obj = randObj.obj;
 
@@ -42,7 +44,7 @@ public class LaneObjectGenerator : MonoBehaviour
 
             if (randObj.mid)
             {
-                // ‰Š‚Ì—Ö‚Ì‰E‚É‚ÍáŠQ•¨‚ğ¶¬‚µ‚È‚¢
+                // ï¿½ï¿½ï¿½Ì—Ö‚Ì‰Eï¿½É‚Íï¿½Qï¿½ï¿½ï¿½ğ¶ï¿½ï¿½ï¿½ï¿½È‚ï¿½
                 if (randObj.isObstacle && lane[i].GetComponent<SkipObstacle>() != null)
                 {
                     var l = lane[i].transform.position;
@@ -51,7 +53,7 @@ public class LaneObjectGenerator : MonoBehaviour
                     continue;
                 }
 
-                // U‚èq‚Ì’†“_‚ğ’†S‚É¶¬
+                // ï¿½Uï¿½ï¿½qï¿½Ì’ï¿½ï¿½_ï¿½ğ’†Sï¿½Éï¿½ï¿½ï¿½
                 var left = lane[i].transform.position;
                 var right = lane[i + 1].transform.position;
                 var pos = left + (right - left) / 2;
@@ -61,6 +63,8 @@ public class LaneObjectGenerator : MonoBehaviour
             else
             {
                 bool existUp = layer != 5;
+
+                Debug.Log($"[log] {lane[i]}");
 
                 var right = Search(lane[i].transform, i, layer + (existUp ? 1 : -1)).position;
                 var left = lane[i].transform.position;
@@ -77,12 +81,12 @@ public class LaneObjectGenerator : MonoBehaviour
     {
         var lane = Foundation.InGameLane[layer];
 
-        Transform nextPendulum = null; // ˆÚ“®æ‚ÌU‚èqƒIƒuƒWƒFƒNƒg
-        float currMinDistance = float.MaxValue; // ŒŸõ—p
+        Transform nextPendulum = null; // ï¿½Ú“ï¿½ï¿½ï¿½ÌUï¿½ï¿½qï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½g
+        float currMinDistance = float.MaxValue; // ï¿½ï¿½ï¿½ï¿½ï¿½p
 
         foreach (var target in lane)
         {
-            // Œ»İ‚¢‚éˆÊ’u‚æ‚èXÀ•W‚Åƒ}ƒCƒiƒX‘¤‚É‚ ‚éƒIƒuƒWƒFƒNƒg‚ÆŒ»İ’Í‚Ü‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg‚ÍŒŸõ‚ÉŠÜ‚ß‚È‚¢
+            // ï¿½ï¿½ï¿½İ‚ï¿½ï¿½ï¿½Ê’uï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Wï¿½Åƒ}ï¿½Cï¿½iï¿½Xï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÆŒï¿½ï¿½İ’Í‚Ü‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Iï¿½uï¿½Wï¿½Fï¿½Nï¿½gï¿½ÍŒï¿½ï¿½ï¿½ï¿½ÉŠÜ‚ß‚È‚ï¿½
             if (target.transform.position.x <= current.position.x) continue;
 
             float distance = target.transform.position.x - current.position.x;
@@ -93,7 +97,7 @@ public class LaneObjectGenerator : MonoBehaviour
             }
         }
 
-        Debug.Log($"ŒŸõ‚³‚ê‚½ˆÚ“®æ‚ÌƒIƒuƒWƒFƒNƒg:{nextPendulum.name}");
+        Debug.Log($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Ú“ï¿½ï¿½ï¿½ÌƒIï¿½uï¿½Wï¿½Fï¿½Nï¿½g:{nextPendulum.name}");
         return nextPendulum;
     }
 }

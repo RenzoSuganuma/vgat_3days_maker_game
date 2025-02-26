@@ -1,23 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using R3;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private string _resourcesLoadPath = "GloomyBeat_speachText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
-    [SerializeField] private MissionsText _missionsText;
+    [SerializeField] private DropDownDevice _dropDownDevice;
+    [SerializeField] private MissionsDisplay _missionsDisplay;
 
+    private Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
     [SerializeField] private float _lowThreshold = -30f; // 小さい声
     [SerializeField] private float _midThreshold = -20f; // 普通の声
     [SerializeField] private float _highThreshold = -10f; // 大きい声
     [SerializeField] private float _similarity = 0.8f; // 以上一致したらOK
 
+    [SerializeField] private int _stackSize = 10;
+    [SerializeField] private int _nextTurnMillisecDelay = 1000;
+
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
     private TextGenerator _textGenerator;
     private string _currentPhrase;
+
 
     public SpeechToTextVolume SpeechToTextVolume => _speechToTextVolume;
     public VoiceJudgement VoiceJudgement => _voiceJudgement;
@@ -29,12 +38,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        _dropDownDevice.Construct(_speechToTextVolume);
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
 
         if (_voiceData == null || _voiceData.Count == 0)
         {
-            Debug.LogError("⚠ `voice_data.csv` のロードに失敗しました！");
+            Debug.LogError("⚠ `csv` のロードに失敗しました！");
             return;
         }
 
@@ -42,34 +52,84 @@ public class GameManager : MonoBehaviour
         _voiceJudgement = new VoiceJudgement(this);
 
         _voiceInputHandler.Initialize(this);
+        _dropDownDevice.Construct(_speechToTextVolume);
+
+
+        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { _missionsDisplay.SetMaxDbText(volume); });
+        SpeechToTextVolume.OnSpeechResult.Subscribe(volume => { _missionsDisplay.SetPlayerText(volume); });
         SetNextMission();
     }
+
 
     /// <summary>
     /// 次のミッションのフレーズを設定
     /// </summary>
     private void SetNextMission()
     {
-        _currentPhrase = GetRandomPhrase();
-        _missionsText.SetMissionText(_currentPhrase);
+        if (_wordStack.Count == 0)
+        {
+            InitializeWordStack();
+        }
+
+        if (_wordStack.Count > 0)
+        {
+            _currentPhrase = _wordStack.Pop();
+            _missionsDisplay.SetMissionText(_currentPhrase);
+
+            _missionsDisplay.SetNextText(_wordStack.Peek());
+        }
     }
 
+
     /// <summary>
-    /// ランダムなフレーズを取得
+    /// ワードリストを初期化
     /// </summary>
-    private string GetRandomPhrase()
+    private void InitializeWordStack()
     {
         List<string> keys = new List<string>(_voiceData.Keys);
-        return keys[UnityEngine.Random.Range(0, keys.Count)];
+        Shuffle(keys);
+
+        int index = 0;
+
+        while (_wordStack.Count < _stackSize)
+        {
+            if (index >= keys.Count)
+            {
+                Shuffle(keys); // すべてのワードを使い切ったら再シャッフル
+                index = 0;
+            }
+
+            _wordStack.Push(keys[index]);
+            index++;
+        }
+        Debug.Log($"ワードリストを初期化しました: {_wordStack.Count} 件");
     }
+
+
+    /// <summary>
+    /// ワードリストをシャッフルする (Fisher-Yatesアルゴリズム)
+    /// </summary>
+    private void Shuffle<T>(List<T> list)
+    {
+        System.Random rng = new System.Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            (list[n], list[k]) = (list[k], list[n]);
+        }
+    }
+
 
     /// <summary>
     /// 音声認識の成功時の処理
     /// </summary>
-    public void OnMissionSuccess()
+    public async void OnMissionSuccess()
     {
-        _missionsText.MissionSuccess();
-        Invoke(nameof(SetNextMission), 2.0f); // 2秒後に次のミッションへ
+        _missionsDisplay.MissionSuccess();
+        await UniTask.Delay(TimeSpan.FromMilliseconds(_nextTurnMillisecDelay));
+        SetNextMission();
     }
 
     /// <summary>
@@ -77,7 +137,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnMissionFail()
     {
-        _missionsText.MissionFail();
+        _missionsDisplay.MissionFail();
     }
 
     /// <summary>
