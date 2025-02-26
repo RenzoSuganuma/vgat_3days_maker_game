@@ -30,7 +30,7 @@ public class AudioManager : MonoBehaviour
 
         Foundation.TaskOnChangedScene += ChangeBGM; // Foundationクラスのシーン遷移時に呼ばれるイベントを購読
 
-        ChangeBGM(Foundation.CurrentScene);
+        //ChangeBGM(Foundation.CurrentScene);
     }
 
     private void OnDestroy()
