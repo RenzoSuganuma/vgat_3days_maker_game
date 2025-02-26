@@ -22,7 +22,7 @@ public class VoiceJudgement : MonoBehaviour
         TextAsset csvFile = Resources.Load<TextAsset>(_resourcesLoadPath);
         if (csvFile == null)
         {
-            Debug.LogError("⚠ voice_data.csv が見つかりません！");
+            Debug.LogError($"⚠ {_resourcesLoadPath} が見つかりません！");
             return;
         }
 
