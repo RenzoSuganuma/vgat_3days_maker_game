@@ -119,7 +119,7 @@ public class SpeechToTextVolume : IDisposable
             while (_dictationRecognizer.Status == SpeechSystemStatus.Running &&
                    !cancellationToken.IsCancellationRequested)
             {
-                float volume = GetUpdatedAudio();
+                float volume = GetUpdatedAudioRelative();
                 maxVolume = Mathf.Max(maxVolume, volume);
                 await UniTask.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: cancellationToken);
             }
@@ -133,9 +133,9 @@ public class SpeechToTextVolume : IDisposable
     }
 
     /// <summary>
-    /// マイクから音声データを取得
+    /// マイクから音声データを取得 RMS (Root Mean Square) のリニアスケールを計算
     /// </summary>
-    private float GetUpdatedAudio()
+    private float GetUpdatedAudioRMS()
     {
         int nowAudioPos = Microphone.GetPosition(null);
         float[] waveData = Array.Empty<float>();
@@ -153,6 +153,35 @@ public class SpeechToTextVolume : IDisposable
 
         return waveData.Length > 0 ? waveData.Average(Mathf.Abs) : 0f;
     }
+
+    /// <summary>
+    /// マイクから音声データを取得し、相対スケールに変換`-80dB ~ 20dB` の範囲に収める
+    /// 無音は -80dB にする
+    /// </summary>
+    private float GetUpdatedAudioRelative()
+    {
+        int nowAudioPos = Microphone.GetPosition(null);
+        float[] waveData = Array.Empty<float>();
+
+        if (_audioClip == null || nowAudioPos <= 0) return -80f; // 無音は -80dB にする
+
+        if (_lastAudioPos < nowAudioPos)
+        {
+            int audioCount = nowAudioPos - _lastAudioPos;
+            waveData = new float[audioCount];
+            _audioClip.GetData(waveData, _lastAudioPos);
+        }
+
+        _lastAudioPos = nowAudioPos;
+
+        float rms = Mathf.Sqrt(waveData.Sum(sample => sample * sample) / waveData.Length);
+
+        // `AudioMixer` に近いスケールにする
+        float db = 20f * Mathf.Log10(Mathf.Max(rms, 0.0001f)); // 0.0001 を下限にする
+
+        return Mathf.Clamp(db, -80f, 20f); // `-80dB ~ 20dB` の範囲に収める
+    }
+
 
     /// <summary>
     /// 音声認識でエラーが発生した場合
