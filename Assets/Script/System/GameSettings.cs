@@ -6,20 +6,20 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = "GameSettings", menuName = "GameSettings")]
 public class GameSettings : ScriptableObject
 {
-    [Header("音声認識の設定"), SerializeField]
+    [SerializeField, Header("音声認識の設定")]
     private VoiceRecognitionSettings _voiceRecognitionSettings = new VoiceRecognitionSettings();
 
-    [Header("ゲームフローの設定"), SerializeField] private GameFlowSettings _gameFlowSettings = new GameFlowSettings();
+    [SerializeField, Header("ゲームフローの設定")] private GameFlowSettings _gameFlowSettings = new GameFlowSettings();
 
-    [Header("ゲームのロードするリソースの設定"), SerializeField]
+    [SerializeField, Header("ゲームのロードするリソースの設定")]
     private GameLoadResourcesSettings _gameLoadResourcesSettings = new GameLoadResourcesSettings();
 
-    [Header("マイクデバイスの設定"), SerializeField] private MicDeviceSettings _micDeviceSettings = new MicDeviceSettings();
+    [SerializeField, Header("マイクデバイスの設定")] private MicDeviceSettings _micDeviceSettings = new MicDeviceSettings();
 
-    [Header("オーディオボリュームの設定"), SerializeField]
+    [SerializeField, Header("オーディオボリュームの設定")]
     private AudioVolumeSettings _audioVolumeSettings = new AudioVolumeSettings();
 
-    [Header("プレイヤーの設定"), SerializeField] private PlayerSettings _playerSettings = new PlayerSettings();
+    [SerializeField, Header("プレイヤーの設定")] private PlayerSettings _playerSettings = new PlayerSettings();
 
 
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
@@ -34,10 +34,10 @@ public class GameSettings : ScriptableObject
 [Serializable]
 public class VoiceRecognitionSettings
 {
-    [Tooltip("小さい声の閾値"), SerializeField] private float _lowThreshold = -30f;
-    [Tooltip("普通の声の閾値"), SerializeField] private float _midThreshold = -20f;
-    [Tooltip("大きい声の閾値"), SerializeField] private float _highThreshold = -10f;
-    [Tooltip("音声の類似度"), SerializeField] private float _similarity = 0.8f;
+    [SerializeField,Tooltip("小さい声の閾値")] private float _lowThreshold = -30f;
+    [SerializeField,Tooltip("普通の声の閾値")] private float _midThreshold = -20f;
+    [SerializeField,Tooltip("大きい声の閾値")] private float _highThreshold = -10f;
+    [SerializeField,Tooltip("音声の類似度")] private float _similarity = 0.8f;
 
     public float LowThreshold
     {
@@ -67,10 +67,10 @@ public class VoiceRecognitionSettings
 [Serializable]
 public class GameFlowSettings
 {
-    [Tooltip("スタックする単語の数"), SerializeField]
+    [SerializeField,Tooltip("スタックする単語の数")]
     private int _stackSize = 10;
 
-    [Tooltip("次のターンに移るまでの遅延(ms)"), SerializeField]
+    [SerializeField,Tooltip("次のターンに移るまでの遅延(ms)")]
     private int _nextTurnMilliSecDelay = 1000;
 
     public int StackSize
@@ -89,10 +89,10 @@ public class GameFlowSettings
 [Serializable]
 public class GameLoadResourcesSettings
 {
-    [Tooltip("お題のワードをロードするCSV"), SerializeField]
+    [SerializeField,Tooltip("お題のワードをロードするCSV")]
     private string _resourcesLoadSpeechTextPath = "GloomyBeat_speechText";
 
-    [Tooltip("セーブデータのパスJson"), SerializeField]
+    [SerializeField,Tooltip("セーブデータのパスJson")]
     private string _saveDataPath = "saveData";
 }
 
@@ -100,10 +100,10 @@ public class GameLoadResourcesSettings
 [Serializable]
 public class MicDeviceSettings
 {
-    [Tooltip("マイクデバイスの名前"), SerializeField]
+    [SerializeField,Tooltip("マイクデバイスの名前")]
     private string _deviceName = "Microphone";
 
-    [Tooltip("マイク入力のサンプリングレート"), SerializeField]
+    [SerializeField,Tooltip("マイク入力のサンプリングレート")]
     private int _sampleRate = 48000;
 
     public string DeviceName
@@ -122,11 +122,11 @@ public class MicDeviceSettings
 [Serializable]
 public class AudioVolumeSettings
 {
-    [Tooltip("全体の音量の設定"), SerializeField] private float _masterVolume = 0.8f;
-    [Tooltip("BGMの音量の設定"), SerializeField] private float _bgmVolume = 0.8f;
-    [Tooltip("SEの音量の設定"), SerializeField] private float _seVolume = 0.8f;
+    [SerializeField,Tooltip("全体の音量の設定")] private float _masterVolume = 0.8f;
+    [SerializeField,Tooltip("BGMの音量の設定")] private float _bgmVolume = 0.8f;
+    [SerializeField,Tooltip("SEの音量の設定")] private float _seVolume = 0.8f;
 
-    [Tooltip("Voiceの音量の設定"), SerializeField]
+    [SerializeField,Tooltip("Voiceの音量の設定")]
     private float _voiceVolume = 0.8f;
 
     public float MasterVolume
@@ -157,35 +157,87 @@ public class AudioVolumeSettings
 [Serializable]
 public class PlayerSettings
 {
-    [Tooltip("プレイヤーの移動速度"), SerializeField]
-    private float _moveSpeed = 5f;
+    [Header("ジャンプの設定")] [SerializeField, Tooltip("ジャンプ時間")]
+    private float _jumpDuration = 1.0f;
 
-    [Tooltip("プレイヤーのジャンプ力"), SerializeField]
-    private float _jumpPower = 10f;
+    [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
+    [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
 
-    [Tooltip("プレイヤーの重力"), SerializeField] private float _gravity = 9.8f;
-    [Tooltip("振り子が動く角度"), SerializeField] private float _swingAngle = 90f;
-    [Tooltip("往復する時間の半分"), SerializeField] private float _duration = 2f;
-    [Tooltip("イージングの種類"), SerializeField] private Ease _easeType = Ease.InOutSine;
+    [SerializeField, Tooltip("Spriteの更新スピード")]
+    private float _animSpeed = 0.06f;
 
-    [Tooltip("プレイヤーの画像を変更するtweenの進行度"), SerializeField]
+    [Header("プレイヤーの振り子に掴まっているときの設定")] [SerializeField, Tooltip("振り子が動く角度")]
+    private float _swingAngle = 90f;
+
+    [SerializeField, Tooltip("往復する時間の半分")] private float _duration = 2f;
+    [SerializeField, Tooltip("イージングの種類")] private Ease _easeType = Ease.InOutSine;
+
+    [SerializeField, Tooltip("プレイヤーの画像を変更するtweenの進行度")]
     private float _percent = 0.75f;
 
-    public float MoveSpeed
+    [Header("アニメーションの設定")] [SerializeField, Tooltip("キャラクターの画像を変更しておく時間")]
+    private float _animationDuration = 1f;
+
+    [SerializeField, Tooltip("振り子の終端に到達したときのアニメーションの角度")]
+    private int _angle = 40;
+
+    public float JumpDuration
     {
-        get => _moveSpeed;
-        set => _moveSpeed = value;
+        get => _jumpDuration;
+        set => _jumpDuration = value;
     }
 
-    public float JumpPower
+    public float Height
     {
-        get => _jumpPower;
-        set => _jumpPower = value;
+        get => height;
+        set => height = value;
     }
 
     public float Gravity
     {
         get => _gravity;
         set => _gravity = value;
+    }
+
+    public float AnimSpeed
+    {
+        get => _animSpeed;
+        set => _animSpeed = value;
+    }
+
+    public float SwingAngle
+    {
+        get => _swingAngle;
+        set => _swingAngle = value;
+    }
+
+    public float Duration
+    {
+        get => _duration;
+        set => _duration = value;
+    }
+
+    public Ease EaseType
+    {
+        get => _easeType;
+        set => _easeType = value;
+    }
+
+    public float Percent
+    {
+        get => _percent;
+        set => _percent = value;
+    }
+
+    public float AnimationDuration
+    {
+        get => _animationDuration;
+        set => _animationDuration = value;
+    }
+
+    public int Angle
+    {
+        get => _angle;
+        set => _angle = value;
     }
 }
