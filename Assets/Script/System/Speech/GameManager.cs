@@ -89,11 +89,20 @@ public class GameManager : MonoBehaviour
         List<string> keys = new List<string>(_voiceData.Keys);
         Shuffle(keys);
 
-        for (int i = 0; i < _stackSize; i++)
+        int index = 0;
+
+        while (_wordStack.Count < _stackSize)
         {
-            string randomWord = keys[UnityEngine.Random.Range(0, keys.Count)];
-            _wordStack.Push(randomWord);
+            if (index >= keys.Count)
+            {
+                Shuffle(keys); // すべてのワードを使い切ったら再シャッフル
+                index = 0;
+            }
+
+            _wordStack.Push(keys[index]);
+            index++;
         }
+        Debug.Log($"ワードリストを初期化しました: {_wordStack.Count} 件");
     }
 
 
