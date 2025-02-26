@@ -4,6 +4,7 @@ using UnityEngine;
 // 音声の音量とフレーズの判定を行う
 public class VoiceJudgement
 {
+    GameManager _gameManager;
     private Dictionary<string, string> _voiceData;
     private float _lowThreshold; // 小さい声
     private float _midThreshold; // 普通の声
@@ -11,15 +12,14 @@ public class VoiceJudgement
 
     private float _similarity = 0.8f; //以上一致したらOK;
 
-    public VoiceJudgement(Dictionary<string, string> voiceData,
-        float lowThreshold, float midThreshold, float highThreshold,
-        float similarity)
+    public VoiceJudgement(GameManager gameManager)
     {
-        _voiceData = voiceData;
-        _lowThreshold = lowThreshold;
-        _midThreshold = midThreshold;
-        _highThreshold = highThreshold;
-        _similarity = similarity;
+        _gameManager = gameManager;
+        _voiceData = gameManager.VoiceData;
+        _lowThreshold = gameManager.LowThreshold;
+        _midThreshold = gameManager.MidThreshold;
+        _highThreshold = gameManager.HighThreshold;
+        _similarity = gameManager.Similarity;
     }
 
     /// <summary>
@@ -40,16 +40,17 @@ public class VoiceJudgement
         foreach (var pair in _voiceData)
         {
             string correctText = pair.Value;
-
             float similarity = CalculateSimilarity(recognizedText, correctText);
-            if (similarity >= _similarity) // 00%以上一致したらOK
+            if (similarity >= _similarity)
             {
-                Debug.Log($"正しく発音されました！ {recognizedText} ≈ {correctText}");
+                Debug.Log($"<color=green>  正しく発音されました！ {recognizedText} ≈ {correctText}");
+                _gameManager.OnMissionSuccess();
                 return true;
             }
         }
 
-        Debug.Log($"発音が間違っています: {recognizedText}");
+        Debug.Log($" <color=red> 発音が間違っています！ {recognizedText}");
+        _gameManager.OnMissionFail();
         return false;
     }
 

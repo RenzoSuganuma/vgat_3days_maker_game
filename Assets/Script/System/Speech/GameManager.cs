@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private string _resourcesLoadPath;
+    [SerializeField] private string _resourcesLoadPath = "GloomyBeat_speachText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
+    [SerializeField] private MissionsText _missionsText;
 
     private Dictionary<string, string> _voiceData;
     [SerializeField] private float _lowThreshold = -30f; // 小さい声
@@ -16,6 +17,15 @@ public class GameManager : MonoBehaviour
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
     private TextGenerator _textGenerator;
+    private string _currentPhrase;
+
+    public SpeechToTextVolume SpeechToTextVolume => _speechToTextVolume;
+    public VoiceJudgement VoiceJudgement => _voiceJudgement;
+    public Dictionary<string, string> VoiceData => _voiceData;
+    public float LowThreshold => _lowThreshold;
+    public float MidThreshold => _midThreshold;
+    public float HighThreshold => _highThreshold;
+    public float Similarity => _similarity;
 
     private void Awake()
     {
@@ -29,10 +39,45 @@ public class GameManager : MonoBehaviour
         }
 
         _speechToTextVolume = new SpeechToTextVolume();
+        _voiceJudgement = new VoiceJudgement(this);
 
-        _voiceJudgement = new VoiceJudgement(_voiceData, _lowThreshold, _midThreshold, _highThreshold, _similarity);
+        _voiceInputHandler.Initialize(this);
+        SetNextMission();
+    }
 
-        _voiceInputHandler.Initialize(_speechToTextVolume, _voiceJudgement);
+    /// <summary>
+    /// 次のミッションのフレーズを設定
+    /// </summary>
+    private void SetNextMission()
+    {
+        _currentPhrase = GetRandomPhrase();
+        _missionsText.SetMissionText(_currentPhrase);
+    }
+
+    /// <summary>
+    /// ランダムなフレーズを取得
+    /// </summary>
+    private string GetRandomPhrase()
+    {
+        List<string> keys = new List<string>(_voiceData.Keys);
+        return keys[UnityEngine.Random.Range(0, keys.Count)];
+    }
+
+    /// <summary>
+    /// 音声認識の成功時の処理
+    /// </summary>
+    public void OnMissionSuccess()
+    {
+        _missionsText.MissionSuccess();
+        Invoke(nameof(SetNextMission), 2.0f); // 2秒後に次のミッションへ
+    }
+
+    /// <summary>
+    /// 音声認識の失敗時の処理
+    /// </summary>
+    public void OnMissionFail()
+    {
+        _missionsText.MissionFail();
     }
 
     /// <summary>

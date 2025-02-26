@@ -3,8 +3,10 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using R3;
 
+// 他の人が簡単に参照出来るようにするために敢えてMonoBehaviourを継承している
 public class VoiceInputHandler : MonoBehaviour
 {
+    private GameManager _gameManager;
     private SpeechToTextVolume _speechToText;
     private VoiceJudgement _voiceJudgement;
 
@@ -15,7 +17,7 @@ public class VoiceInputHandler : MonoBehaviour
     public ReactiveProperty<bool> IsCorrectVoice = new ReactiveProperty<bool>(false);
 
     // 最大音量
-    public ReactiveProperty<float> MaxSpeechVolume = new ReactiveProperty<float>();
+    public ReactiveProperty<float> MaxSpeechVolume = new ReactiveProperty<float>(-100f);
 
     // 音声入力成功の監視
     public ReactiveProperty<bool> IsVoiceInputSuccessful = new ReactiveProperty<bool>(false);
@@ -26,13 +28,16 @@ public class VoiceInputHandler : MonoBehaviour
     /// <summary>
     /// GameManager から `SpeechToTextVolume` と `VoiceJudgement` を設定
     /// </summary>
-    public void Initialize(SpeechToTextVolume speechToText, VoiceJudgement voiceJudgement)
+    public void Initialize(GameManager gameManager)
     {
-        _speechToText = speechToText;
-        _voiceJudgement = voiceJudgement;
+        _gameManager = gameManager;
+        _speechToText = gameManager.SpeechToTextVolume;
+        _voiceJudgement = gameManager.VoiceJudgement;
+
+        InitializeSubscriptions();
     }
 
-    private void Start()
+    private void InitializeSubscriptions()
     {
         if (_speechToText == null)
         {
