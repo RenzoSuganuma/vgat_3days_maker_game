@@ -17,7 +17,8 @@ public class UIManager : MonoBehaviour
 
     [Header("制限時間")]
     [SerializeField]float time = 50f;
-    
+
+
     void Start()
     {
         SetUp();
@@ -31,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     void SetUp()
     {
-        nextWordsText.text = "Hello World!";
+        nextWordsText.text = " ";
         heightText.text = "0m";
         timeText.text = "0";
     }
