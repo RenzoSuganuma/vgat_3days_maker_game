@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 /// <summary>
 /// パーティクルを再生する機能
 /// </summary>
-public class ParticleGenerate : MonoBehaviour
+public class ParticleGenerater : MonoBehaviour
 {
     [SerializeField] GameObject _catchParticle;
     [SerializeField] GameObject _confettiParticle;
@@ -13,13 +13,22 @@ public class ParticleGenerate : MonoBehaviour
     private void Start()
     {
         // 最初パーティクルは非表示にしておく
-        _catchParticle.SetActive(false);
-        _confettiParticle.SetActive(false);
+
+        if (_catchParticle != null)
+        {
+            _catchParticle.SetActive(false);
+        }
+
+        if (_confettiParticle != null)
+        {
+            _confettiParticle.SetActive(false);
+        }
     }
 
     /// <summary>
     /// 次の振り子を掴んだ時のパーティクルを再生
     /// </summary>
+    [ContextMenu("Generate")] // テスト用
     public async UniTask PlayCatchParticle()
     {
         _catchParticle.SetActive(true);
