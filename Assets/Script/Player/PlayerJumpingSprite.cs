@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// プレイヤーがジャンプするタイミングで画像の差分を切り替える
@@ -10,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerJumpingSprite : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites = new List<Sprite>();
-    [SerializeField] private Image _image;
+    [SerializeField] private SpriteRenderer _image;
     [SerializeField] private float _animSpeed = 0.06f;
     private int _index = 0;
 
