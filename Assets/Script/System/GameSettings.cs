@@ -1,7 +1,6 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "GameSettings", menuName = "GameSettings")]
 public class GameSettings : ScriptableObject
@@ -21,6 +20,9 @@ public class GameSettings : ScriptableObject
 
     [SerializeField, Header("プレイヤーの設定")] private PlayerSettings _playerSettings = new PlayerSettings();
 
+    [SerializeField, Header("ステージの設定")] private StageSettings _stageSettings = new StageSettings();
+
+    [SerializeField, Header("フェードパネルの設定")] private FadePanelSettings _fadePanelSettings = new FadePanelSettings();
 
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
     public GameFlowSettings GameFlowSettings => _gameFlowSettings;
@@ -28,16 +30,18 @@ public class GameSettings : ScriptableObject
     public MicDeviceSettings MicDeviceSettings => _micDeviceSettings;
     public AudioVolumeSettings AudioVolumeSettings => _audioVolumeSettings;
     public PlayerSettings PlayerSettings => _playerSettings;
+    public StageSettings StageSettings => _stageSettings;
+    public FadePanelSettings FadePanelSettings => _fadePanelSettings;
 }
 
 
 [Serializable]
 public class VoiceRecognitionSettings
 {
-    [SerializeField,Tooltip("小さい声の閾値")] private float _lowThreshold = -30f;
-    [SerializeField,Tooltip("普通の声の閾値")] private float _midThreshold = -20f;
-    [SerializeField,Tooltip("大きい声の閾値")] private float _highThreshold = -10f;
-    [SerializeField,Tooltip("音声の類似度")] private float _similarity = 0.8f;
+    [SerializeField, Tooltip("小さい声の閾値")] private float _lowThreshold = -30f;
+    [SerializeField, Tooltip("普通の声の閾値")] private float _midThreshold = -20f;
+    [SerializeField, Tooltip("大きい声の閾値")] private float _highThreshold = -10f;
+    [SerializeField, Tooltip("音声の類似度")] private float _similarity = 0.8f;
 
     public float LowThreshold
     {
@@ -67,10 +71,10 @@ public class VoiceRecognitionSettings
 [Serializable]
 public class GameFlowSettings
 {
-    [SerializeField,Tooltip("スタックする単語の数")]
+    [SerializeField, Tooltip("スタックする単語の数")]
     private int _stackSize = 10;
 
-    [SerializeField,Tooltip("次のターンに移るまでの遅延(ms)")]
+    [SerializeField, Tooltip("次のターンに移るまでの遅延(ms)")]
     private int _nextTurnMilliSecDelay = 1000;
 
     public int StackSize
@@ -89,10 +93,10 @@ public class GameFlowSettings
 [Serializable]
 public class GameLoadResourcesSettings
 {
-    [SerializeField,Tooltip("お題のワードをロードするCSV")]
+    [SerializeField, Tooltip("お題のワードをロードするCSV")]
     private string _resourcesLoadSpeechTextPath = "GloomyBeat_speechText";
 
-    [SerializeField,Tooltip("セーブデータのパスJson")]
+    [SerializeField, Tooltip("セーブデータのパスJson")]
     private string _saveDataPath = "saveData";
 }
 
@@ -100,10 +104,10 @@ public class GameLoadResourcesSettings
 [Serializable]
 public class MicDeviceSettings
 {
-    [SerializeField,Tooltip("マイクデバイスの名前")]
+    [SerializeField, Tooltip("マイクデバイスの名前")]
     private string _deviceName = "Microphone";
 
-    [SerializeField,Tooltip("マイク入力のサンプリングレート")]
+    [SerializeField, Tooltip("マイク入力のサンプリングレート")]
     private int _sampleRate = 48000;
 
     public string DeviceName
@@ -122,11 +126,11 @@ public class MicDeviceSettings
 [Serializable]
 public class AudioVolumeSettings
 {
-    [SerializeField,Tooltip("全体の音量の設定")] private float _masterVolume = 0.8f;
-    [SerializeField,Tooltip("BGMの音量の設定")] private float _bgmVolume = 0.8f;
-    [SerializeField,Tooltip("SEの音量の設定")] private float _seVolume = 0.8f;
+    [SerializeField, Tooltip("全体の音量の設定")] private float _masterVolume = 0.8f;
+    [SerializeField, Tooltip("BGMの音量の設定")] private float _bgmVolume = 0.8f;
+    [SerializeField, Tooltip("SEの音量の設定")] private float _seVolume = 0.8f;
 
-    [SerializeField,Tooltip("Voiceの音量の設定")]
+    [SerializeField, Tooltip("Voiceの音量の設定")]
     private float _voiceVolume = 0.8f;
 
     public float MasterVolume
@@ -239,5 +243,46 @@ public class PlayerSettings
     {
         get => _angle;
         set => _angle = value;
+    }
+}
+
+[Serializable]
+public class StageSettings
+{
+    [Header("ステージ全体の設定")] [SerializeField, Tooltip("レーンの幅の基準値")]
+    private float _baseWidth = 5f;
+
+    [SerializeField, Tooltip("レーンの幅の増加量")] private float _widthPerLayer = 1f;
+
+    [SerializeField, Tooltip("レーンの高さの増加量")]
+    private float _heightPerLayer = 5f;
+
+    [SerializeField, Tooltip("生成するレイヤー数")] private int _generateLayers = 6;
+
+    [SerializeField, Tooltip("初期レイヤー")] private int _initialLayer = 2;
+
+    [SerializeField, Tooltip("ステージの生成距離")] private float _generateDistance = 100f;
+
+    [SerializeField, Tooltip("プレイヤーが進んだときの追加生成距離")]
+    private float _generatePerMoveDistance = 50f;
+
+    public float BaseWidth => _baseWidth;
+    public float WidthPerLayer => _widthPerLayer;
+    public float HeightPerLayer => _heightPerLayer;
+    public int GenerateLayers => _generateLayers;
+    public int InitialLayer => _initialLayer;
+    public float GenerateDistance => _generateDistance;
+    public float GeneratePerMoveDistance => _generatePerMoveDistance;
+}
+
+[Serializable]
+public class FadePanelSettings
+{
+    [SerializeField] private float _duration;
+
+    public float Duration
+    {
+        get => _duration;
+        set => _duration = value;
     }
 }
