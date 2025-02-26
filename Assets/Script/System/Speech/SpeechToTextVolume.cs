@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 using R3;
 using Cysharp.Threading.Tasks;
 
-public class SpeechToTextVolume : MonoBehaviour
+public class SpeechToTextVolume : IDisposable
 {
-    [SerializeField] private VoiceInputHandler _voiceInputHandler;
     private DictationRecognizer _dictationRecognizer;
+    public Subject<string> OnSpeechResult = new Subject<string>();
+    public Subject<float> OnSpeechVolume = new Subject<float>();
 
-    public Subject<string> OnSpeechResult = new Subject<string>(); // 認識した音声を通知
-    public Subject<float> OnSpeechVolume = new Subject<float>(); // 最大音量を通知
-
-    [SerializeField] private string _deviceName;
+    private string _deviceName;
     private string _targetDevice = "";
     private AudioClip _audioClip;
-
     private int _lastAudioPos;
-    private void Start()
+    private CancellationTokenSource _cancellationTokenSource;
+
+    public SpeechToTextVolume()
     {
         _dictationRecognizer = new DictationRecognizer();
-
         _dictationRecognizer.DictationResult += DictationRecResult;
         _dictationRecognizer.DictationError += DictationRecError;
 
-        // マイクの初期化
+        _deviceName = Microphone.devices[0];
         InitMicrophone();
-
-        Debug.Log("SpeechToText: 初期化完了");
+        Debug.Log("SpeechToTextVolume: 初期化完了");
     }
 
     /// <summary>
@@ -45,7 +43,13 @@ public class SpeechToTextVolume : MonoBehaviour
             }
         }
 
-        Debug.Log($"<color=green> 録音デバイス: {_targetDevice}</color>");
+        if (string.IsNullOrEmpty(_targetDevice))
+        {
+            Debug.LogError("⚠ マイクデバイスが見つかりません！");
+            return;
+        }
+
+        Debug.Log($"🎤 録音デバイス: {_targetDevice}");
         _audioClip = Microphone.Start(_targetDevice, true, 10, 48000);
     }
 
@@ -64,9 +68,12 @@ public class SpeechToTextVolume : MonoBehaviour
     public void StartSpeechRecognition()
     {
         if (_dictationRecognizer.Status != SpeechSystemStatus.Stopped) return;
+
         _dictationRecognizer.Start();
         Debug.Log("🎤 音声認識開始");
-        _ = CaptureSpeechVolume();
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        _ = CaptureSpeechVolume(_cancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -75,8 +82,11 @@ public class SpeechToTextVolume : MonoBehaviour
     public void StopSpeechRecognition()
     {
         if (_dictationRecognizer.Status != SpeechSystemStatus.Running) return;
+
         _dictationRecognizer.Stop();
         Debug.Log("🛑 音声認識停止");
+
+        _cancellationTokenSource?.Cancel();
     }
 
     /// <summary>
@@ -84,42 +94,42 @@ public class SpeechToTextVolume : MonoBehaviour
     /// </summary>
     private void DictationRecResult(string text, ConfidenceLevel confidence)
     {
-        Debug.Log($" 認識した音声： {text}");
+        Debug.Log($"🎤 認識した音声： {text}");
         OnSpeechResult.OnNext(text);
     }
 
     /// <summary>
     /// マイクの音量を取得し、最大値を送信
     /// </summary>
-    private async UniTask CaptureSpeechVolume()
+    private async UniTask CaptureSpeechVolume(CancellationToken cancellationToken)
     {
-        if (_voiceInputHandler == null)
+        float maxVolume = -100f;
+
+        try
         {
-            Debug.LogWarning("⚠ `_voiceInputHandler` が設定されていません");
-            return;
+            while (_dictationRecognizer.Status == SpeechSystemStatus.Running &&
+                   !cancellationToken.IsCancellationRequested)
+            {
+                float volume = GetUpdatedAudio();
+                maxVolume = Mathf.Max(maxVolume, volume);
+                await UniTask.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: cancellationToken);
+            }
         }
-
-        float maxVolume = -100f; // 初期値
-
-        float startTime = Time.time;
-        while (_dictationRecognizer.Status == SpeechSystemStatus.Running)
+        catch (OperationCanceledException)
         {
-            float volume = GetUpdatedAudio();
-            maxVolume = Mathf.Max(maxVolume, volume);
-            await UniTask.Delay(TimeSpan.FromMilliseconds(100)); // 負荷軽減のため
+            Debug.Log("🛑 音量測定がキャンセルされました");
         }
 
         Debug.Log($"最大音量: {maxVolume} dB");
-        OnSpeechVolume.OnNext(maxVolume); // 最大音量を通知
+        OnSpeechVolume.OnNext(maxVolume);
     }
 
     /// <summary>
-    /// マイクから音声データを取得
+    /// ✅ マイクから音声データを取得
     /// </summary>
     private float GetUpdatedAudio()
     {
-        int nowAudioPos = Microphone.GetPosition(null); // デフォルトデバイス
-
+        int nowAudioPos = Microphone.GetPosition(null);
         float[] waveData = Array.Empty<float>();
 
         if (_audioClip == null || nowAudioPos <= 0) return 0f;
@@ -130,24 +140,6 @@ public class SpeechToTextVolume : MonoBehaviour
             waveData = new float[audioCount];
             _audioClip.GetData(waveData, _lastAudioPos);
         }
-        else if (_lastAudioPos > nowAudioPos)
-        {
-            int audioBuffer = _audioClip.samples * _audioClip.channels;
-            int audioCount = audioBuffer - _lastAudioPos;
-
-            float[] wave1 = new float[audioCount];
-            _audioClip.GetData(wave1, _lastAudioPos);
-
-            float[] wave2 = new float[nowAudioPos];
-            if (nowAudioPos != 0)
-            {
-                _audioClip.GetData(wave2, 0);
-            }
-
-            waveData = new float[audioCount + nowAudioPos];
-            wave1.CopyTo(waveData, 0);
-            wave2.CopyTo(waveData, audioCount);
-        }
 
         _lastAudioPos = nowAudioPos;
 
@@ -155,18 +147,21 @@ public class SpeechToTextVolume : MonoBehaviour
     }
 
     /// <summary>
-    /// 声認識でエラーが発生した場合
+    /// 音声認識でエラーが発生した場合
     /// </summary>
     private void DictationRecError(string error, int hresult)
     {
-        Debug.Log($"🚨 <color=red>エラー：{error}, {hresult}");
+        Debug.LogError($"音声認識エラー: {error}, {hresult}");
     }
 
-    private void OnDestroy()
+    /// <summary>
+    /// リソース解放
+    /// </summary>
+    public void Dispose()
     {
-        _dictationRecognizer.Stop();
-        _dictationRecognizer.Dispose();
+        _dictationRecognizer?.Stop();
+        _dictationRecognizer?.Dispose();
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
     }
-
-
 }

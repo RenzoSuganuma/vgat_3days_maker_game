@@ -19,6 +19,7 @@ public class DropDownDevice : MonoBehaviour
         GetMicrophoneDevices();
         //リストを追加
         _dropdown.AddOptions(_devicelist);
+        SetMicrophoneDevice();
     }
 
     void GetMicrophoneDevices()
