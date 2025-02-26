@@ -81,6 +81,7 @@ public class DestinatinCheck : MonoBehaviour
     private void MovePlayer(int laneChange)
     {
         _currentLaneIndex += laneChange;
+        CanMove = true;
         Debug.Log($"現在のレーン: {_currentLaneIndex}");
     }
 
@@ -90,6 +91,7 @@ public class DestinatinCheck : MonoBehaviour
     private void Move()
     {
         if (!CanMove) return; // 成功判定が出ていなかったら処理を行わない
+        Debug.Log("音声入力成功→プレイヤーを移動させる");
 
         if (_currentLaneIndex < 0)
         {
