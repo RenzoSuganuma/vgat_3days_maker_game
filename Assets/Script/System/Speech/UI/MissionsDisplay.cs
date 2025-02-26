@@ -25,9 +25,9 @@ public class MissionsDisplay : MonoBehaviour
         _maxDbText.text = "dB";
         _wordsText.text = "";
         _playerText.text = "";
-        _distanceScoreText.text = "DistanceScore";
-        _heightScoreText.text = "HeightScore";
-        _timeScoreText.text = "TimeScore";
+        _distanceScoreText.text = "距離: 0000m";
+        _heightScoreText.text = "高さ: 0000m";
+        _timeScoreText.text = "時間: 00s";
         _nextText.text = "Next";
 
         _successImage.SetActive(false);
@@ -41,7 +41,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMaxDbText(float maxDb)
     {
-        _maxDbText.text = $"最大音量: {maxDb:F2} dB";
+        _maxDbText.text = $"最大音量:\n {maxDb:F2} dB";
     }
 
     /// <summary>

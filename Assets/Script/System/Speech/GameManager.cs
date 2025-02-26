@@ -71,12 +71,15 @@ public class GameManager : MonoBehaviour
             InitializeWordStack();
         }
 
-        if (_wordStack.Count > 1)
+        if (_wordStack.Count > 0)
         {
             _currentPhrase = _wordStack.Pop();
             _missionsDisplay.SetMissionText(_currentPhrase);
+
+            _missionsDisplay.SetNextText(_wordStack.Peek());
         }
     }
+
 
     /// <summary>
     /// ワードリストを初期化
