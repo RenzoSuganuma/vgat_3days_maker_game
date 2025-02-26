@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: BGMData
   m_EditorClassIdentifier: 
   Clips:
-  - ClipName: Title
+  - ClipName: 0
     Clip: {fileID: 8300000, guid: 05d9512065c1bc44c9a988b6aca7ab0a, type: 3}
     Volume: 1
-  - ClipName: InGame
+  - ClipName: 0
     Clip: {fileID: 8300000, guid: 2acd3b69045c6014db06ccecf4d87378, type: 3}
-    Volume: 1
-  - ClipName: Result
+    Volume: 0.4
+  - ClipName: 0
     Clip: {fileID: 8300000, guid: a416504d2826ee54d8af4c59ad348f80, type: 3}
     Volume: 1

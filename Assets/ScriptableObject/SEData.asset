@@ -18,13 +18,13 @@ MonoBehaviour:
     Volume: 1
   - ClipName: 1
     Clip: {fileID: 8300000, guid: 10b80c547e0fcff4bb52cf04c366bcae, type: 3}
-    Volume: 1
+    Volume: 0.75
   - ClipName: 2
     Clip: {fileID: 8300000, guid: 6f8c1fd68753ce341b448f35ad543101, type: 3}
-    Volume: 1
+    Volume: 0.6
   - ClipName: 3
     Clip: {fileID: 8300000, guid: 03160b6b2db479846a8272e872bca77c, type: 3}
-    Volume: 1
+    Volume: 0.6
   - ClipName: 4
     Clip: {fileID: 8300000, guid: bea8322d80019254e99de26a3129fe41, type: 3}
-    Volume: 1
+    Volume: 0.9
