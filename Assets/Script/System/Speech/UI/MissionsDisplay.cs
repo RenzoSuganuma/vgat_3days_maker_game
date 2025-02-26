@@ -13,7 +13,7 @@ public class MissionsDisplay : MonoBehaviour
     [SerializeField] private TMP_Text _distanceScoreText;
     [SerializeField] private TMP_Text _heightScoreText;
     [SerializeField] private TMP_Text _timeScoreText;
-    [SerializeField] private TMP_Text _nextText;
+    // [SerializeField] private TMP_Text _nextText;
 
     [SerializeField] private GameObject _successImage;
     [SerializeField] private GameObject _failImage;
@@ -32,7 +32,7 @@ public class MissionsDisplay : MonoBehaviour
         _distanceScoreText.text = "距離: 0000m";
         _heightScoreText.text = "高さ: 0000m";
         _timeScoreText.text = "時間: 00s";
-        _nextText.text = "Next";
+        // _nextText.text = "Next";
 
         _successImage.SetActive(false);
         _failImage.SetActive(false);
@@ -73,7 +73,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetNextText(string text)
     {
-        _nextText.text = text;
+        // _nextText.text = text;
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class MissionsDisplay : MonoBehaviour
     /// <summary>
     /// 時間スコアを設定
     /// </summary>
-    public void SetTimeScore(float time)
+    public void SetTimeScore(string time)
     {
         _timeScoreText.text = $"時間: {time}s";
     }
