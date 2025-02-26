@@ -8,14 +8,24 @@ using UnityEngine;
 public class ObjectBeatController : MonoBehaviour
 {
     [SerializeField] private ObjectBeatSync _beatController;
-    [SerializeField, Tooltip("揺らしたいオブジェクト")] private List<Transform> _shakeObjs;
-    [SerializeField, Tooltip("1回の揺れ時間")] private float _shakeDuration = 0.1f;
-    [SerializeField, Tooltip("UIの拡大率")] private float _scaleMultiplier = 1.05f;
+
+    [SerializeField, Tooltip("揺らしたいオブジェクト")]
+    private List<Transform> _shakeObjs;
+
+    private float _shakeDuration;
+    private float _scaleMultiplier;
 
     private Dictionary<Transform, Vector3> _shakes = new Dictionary<Transform, Vector3>();
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _shakeDuration = settings.ObjectBeatSettings.ShakeDuration;
+            _scaleMultiplier = settings.ObjectBeatSettings.ScaleMultiplier;
+        }
+
         _beatController.OnBeat += OnBeat;
 
         foreach (var shakeObj in _shakeObjs)
@@ -39,6 +49,5 @@ public class ObjectBeatController : MonoBehaviour
             shakeObj.DOScale(_shakes[shakeObj] * _scaleMultiplier, _shakeDuration)
                 .SetLoops(2, LoopType.Yoyo);
         }
-
     }
 }
