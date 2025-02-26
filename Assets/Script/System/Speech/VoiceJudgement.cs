@@ -4,22 +4,19 @@ using UnityEngine;
 // 音声の音量とフレーズの判定を行う
 public class VoiceJudgement
 {
-    GameManager _gameManager;
-    private Dictionary<string, string> _voiceData;
-    private float _lowThreshold; // 小さい声
-    private float _midThreshold; // 普通の声
-    private float _highThreshold; // 大きい声
+    private readonly GameManager _gameManager;
+    private readonly Dictionary<string, string> _voiceData;
+    private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new VoiceRecognitionSettings();
 
-    private float _similarity = 0.8f; //以上一致したらOK;
 
     public VoiceJudgement(GameManager gameManager)
     {
         _gameManager = gameManager;
         _voiceData = gameManager.VoiceData;
-        _lowThreshold = gameManager.LowThreshold;
-        _midThreshold = gameManager.MidThreshold;
-        _highThreshold = gameManager.HighThreshold;
-        _similarity = gameManager.Similarity;
+        _voiceRecognitionSettings.LowThreshold = gameManager.VoiceRecognitionSettings.LowThreshold;
+        _voiceRecognitionSettings.MidThreshold = gameManager.VoiceRecognitionSettings.MidThreshold;
+        _voiceRecognitionSettings.HighThreshold = gameManager.VoiceRecognitionSettings.HighThreshold;
+        _voiceRecognitionSettings.Similarity = gameManager.VoiceRecognitionSettings.Similarity;
     }
 
     /// <summary>
@@ -27,9 +24,9 @@ public class VoiceJudgement
     /// </summary>
     public int DetermineLaneChange(float maxVolume)
     {
-        if (maxVolume < _lowThreshold) return -1;
-        if (maxVolume < _midThreshold) return 0;
-        return maxVolume < _highThreshold ? 1 : 0;
+        if (maxVolume <  _voiceRecognitionSettings.LowThreshold ) return -1;
+        if (maxVolume < _voiceRecognitionSettings.MidThreshold ) return 0;
+        return maxVolume < _voiceRecognitionSettings.HighThreshold ? 1 : 0;
     }
 
     /// <summary>
@@ -41,7 +38,7 @@ public class VoiceJudgement
         {
             string correctText = pair.Value;
             float similarity = CalculateSimilarity(recognizedText, correctText);
-            if (similarity >= _similarity)
+            if (similarity >= _voiceRecognitionSettings.Similarity)
             {
                 Debug.Log($"<color=green>  正しく発音されました！ {recognizedText} ≈ {correctText}");
                 _gameManager.OnMissionSuccess();
