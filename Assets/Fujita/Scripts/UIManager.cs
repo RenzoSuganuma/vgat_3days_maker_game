@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI heightText;
     [SerializeField] private TextMeshProUGUI timeText;
 
-    float time = 0f;
+    [Header("制限時間")]
+    [SerializeField]float time = 50f;
 
     void Start()
     {
@@ -38,7 +39,12 @@ public class UIManager : MonoBehaviour
 
     void Timer()
     {
-        time+=Time.deltaTime;
+        time-=Time.deltaTime;
         timeText.text = "Time:"+Mathf.RoundToInt(time);
+    }
+
+    public float GetTime()
+    {
+        return time;
     }
 }
