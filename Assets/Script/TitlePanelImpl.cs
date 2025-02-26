@@ -26,19 +26,6 @@ public class TitlePanelImpl : MonoBehaviour
             DontDestroyOnLoad(ddol);
         }
 
-        Foundation.TaskOnChangedScene += s =>
-        {
-            if (s is Foundation.INGAME_SCENE_NAME)
-            {
-                if (_hideOnScneChange != null)
-                {
-                    _hideOnScneChange.alpha = 0;
-                }
-
-                FindAnyObjectByType<MissionsDisplay>().GetComponent<CanvasGroup>().alpha = 1;
-            }
-        };
-
         _buttonStart.onClick.AddListener(() =>
         {
             FindAnyObjectByType<SceneLoaderImpl>().StartGame();
