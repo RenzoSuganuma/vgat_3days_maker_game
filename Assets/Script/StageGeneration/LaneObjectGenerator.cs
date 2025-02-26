@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Searcher;
 using UnityEngine;
 
 /// <summary>
@@ -68,7 +67,7 @@ public class LaneObjectGenerator : MonoBehaviour
 
                 var pos = left + (right - left) / 2;
                 Debug.DrawLine(left, right, Color.red, 1000);
-                
+
                 Instantiate(obj, pos, Quaternion.identity, _parents[layer]);
             }
         }

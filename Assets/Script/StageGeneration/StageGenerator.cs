@@ -1,24 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 /// <summary>
-/// ƒXƒe[ƒW‚ğ¶¬‚·‚éƒNƒ‰ƒX
+/// ï¿½Xï¿½eï¿½[ï¿½Wï¿½ğ¶ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 /// </summary>
 public class StageGenerator : MonoBehaviour
 {
-    [SerializeField] Transform _player;
+    Transform _player;
     [SerializeField] StageRowGenerator _stageRowGenerator;
     [SerializeField] LaneObjectGenerator _obstacleGenerator;
 
-    [SerializeField, Tooltip("Šî–{‰¡•")] float _baseWidth = 5;
-    [SerializeField, Tooltip("ŠK‘w‚ªã‚ª‚é‚²‚Æ‚É‘‚¦‚é‰¡•")] float _widthPerLayer = 1;
-    [SerializeField, Tooltip("ŠK‘w–ˆ‚Ì‚‚³‚Ì•")] float _heightPerLayer = 5;
+    [SerializeField, Tooltip("ï¿½ï¿½{ï¿½ï¿½ï¿½ï¿½")] float _baseWidth = 5;
+    [SerializeField, Tooltip("ï¿½Kï¿½wï¿½ï¿½ï¿½ã‚ªï¿½é‚²ï¿½Æ‚É‘ï¿½ï¿½ï¿½ï¿½é‰¡ï¿½ï¿½")] float _widthPerLayer = 1;
+    [SerializeField, Tooltip("ï¿½Kï¿½wï¿½ï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½Ì•ï¿½")] float _heightPerLayer = 5;
 
-    [SerializeField, Tooltip("¶¬‚·‚éŠK‘w‚Ì”")] int _generateLayers = 6;
-    [SerializeField, Tooltip("Y=0‚É¶¬‚³‚ê‚éŠK‘wi0-originj")] int _initialLayer = 2;
-    [SerializeField, Tooltip("ˆê“x‚É¶¬‚·‚é‹——£")] float _generateDistance = 100;
-    [SerializeField, Tooltip("¶¬‚ğŠJn‚·‚éˆÚ“®‹——£")] float _generatePerMoveDistance = 50;
+    [SerializeField, Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½wï¿½Ìï¿½")] int _generateLayers = 6;
+    [SerializeField, Tooltip("Y=0ï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Kï¿½wï¿½i0-originï¿½j")] int _initialLayer = 2;
+    [SerializeField, Tooltip("ï¿½ï¿½xï¿½Éï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é‹—ï¿½ï¿½")] float _generateDistance = 100;
+    [SerializeField, Tooltip("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½ï¿½")] float _generatePerMoveDistance = 50;
 
     List<StageRowGenerator> _generator = new();
 
@@ -26,7 +25,10 @@ public class StageGenerator : MonoBehaviour
 
     private void Start()
     {
-        // ŠeƒŒ[ƒ“‚ÌƒWƒFƒlƒŒ[ƒ^[‚ğ¶¬AƒvƒƒpƒeƒB‚ğƒZƒbƒg
+        // get player
+        _player = FindAnyObjectByType<PlayerMove>().transform;
+
+        // ï¿½eï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÌƒWï¿½Fï¿½lï¿½ï¿½ï¿½[ï¿½^ï¿½[ï¿½ğ¶ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½pï¿½eï¿½Bï¿½ï¿½ï¿½Zï¿½bï¿½g
         for (int layer = 0; layer < _generateLayers; layer++)
         {
             var space = _baseWidth + _widthPerLayer * layer;
@@ -36,10 +38,10 @@ public class StageGenerator : MonoBehaviour
             _generator.Add(row);
         }
 
-        // ƒXƒe[ƒW¶¬
+        // ï¿½Xï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½
         GenerateStage();
 
-        for ( int layer = 0; layer < _generateLayers; layer++)
+        for (int layer = 0; layer < _generateLayers; layer++)
         {
             if (_obstacleGenerator != null)
             {
@@ -50,7 +52,7 @@ public class StageGenerator : MonoBehaviour
 
     private void Update()
     {
-        // ˆê’è‹——£ˆÚ“®‚·‚é‚²‚Æ‚É¶¬
+        // ï¿½ï¿½è‹—ï¿½ï¿½ï¿½Ú“ï¿½ï¿½ï¿½ï¿½é‚²ï¿½Æ‚Éï¿½ï¿½ï¿½
         if (_player.position.x > _nextGeneratePosX)
         {
             GenerateStage();
@@ -58,7 +60,7 @@ public class StageGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// ŠeƒŒ[ƒ“‚ÅƒXƒe[ƒW¶¬‚·‚éB
+    /// ï¿½eï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ÅƒXï¿½eï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
     /// </summary>
     private void GenerateStage()
     {
