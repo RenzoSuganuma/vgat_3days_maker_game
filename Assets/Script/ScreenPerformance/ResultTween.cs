@@ -2,8 +2,6 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 /// <summary>
 /// Result画面で使用するtweenをまとめたクラス
@@ -57,12 +55,14 @@ public class ResultTween : MonoBehaviour
     /// <summary>
     /// ランキングを表示し終わった後のTween
     /// </summary>
-    public void BackTitle()
+    public async UniTask BackTitle()
     {
         // ボタンのスケールを1に戻す
         _backTitleButton.gameObject.SetActive(true);
-        _backTitleButton.DOScale(Vector3.one, _tweenDuration) // ボタンのscaleを元に戻す
-            .OnComplete(()=>_rankingBoard.DOScale(new Vector3(1.01f,1.01f,1.01f), _tweenDuration).SetLoops(-1, LoopType.Yoyo));
+        _backTitleButton.DOScale(Vector3.one, _tweenDuration); // ボタンのscaleを元に戻す
 
+        await UniTask.Delay((int)_tweenDuration + 1 * 1000);
+
+        _rankingBoard.DOScale(new Vector3(1.01f, 1.01f, 1.01f), _tweenDuration).SetLoops(-1, LoopType.Yoyo);
     }
 }
