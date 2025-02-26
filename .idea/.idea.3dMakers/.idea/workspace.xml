@@ -6,25 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="41b0359d-92ec-48b3-b099-95f45b97e0ac" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.3dMakers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.3dMakers/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/50dB.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/50dB.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/60dB.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/60dB.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/70dB.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/70dB.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/80dB.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/80dB.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/Background.jpg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/Background.jpg.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/FireRing_Blue.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/FireRing_Blue.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/FireRing_Red.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/FireRing_Red.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/IncorrectAnswer.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/IncorrectAnswer.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/Player_stand.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/Player_stand.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPT1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPT1.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPT2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPT2.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPT3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPT3.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ1.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ1.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ2.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ2.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ3.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/SPTJ3.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Image/correctAnswer.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Image/correctAnswer.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Particles/star.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Particles/star.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/InGame/StageObj/Ring.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefab/InGame/StageObj/Ring.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGame.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/SceneLoaderImpl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/SceneLoaderImpl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Foundation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Foundation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Player/DestinationCheck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Player/DestinationCheck.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Player/PendulumController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Player/PendulumController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/StageGeneration/StageGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/StageGeneration/StageGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/StageGeneration/StageRowGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/StageGeneration/StageRowGenerator.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +105,7 @@
       <workItem from="1740448772764" duration="143000" />
       <workItem from="1740449851426" duration="6727000" />
       <workItem from="1740540945474" duration="601000" />
-      <workItem from="1740541873014" duration="1876000" />
+      <workItem from="1740541873014" duration="3667000" />
     </task>
     <servers />
   </component>
