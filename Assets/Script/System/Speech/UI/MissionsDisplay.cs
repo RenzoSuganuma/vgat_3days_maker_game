@@ -37,6 +37,14 @@ public class MissionsDisplay : MonoBehaviour
     }
 
     /// <summary>
+    /// 最大音量を表示
+    /// </summary>
+    public void SetMaxDbText(float maxDb)
+    {
+        _maxDbText.text = $"📊 最大音量: {maxDb:F2} dB";
+    }
+
+    /// <summary>
     /// 読み上げるフレーズを表示
     /// </summary>
     public void SetMissionText(string phrase)
@@ -46,45 +54,44 @@ public class MissionsDisplay : MonoBehaviour
         _failImage.SetActive(false);
     }
 
-    /// <summary>
-    /// 最大音量を表示
-    /// </summary>
-    public void SetMaxDbText(float maxDb)
-    {
-        _maxDbText.text = $"📊 最大音量: {maxDb:F2} dB";
-    }
 
     /// <summary>
-    /// スコアを更新
+    /// プレイヤーの発音を表示
     /// </summary>
-    public void UpdateScores(int distance, int height, int time)
-    {
-        _distanceScoreText.text = $"🏃 距離: {distance}m";
-        _heightScoreText.text = $"📏 高さ: {height}m";
-        _timeScoreText.text = $"⏳ 時間: {time}s";
-    }
-
     public void SetPlayerText(string text)
     {
         _playerText.text = text;
     }
 
+    /// <summary>
+    /// 次のミッションのフレーズを表示
+    /// </summary>
     public void SetNextText(string text)
     {
         _nextText.text = text;
     }
 
+    /// <summary>
+    /// 距離スコアを設定
+    /// </summary>
     public void SetDistanceScore(int distance)
     {
         _distanceScoreText.text = $"🏃 距離: {distance}m";
     }
 
+
+    /// <summary>
+    /// 高さスコアを設定
+    /// </summary>
     public void SetHeightScore(int height)
     {
         _heightScoreText.text = $"📏 高さ: {height}m";
     }
 
-    public void SetTimeScore(int time)
+    /// <summary>
+    /// 時間スコアを設定
+    /// </summary>
+    public void SetTimeScore(float time)
     {
         _timeScoreText.text = $"⏳ 時間: {time}s";
     }
@@ -94,7 +101,6 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void MissionSuccess()
     {
-        _wordsText.text = "🎉 正解！";
         Debug.Log("🎉 正解！");
 
         _successImage.SetActive(true);
@@ -109,7 +115,6 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void MissionFail()
     {
-        _wordsText.text = "❌ 間違い！";
         Debug.Log("❌ 間違い！");
 
         _failImage.SetActive(true);
