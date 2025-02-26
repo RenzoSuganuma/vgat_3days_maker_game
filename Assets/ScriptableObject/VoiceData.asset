@@ -14,22 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _voiceData:
   - VoiceName: 0
-    Clips:
-    - {fileID: 8300000, guid: 3685b2be975ce2f42a82db84bb61f722, type: 3}
-    - {fileID: 8300000, guid: 8ac1aeaec802ec74e89276c12abf00a8, type: 3}
-    Volume: 1
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 3685b2be975ce2f42a82db84bb61f722, type: 3}
+      Volume: 1
+    - Clip: {fileID: 8300000, guid: 8ac1aeaec802ec74e89276c12abf00a8, type: 3}
+      Volume: 1
   - VoiceName: 1
-    Clips:
-    - {fileID: 8300000, guid: 731827b4aad6d264789cd0c9a63afa26, type: 3}
-    - {fileID: 8300000, guid: 69ce046fae355ad46810ba8767a924ac, type: 3}
-    Volume: 1
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 731827b4aad6d264789cd0c9a63afa26, type: 3}
+      Volume: 1
+    - Clip: {fileID: 8300000, guid: 69ce046fae355ad46810ba8767a924ac, type: 3}
+      Volume: 1
   - VoiceName: 2
-    Clips:
-    - {fileID: 8300000, guid: 282f15f0c2f69b24d9a78a8e847a0aee, type: 3}
-    - {fileID: 8300000, guid: 9eb7443aca43d9b41b91b669e8e52805, type: 3}
-    Volume: 1
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: 282f15f0c2f69b24d9a78a8e847a0aee, type: 3}
+      Volume: 1
+    - Clip: {fileID: 8300000, guid: 9eb7443aca43d9b41b91b669e8e52805, type: 3}
+      Volume: 1
   - VoiceName: 3
-    Clips:
-    - {fileID: 8300000, guid: ee82e13d8569ea6498daab72db010490, type: 3}
-    - {fileID: 8300000, guid: 31e92a2d5e766d844a0d351b6e1ff2dd, type: 3}
-    Volume: 1
+    VoiceDatasList:
+    - Clip: {fileID: 8300000, guid: ee82e13d8569ea6498daab72db010490, type: 3}
+      Volume: 1
+    - Clip: {fileID: 8300000, guid: 31e92a2d5e766d844a0d351b6e1ff2dd, type: 3}
+      Volume: 1
