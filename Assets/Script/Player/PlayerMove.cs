@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// プレイヤーが振り子から振り子に移るスクリプト
@@ -13,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
     [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
     [SerializeField] private PlayerAnimation _animation;
+    [SerializeField] private ParticleGenerater _particleGenerater;
 
     private Vector3 _initialLocalPos;
 
@@ -70,6 +72,7 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Catch()
     {
+        _particleGenerater.PlayCatchParticle(); // 振り子を掴んだ時のパーティクルを再生する
         transform.localPosition = _initialLocalPos;
         transform.localRotation = Quaternion.identity;
         IsJumping = false;
