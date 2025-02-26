@@ -59,6 +59,7 @@ public class VoiceJudgement
     /// </summary>
     private float CalculateSimilarity(string input, string target)
     {
+        // Debug.Log($"<color=blue> 類似度計算: {input} ≈ {target}");
         int lenInput = input.Length;
         int lenTarget = target.Length;
         int[,] dp = new int[lenInput + 1, lenTarget + 1];
