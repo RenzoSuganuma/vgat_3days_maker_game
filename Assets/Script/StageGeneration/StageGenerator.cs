@@ -9,7 +9,6 @@ public class StageGenerator : MonoBehaviour
 {
     [SerializeField] Transform _player;
     [SerializeField] StageRowGenerator _stageRowGenerator;
-    [SerializeField] IndependenceObstacleGenerator _indObstacleGenerator;
     [SerializeField] LaneObjectGenerator _obstacleGenerator;
 
     [SerializeField, Tooltip("äÓñ{â°ïù")] float _baseWidth = 5;
@@ -42,14 +41,6 @@ public class StageGenerator : MonoBehaviour
 
         for ( int layer = 0; layer < _generateLayers; layer++)
         {
-            var space = _baseWidth + _widthPerLayer * layer;
-            var height = (layer - _initialLayer) * _heightPerLayer;
-
-            if (_indObstacleGenerator != null)
-            {
-                _indObstacleGenerator.StartGenerate(_player, height, layer);
-            }
-
             if (_obstacleGenerator != null)
             {
                 _obstacleGenerator.Generate(layer);
