@@ -1,44 +1,25 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
 // 音声の音量とフレーズの判定を行う
-public class VoiceJudgement : MonoBehaviour
+public class VoiceJudgement
 {
-    [SerializeField] private string _resourcesLoadPath = "voice_data";
-    private readonly Dictionary<string, string> _voiceData = new Dictionary<string, string>();
-    VoiceInputHandler _voiceInputHandler;
+    private Dictionary<string, string> _voiceData;
+    private float _lowThreshold; // 小さい声
+    private float _midThreshold; // 普通の声
+    private float _highThreshold; // 大きい声
 
-    public void Start()
+    private float _similarity = 0.8f; //以上一致したらOK;
+
+    public VoiceJudgement(Dictionary<string, string> voiceData,
+        float lowThreshold, float midThreshold, float highThreshold,
+        float similarity)
     {
-        LoadVoiceData();
-    }
-
-    /// <summary>
-    /// CSV から比較データをロード
-    /// </summary>
-    private void LoadVoiceData()
-    {
-        TextAsset csvFile = Resources.Load<TextAsset>(_resourcesLoadPath);
-        if (csvFile == null)
-        {
-            Debug.LogError($"⚠ {_resourcesLoadPath} が見つかりません！");
-            return;
-        }
-
-        StringReader reader = new StringReader(csvFile.text);
-        while (reader.Peek() != -1)
-        {
-            string line = reader.ReadLine();
-            string[] values = line.Split(',');
-
-            if (values.Length == 2)
-            {
-                _voiceData[values[0]] = values[1]; // 画面表示用 → 比較用テキスト
-            }
-        }
-
-        Debug.Log($"✅ {_voiceData.Count} 件の音声データをロードしました");
+        _voiceData = voiceData;
+        _lowThreshold = lowThreshold;
+        _midThreshold = midThreshold;
+        _highThreshold = highThreshold;
+        _similarity = similarity;
     }
 
     /// <summary>
@@ -46,22 +27,9 @@ public class VoiceJudgement : MonoBehaviour
     /// </summary>
     public int DetermineLaneChange(float maxVolume)
     {
-        float lowThreshold = -30f; // 小さい声
-        float midThreshold = -20f; // 普通の声
-        float highThreshold = -10f; // 大きい声
-
-        if (maxVolume < lowThreshold)
-        {
-            return _voiceInputHandler.LaneChange.Value = -1; // 下がる
-        }
-        else if (maxVolume < midThreshold)
-        {
-            return _voiceInputHandler.LaneChange.Value = 0; // 維持
-        }
-        else
-        {
-            return _voiceInputHandler.LaneChange.Value = 1; // 上がる
-        }
+        if (maxVolume < _lowThreshold) return -1;
+        if (maxVolume < _midThreshold) return 0;
+        return maxVolume < _highThreshold ? 1 : 0;
     }
 
     /// <summary>
@@ -74,7 +42,7 @@ public class VoiceJudgement : MonoBehaviour
             string correctText = pair.Value;
 
             float similarity = CalculateSimilarity(recognizedText, correctText);
-            if (similarity >= 0.8f) // 80%以上一致したらOK
+            if (similarity >= _similarity) // 00%以上一致したらOK
             {
                 Debug.Log($"正しく発音されました！ {recognizedText} ≈ {correctText}");
                 return true;
@@ -94,10 +62,8 @@ public class VoiceJudgement : MonoBehaviour
         int lenTarget = target.Length;
         int[,] dp = new int[lenInput + 1, lenTarget + 1];
 
-        for (int i = 0; i <= lenInput; i++)
-            dp[i, 0] = i;
-        for (int j = 0; j <= lenTarget; j++)
-            dp[0, j] = j;
+        for (int i = 0; i <= lenInput; i++) dp[i, 0] = i;
+        for (int j = 0; j <= lenTarget; j++) dp[0, j] = j;
 
         for (int i = 1; i <= lenInput; i++)
         {

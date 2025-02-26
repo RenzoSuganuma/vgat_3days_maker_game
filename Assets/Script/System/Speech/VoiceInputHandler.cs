@@ -5,8 +5,8 @@ using R3;
 
 public class VoiceInputHandler : MonoBehaviour
 {
-    [SerializeField] private SpeechToTextVolume _speechToText;
-    [SerializeField] private VoiceJudgement _voiceJudgement;
+    private SpeechToTextVolume _speechToText;
+    private VoiceJudgement _voiceJudgement;
 
     // 認識したフレーズ
     public ReactiveProperty<string> RecognizedText = new ReactiveProperty<string>();
@@ -22,6 +22,15 @@ public class VoiceInputHandler : MonoBehaviour
 
     // レーン移動情報 (-1: 下がる, 0: 維持, 1: 上がる)
     public ReactiveProperty<int> LaneChange = new ReactiveProperty<int>(0);
+
+    /// <summary>
+    /// GameManager から `SpeechToTextVolume` と `VoiceJudgement` を設定
+    /// </summary>
+    public void Initialize(SpeechToTextVolume speechToText, VoiceJudgement voiceJudgement)
+    {
+        _speechToText = speechToText;
+        _voiceJudgement = voiceJudgement;
+    }
 
     private void Start()
     {
@@ -60,16 +69,10 @@ public class VoiceInputHandler : MonoBehaviour
     /// <summary>
     /// 音声認識を開始（Presenter経由で呼び出し）
     /// </summary>
-    public void StartSpeechRecognition()
-    {
-        _speechToText?.StartSpeechRecognition();
-    }
+    public void StartSpeechRecognition() => _speechToText?.StartSpeechRecognition();
 
     /// <summary>
     /// 音声認識を停止（Presenter経由で呼び出し）
     /// </summary>
-    public void StopSpeechRecognition()
-    {
-        _speechToText?.StopSpeechRecognition();
-    }
+    public void StopSpeechRecognition() => _speechToText?.StopSpeechRecognition();
 }

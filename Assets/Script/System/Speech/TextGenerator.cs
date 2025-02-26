@@ -1,32 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 
 public class TextGenerator
 {
-    private readonly string _resourcesLoadPath;
     private readonly Dictionary<string, string> _voiceData = new Dictionary<string, string>();
 
-
-    /// <summary>
-    /// コンストラクタ
-    /// </summary>
-    private TextGenerator(string resourcesLoadPath)
+    public TextGenerator(string resourcePath)
     {
-        _resourcesLoadPath = resourcesLoadPath;
-        LoadVoiceData();
+        LoadVoiceData(resourcePath);
     }
 
     /// <summary>
-    /// CSV から比較データをロード
+    /// Resources から CSV をロードし、辞書に格納
     /// </summary>
-    private void LoadVoiceData()
+    private void LoadVoiceData(string resourcePath)
     {
-        TextAsset csvFile = Resources.Load<TextAsset>(_resourcesLoadPath);
+        TextAsset csvFile = Resources.Load<TextAsset>(resourcePath);
         if (csvFile == null)
         {
-            Debug.LogError($"⚠ {_resourcesLoadPath} が見つかりません！");
+            Debug.LogError($"⚠ `{resourcePath}` のロードに失敗しました！");
             return;
         }
 
@@ -42,13 +36,14 @@ public class TextGenerator
             }
         }
 
-        Debug.Log($"✅ {_voiceData.Count} 件の音声データをロードしました");
+        Debug.Log($"{resourcePath}: { _voiceData.Count } 件の音声データをロードしました");
     }
 
-    // CSVの中からランダムで1つのフレーズを取得して返す
-    public string GetRandomVoiceData()
+    /// <summary>
+    /// 音声データを取得する（GameManagerで使用）
+    /// </summary>
+    public Dictionary<string, string> GetVoiceData()
     {
-        int index = Random.Range(0, _voiceData.Count);
-        return _voiceData.Values.ElementAt(index);
+        return _voiceData;
     }
 }
