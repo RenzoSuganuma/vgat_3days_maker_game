@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FireRing_Red_0: 7708332830212045116
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 81e6eb2bbf7abad45847a31188f9243a
+guid: 0d1d3b8fe9e2f48d6b74e64d4c4f573d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2234354556791072034
-    second: FireRing_Blue_0
+      213: -2767414640851075459
+    second: StartMessage_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireRing_Blue_0
+      name: StartMessage_0
       rect:
         serializedVersion: 2
-        x: 48
+        x: 936
         y: 0
-        width: 105
-        height: 183
+        width: 910
+        height: 708
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eda51346e5afdf0e0800000000000000
-      internalID: -2234354556791072034
+      spriteID: d7e3bd9eb0b2899d0800000000000000
+      internalID: -2767414640851075459
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      FireRing_Blue_0: -2234354556791072034
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

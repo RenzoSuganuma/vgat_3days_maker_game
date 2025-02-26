@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 81e6eb2bbf7abad45847a31188f9243a
+guid: 387a45539e89c40ac85b48142b664445
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2234354556791072034
-    second: FireRing_Blue_0
+      213: 1016133019775959133
+    second: 2_wave_0
+  - first:
+      213: 8160921953049541239
+    second: 2_wave_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FireRing_Blue_0
+      name: 2_wave_0
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 105
-        height: 183
+        x: 0
+        y: 19
+        width: 30
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +118,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eda51346e5afdf0e0800000000000000
-      internalID: -2234354556791072034
+      spriteID: d508a4809970a1e00800000000000000
+      internalID: 1016133019775959133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2_wave_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 30
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a7433274b614170800000000000000
+      internalID: 8160921953049541239
       vertices: []
       indices: 
       edges: []
@@ -134,8 +159,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      FireRing_Blue_0: -2234354556791072034
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
