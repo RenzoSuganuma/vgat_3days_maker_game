@@ -25,9 +25,9 @@ public class MissionsDisplay : MonoBehaviour
         _maxDbText.text = "dB";
         _wordsText.text = "";
         _playerText.text = "";
-        _distanceScoreText.text = "DistanceScore";
-        _heightScoreText.text = "HeightScore";
-        _timeScoreText.text = "TimeScore";
+        _distanceScoreText.text = "距離: 0000m";
+        _heightScoreText.text = "高さ: 0000m";
+        _timeScoreText.text = "時間: 00s";
         _nextText.text = "Next";
 
         _successImage.SetActive(false);
@@ -41,7 +41,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMaxDbText(float maxDb)
     {
-        _maxDbText.text = $"📊 最大音量: {maxDb:F2} dB";
+        _maxDbText.text = $"最大音量:\n {maxDb:F2} dB";
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMissionText(string phrase)
     {
-        _wordsText.text = $"🔊 読み上げてください: {phrase}";
+        _wordsText.text = $"読み上げてください: {phrase}";
         _successImage.SetActive(false);
         _failImage.SetActive(false);
     }
@@ -76,7 +76,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetDistanceScore(int distance)
     {
-        _distanceScoreText.text = $"🏃 距離: {distance}m";
+        _distanceScoreText.text = $"距離: {distance}m";
     }
 
 
@@ -85,7 +85,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetHeightScore(int height)
     {
-        _heightScoreText.text = $"📏 高さ: {height}m";
+        _heightScoreText.text = $"高さ: {height}m";
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetTimeScore(float time)
     {
-        _timeScoreText.text = $"⏳ 時間: {time}s";
+        _timeScoreText.text = $"時間: {time}s";
     }
 
     /// <summary>
@@ -101,7 +101,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void MissionSuccess()
     {
-        Debug.Log("🎉 正解！");
+        Debug.Log("正解！");
 
         _successImage.SetActive(true);
         _failImage.SetActive(false);
