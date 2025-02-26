@@ -70,28 +70,28 @@ public class GameManager : MonoBehaviour
 
         _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { _missionsDisplay.SetMaxDbText(volume); });
         SpeechToTextVolume.OnSpeechResult.Subscribe(volume => { _missionsDisplay.SetPlayerText(volume); });
-        // SetNextMission();
+        SetNextMission();
     }
 
 
     /// <summary>
     /// 次のミッションのフレーズを設定
     /// </summary>
-    //private void SetNextMission()
-    //{
-    //    if (_wordStack.Count == 0)
-    //    {
-    //        InitializeWordStack();
-    //    }
+    private void SetNextMission()
+    {
+        if (_wordStack.Count == 0)
+        {
+            InitializeWordStack();
+        }
 
-    //    if (_wordStack.Count > 0)
-    //    {
-    //        _currentPhrase = _wordStack.Pop();
-    //        _missionsDisplay.SetMissionText(_currentPhrase);
+        if (_wordStack.Count > 0)
+        {
+            _currentPhrase = _wordStack.Pop();
+            _missionsDisplay.SetMissionText(_currentPhrase);
 
-    //        _missionsDisplay.SetNextText(_wordStack.Peek());
-    //    }
-    //}
+            _missionsDisplay.SetNextText(_wordStack.Peek());
+        }
+    }
 
 
     /// <summary>
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         _missionsDisplay.MissionSuccess();
         await UniTask.Delay(TimeSpan.FromMilliseconds(_nextTurnMillisecDelay));
-        // SetNextMission();
+        SetNextMission();
     }
 
     /// <summary>
