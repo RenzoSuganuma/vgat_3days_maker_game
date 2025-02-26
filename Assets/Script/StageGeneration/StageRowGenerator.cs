@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// レーン毎にステージを生成するクラス
+/// 繝ｬ繝ｼ繝ｳ豈弱↓繧ｹ繝�繝ｼ繧ｸ繧堤函謌舌☆繧九け繝ｩ繧ｹ
 /// </summary>
 public class StageRowGenerator : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class StageRowGenerator : MonoBehaviour
     float _height;
     int _layer;
 
-    int _generateIndex; // どこまで生成したかを保存するindex
+    int _generateIndex; // 縺ｩ縺薙∪縺ｧ逕滓�舌＠縺溘°繧剃ｿ晏ｭ倥☆繧喫ndex
 
     public void Initialize(float space, float height, int layer)
     {

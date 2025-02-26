@@ -184,6 +184,8 @@ GameObject:
   m_Component:
   - component: {fileID: 929547272269159382}
   - component: {fileID: 5690308952941578312}
+  - component: {fileID: -6751118201166561815}
+  - component: {fileID: 5245464699848290880}
   m_Layer: 0
   m_Name: Ring
   m_TagString: Untagged
@@ -263,3 +265,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6751118201166561815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6491994708564915554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88dc6e4fbef2f04ba8473db3c7f3fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swingAngle: 90
+  _duration: 2
+  _easeType: 4
+--- !u!114 &5245464699848290880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6491994708564915554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701e993201cf6754fa5fab6ccfc7e3e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pendulumController: {fileID: 0}
+  _voiceInputHandler: {fileID: 0}
+  objects: []

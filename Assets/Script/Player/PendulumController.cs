@@ -8,11 +8,17 @@ using Sequence = DG.Tweening.Sequence;
 /// </summary>
 public class PendulumController : MonoBehaviour
 {
-    [Header("初期設定")]
-    [SerializeField, Tooltip("振り子が動く角度")] private float _swingAngle = 90f; //
+    [Header("初期設定")] [SerializeField, Tooltip("振り子が動く角度")]
+    private float _swingAngle = 90f; //
+
     [SerializeField, Tooltip("往復する時間の半分")] private float _duration = 2f;
     [SerializeField, Tooltip("イージングの種類")] private Ease _easeType = Ease.InOutSine; // 次の振り子に飛び乗るevent
     public event Action OnReachTheEdge; // 端に到達した時のEvent
+
+    public void SetSwingAngle(float angle)
+    {
+        _swingAngle = angle;
+    }
 
     private void Start()
     {
@@ -41,7 +47,7 @@ public class PendulumController : MonoBehaviour
     /// </summary>
     private void OnReach()
     {
-        if ((_swingAngle < 0 && transform.localEulerAngles.z < 360 + _swingAngle) ||// TODO: アングルにマイナスを設定している場合がうまくいかない
+        if ((_swingAngle < 0 && transform.localEulerAngles.z < 360 + _swingAngle) || // TODO: アングルにマイナスを設定している場合がうまくいかない
             (_swingAngle > 0 && transform.localEulerAngles.z < _swingAngle / 2))
         {
             OnReachTheEdge?.Invoke();
