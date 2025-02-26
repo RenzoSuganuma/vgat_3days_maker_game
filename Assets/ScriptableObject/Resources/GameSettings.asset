@@ -12,14 +12,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d9e048ddb84a2fb1a563051edbe058, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
-  lowThreshold: -20
-  midThreshold: -15
-  highThreshold: -10
-  similarity: 0.5
-  stackSize: 10
-  nextTurnMillisecDelay: 1000
-  resourcesLoadPath: GloomyBeat_speachText
-  deviceName: Microphone
-  sampleRate: 48000
-  bgmVolume: 0.5
-  seVolume: 0.5
+  _voiceRecognitionSettings:
+    _lowThreshold: -20
+    _midThreshold: -15
+    _highThreshold: -10
+    _similarity: 0.5
+  _gameFlowSettings:
+    _stackSize: 10
+    _nextTurnMilliSecDelay: 1000
+  _gameLoadResourcesSettings:
+    _resourcesLoadSpeechTextPath: GloomyBeat_speechText
+    _saveDataPath: saveData
+  _micDeviceSettings:
+    _deviceName: Microphone
+    _sampleRate: 48000
+  _audioVolumeSettings:
+    _masterVolume: 0.8
+    _bgmVolume: 0.8
+    _seVolume: 0.8
+    _voiceVolume: 0.8
+  _playerSettings:
+    _jumpDuration: 1
+    height: 3
+    _gravity: 9.8
+    _animSpeed: 0.06
+    _swingAngle: 90
+    _duration: 2
+    _easeType: 4
+    _percent: 0.75
+    _animationDuration: 1
+    _angle: 40
+  _stageSettings:
+    _baseWidth: 5
+    _widthPerLayer: 1
+    _heightPerLayer: 5
+    _generateLayers: 6
+    _initialLayer: 2
+    _generateDistance: 100
+    _generatePerMoveDistance: 50
+  _objectBeatSettings:
+    _shakeDuration: 0.1
+    _scaleMultiplier: 1.05
+    _bpm: 128
+  _fadePanelSettings:
+    _duration: 0
