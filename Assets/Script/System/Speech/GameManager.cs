@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private string _resourcesLoadPath = "GloomyBeat_speachText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
     [SerializeField] private DropDownDevice _dropDownDevice;
-    [SerializeField] private MissionsText _missionsText;
+    [FormerlySerializedAs("_missionsText")] [SerializeField] private MissionsDisplay missionsDisplay;
 
     private Dictionary<string, string> _voiceData;
     [SerializeField] private float _lowThreshold = -30f; // 小さい声
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     private void SetNextMission()
     {
         _currentPhrase = GetRandomPhrase();
-        _missionsText.SetMissionText(_currentPhrase);
+        missionsDisplay.SetMissionText(_currentPhrase);
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnMissionSuccess()
     {
-        _missionsText.MissionSuccess();
+        missionsDisplay.MissionSuccess();
         Invoke(nameof(SetNextMission), 2.0f); // 2秒後に次のミッションへ
     }
 
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void OnMissionFail()
     {
-        _missionsText.MissionFail();
+        missionsDisplay.MissionFail();
     }
 
     /// <summary>
