@@ -16,6 +16,12 @@ public sealed class FadePanelImpl : MonoBehaviour
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _duration = settings.FadePanelSettings.Duration;
+        }
+
         _fadePanel = GetComponentInChildren<Image>();
         FadeInOut("");
     }
