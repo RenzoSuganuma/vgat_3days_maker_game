@@ -12,7 +12,7 @@ public class StageRowGenerator : MonoBehaviour
     float _height;
     int _layer;
 
-    int _generateIndex; // ¶¬‚Ég—p‚·‚éindex
+    int _generateIndex; // ‚Ç‚±‚Ü‚Å¶¬‚µ‚½‚©‚ğ•Û‘¶‚·‚éindex
 
     public void Initialize(float space, float height, int layer)
     {
@@ -31,7 +31,8 @@ public class StageRowGenerator : MonoBehaviour
                 return;
             }
 
-            var pref = Random.value < _fireRingProbability ? _fireRingPrefab : _ringPrefab;
+            var isFire = Random.value < _fireRingProbability;
+            var pref = isFire ? _fireRingPrefab : _ringPrefab;
             var obj = Instantiate(pref, new Vector3(x, _height), Quaternion.identity);
 
             Foundation.InGameLane?[_layer].Add(obj);

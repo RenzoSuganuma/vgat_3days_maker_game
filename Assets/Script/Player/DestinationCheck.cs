@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using R3;
 
 /// <summary>
 /// レーンの移動先を決定する
@@ -9,6 +10,9 @@ public class DestinationCheck : MonoBehaviour
     [SerializeField] private PendulumController _pendulumController;
     [SerializeField] private Transform _playerTransform;
     private PlayerMove _move;
+
+    [Header("音声認識部分")]
+    [SerializeField] private VoiceInputHandler _voiceInputHandler;
 
     [Header("Debug用")]
     [SerializeField] private List<GameObject> objects;
@@ -20,6 +24,26 @@ public class DestinationCheck : MonoBehaviour
     {
         _pendulumController.OnReachTheEdge += Move;
         _move = _playerTransform.GetComponent<PlayerMove>();
+
+        #region 音声認識との結合部分
+
+        // 音声認識結果を監視
+        _voiceInputHandler?.RecognizedText.Subscribe(text => { Debug.Log($"🎤 認識結果: {text}"); });
+
+        // 音量を監視
+        _voiceInputHandler?.MaxSpeechVolume.Subscribe(volume => { Debug.Log($"📊 最大音量: {volume} dB"); });
+
+        // 音声入力成功時に移動を実行
+        _voiceInputHandler?.IsVoiceInputSuccessful.Subscribe(isSuccessful =>
+        {
+            if (isSuccessful)
+            {
+                Debug.Log("音声入力成功: プレイヤーが移動可能");
+                MovePlayer(_voiceInputHandler.LaneChange.Value);
+            }
+        });
+
+        #endregion
     }
 
     private void OnDestroy()
@@ -29,12 +53,38 @@ public class DestinationCheck : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // テスト用
+        #region 音声認識部分
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _voiceInputHandler?.StartSpeechRecognition();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            _voiceInputHandler?.StopSpeechRecognition();
+        }
+
+        #endregion
+
+        if (Input.GetKeyDown(KeyCode.A)) // キャラクターのジャンプテスト用
         {
             CanMove = true;
         }
     }
 
+    /// <summary>
+    /// 音声認識に合わせてプレイヤーの移動先のレーンのIndexを変更する
+    /// </summary>
+    private void MovePlayer(int laneChange)
+    {
+        _currentLaneIndex += laneChange;
+        Debug.Log($"現在のレーン: {_currentLaneIndex}");
+    }
+
+    /// <summary>
+    /// プレイヤーを移動させる
+    /// </summary>
     private void Move()
     {
         if(!CanMove) return; // 成功判定が出ていなかったら処理を行わない
@@ -45,13 +95,8 @@ public class DestinationCheck : MonoBehaviour
             Foundation.NotifyGameOver();
         }
 
-        // TODO: Indexを変更する処理
-
-        // インデックスが5を超える場合は5に戻しておく
-        if (_currentLaneIndex >= 6)
-        {
-            _currentLaneIndex = 5;
-        }
+        // インデックスが5を超える場合は5の状態を維持する
+        _currentLaneIndex = Mathf.Min(_currentLaneIndex, 5);
 
         _move.JumpToNextPendulum(Search());
         CanMove = false;

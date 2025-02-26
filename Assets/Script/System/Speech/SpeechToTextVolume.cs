@@ -17,6 +17,7 @@ public class SpeechToTextVolume : MonoBehaviour
     private string _targetDevice = "";
     private AudioClip _audioClip;
 
+    private int _lastAudioPos;
     private void Start()
     {
         _dictationRecognizer = new DictationRecognizer();
@@ -46,6 +47,15 @@ public class SpeechToTextVolume : MonoBehaviour
 
         Debug.Log($"<color=green> 録音デバイス: {_targetDevice}</color>");
         _audioClip = Microphone.Start(_targetDevice, true, 10, 48000);
+    }
+
+    /// <summary>
+    /// デバイス名を設定
+    /// </summary>
+    public void SetDeviceName(string deviceName)
+    {
+        _deviceName = deviceName;
+        InitMicrophone(); // 新しいデバイスでマイクを再初期化
     }
 
     /// <summary>
@@ -104,7 +114,7 @@ public class SpeechToTextVolume : MonoBehaviour
     }
 
     /// <summary>
-    /// 最新のマイク音量を取得
+    /// マイクから音声データを取得
     /// </summary>
     private float GetUpdatedAudio()
     {
@@ -158,5 +168,5 @@ public class SpeechToTextVolume : MonoBehaviour
         _dictationRecognizer.Dispose();
     }
 
-    private int _lastAudioPos;
+
 }
