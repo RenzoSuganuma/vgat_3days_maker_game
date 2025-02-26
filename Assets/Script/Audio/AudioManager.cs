@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PlayRandomVoice(VoiceNameEnum voiceName)
     {
-        (AudioClip Clip, float Volume) data = _voice.GetRandomVoiceClip(voiceName);
+        VoiceData data = _voice.GetRandomVoiceClip(voiceName);
         _seAudioSource.volume = data.Volume;
         _seAudioSource.PlayOneShot(data.Clip);
     }

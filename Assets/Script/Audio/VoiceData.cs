@@ -2,13 +2,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ボイスデータ
+/// ボイス一つのクリップ
 /// </summary>
 [System.Serializable]
 public struct VoiceData
 {
-    /// <summary>ボイスデータ（2種類）</summary>
+    public AudioClip Clip;
+    public float Volume;
+}
+
+/// <summary>
+/// ボイスデータ
+/// </summary>
+[System.Serializable]
+public struct VoiceDatas
+{
     [Header("ボイスの名前")] public VoiceNameEnum VoiceName;
-    [Header("ボイスデータ")] public List<AudioClip> Clips;
-    [Header("音量")] public float Volume;
+    [Header("ボイスデータ")] public List<VoiceData> VoiceDatasList;
 }
