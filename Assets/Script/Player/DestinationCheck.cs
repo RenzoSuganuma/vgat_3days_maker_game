@@ -8,7 +8,7 @@ using R3;
 [RequireComponent(typeof(PendulumController))]
 public class DestinatinCheck : MonoBehaviour
 {
-    [SerializeField] private MissionsDisplay _missionsDisplay;
+    private MissionsDisplay _missionsDisplay;
     private PendulumController _pendulumController;
     private Transform _playerTransform;
     private PlayerMove _move;
@@ -22,6 +22,7 @@ public class DestinatinCheck : MonoBehaviour
     {
         _pendulumController = GetComponent<PendulumController>(); // 親オブジェクトのPendulumControllerを取得する
 
+        _missionsDisplay = FindAnyObjectByType<MissionsDisplay>();
         _speechBubbleManager = new SpeechBubbleManager(_missionsDisplay); // 音声入力に対して吹きだしを表示・ボイス再生をするクラスを生成
 
         _pendulumController.OnReachTheEdge += Move;
@@ -147,7 +148,7 @@ public class DestinatinCheck : MonoBehaviour
             float distance = obj.transform.position.x - currentPendulum.position.x;
             if (distance < minDistance)
             {
-                nextPendulum = obj.transform;
+                nextPendulum = obj.GetComponent<PendulumController>().PlayerAnchor;
                 minDistance = obj.transform.position.x - currentPendulum.position.x;
             }
         }

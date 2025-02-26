@@ -28,7 +28,7 @@ public class TitlePanelImpl : MonoBehaviour
 
         _buttonStart.onClick.AddListener(() =>
         {
-            FindAnyObjectByType<SceneLoaderImpl>().StartGame();
+            FindAnyObjectByType<SceneLoaderImpl>()?.StartGame();
         } );
     }
 

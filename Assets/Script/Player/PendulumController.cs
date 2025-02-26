@@ -17,6 +17,10 @@ public class PendulumController : MonoBehaviour
     [SerializeField, Tooltip("プレイヤーの画像を変更するtweenの進行度")]
     private float _percent = 0.75f;
 
+    [SerializeField] private Transform _playerAnchor;
+
+    public Transform PlayerAnchor => _playerAnchor;
+
     public event Action OnReachTheEdge; // 端に到達した時のEvent
     public event Action OnEdgeLeft;
     public event Action OnEdgeRight;
