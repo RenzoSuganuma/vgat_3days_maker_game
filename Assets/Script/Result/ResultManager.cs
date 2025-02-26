@@ -15,7 +15,7 @@ public class ResultManager : MonoBehaviour
         {
             if (i < ranking.Length)
             {
-                _rankingText[i].text = $"{i+1}ˆÊ {ranking[i]}m";
+                _rankingText[i].text = $"{i+1}ä½ {ranking[i]}m";
                 
             }
             else

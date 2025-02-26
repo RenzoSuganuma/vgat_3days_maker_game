@@ -10,8 +10,17 @@ public class PlayerJumpingSprite : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites = new List<Sprite>();
     [SerializeField] private SpriteRenderer _image;
-    [SerializeField] private float _animSpeed = 0.06f;
+    private float _animSpeed = 0.06f;
     private int _index = 0;
+
+    void Start()
+    {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _animSpeed = settings.PlayerSettings.AnimSpeed;
+        }
+    }
 
     /// <summary>
     /// ランダムにプレイヤーの画像を変更する
