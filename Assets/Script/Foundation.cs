@@ -11,6 +11,8 @@ public static class Foundation
     public const string INGAME_SCENE_NAME = "InGame";
     public const string RESULT_SCENE_NAME = "Result";
 
+    public static int MovedDistance;
+
     public static string CurrentScene => SceneManager.GetActiveScene().name;
 
     public static List<GameObject>[] InGameLane { get; private set; }
@@ -51,6 +53,8 @@ public static class Foundation
         // DEBUG_StartGameAsync().Forget();
         return;
 #endif
+
+        MovedDistance = 0;
 
         StartGameAsync().Forget();
     }
