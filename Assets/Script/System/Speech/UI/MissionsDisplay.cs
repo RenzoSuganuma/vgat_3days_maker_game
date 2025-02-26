@@ -88,7 +88,7 @@ public class MissionsDisplay : MonoBehaviour
     /// <summary>
     /// 高さスコアを設定
     /// </summary>
-    public void SetHeightScore(int height)
+    public void SetHeightScore(string height)
     {
         _heightScoreText.text = $"高さ: {height}m";
     }
