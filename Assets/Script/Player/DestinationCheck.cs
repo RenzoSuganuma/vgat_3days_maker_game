@@ -19,13 +19,13 @@ public class DestinatinCheck : MonoBehaviour
 
     private void Start()
     {
-        _pendulumController.OnReachTheEdge += Move;
         _move = FindAnyObjectByType<PlayerMove>();
         _playerTransform = _move.transform;
 
         _voiceInputHandler = FindAnyObjectByType<VoiceInputHandler>();
 
         _pendulumController = GetComponent<PendulumController>();
+        _pendulumController.OnReachTheEdge += Move;
 
         #region 音声認識との結合部分
 
