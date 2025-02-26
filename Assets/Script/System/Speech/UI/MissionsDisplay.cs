@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,10 +13,13 @@ public class MissionsDisplay : MonoBehaviour
     [SerializeField] private TMP_Text _distanceScoreText;
     [SerializeField] private TMP_Text _heightScoreText;
     [SerializeField] private TMP_Text _timeScoreText;
-    [SerializeField] private TMP_Text _nextText;
+    // [SerializeField] private TMP_Text _nextText;
 
     [SerializeField] private GameObject _successImage;
     [SerializeField] private GameObject _failImage;
+
+    [SerializeField] private GameObject _messagePanel;
+    [SerializeField] List<Sprite> _messageSprites = new List<Sprite>();
 
     private Color _defaultTextColor;
 
@@ -25,13 +29,14 @@ public class MissionsDisplay : MonoBehaviour
         _maxDbText.text = "dB";
         _wordsText.text = "";
         _playerText.text = "";
-        _distanceScoreText.text = "DistanceScore";
-        _heightScoreText.text = "HeightScore";
-        _timeScoreText.text = "TimeScore";
-        _nextText.text = "Next";
+        _distanceScoreText.text = "距離: 0000m";
+        _heightScoreText.text = "高さ: 0000m";
+        _timeScoreText.text = "時間: 00s";
+        // _nextText.text = "Next";
 
         _successImage.SetActive(false);
         _failImage.SetActive(false);
+        _messagePanel.SetActive(false);
 
         _defaultTextColor = _wordsText.color;
     }
@@ -41,7 +46,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMaxDbText(float maxDb)
     {
-        _maxDbText.text = $"📊 最大音量: {maxDb:F2} dB";
+        _maxDbText.text = $"最大音量:\n {maxDb:F2} dB";
     }
 
     /// <summary>
@@ -49,7 +54,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMissionText(string phrase)
     {
-        _wordsText.text = $"🔊 読み上げてください: {phrase}";
+        _wordsText.text = $"読み上げてください: {phrase}";
         _successImage.SetActive(false);
         _failImage.SetActive(false);
     }
@@ -68,7 +73,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetNextText(string text)
     {
-        _nextText.text = text;
+        // _nextText.text = text;
     }
 
     /// <summary>
@@ -76,7 +81,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetDistanceScore(int distance)
     {
-        _distanceScoreText.text = $"🏃 距離: {distance}m";
+        _distanceScoreText.text = $"距離: {distance}m";
     }
 
 
@@ -85,15 +90,15 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetHeightScore(int height)
     {
-        _heightScoreText.text = $"📏 高さ: {height}m";
+        _heightScoreText.text = $"高さ: {height}m";
     }
 
     /// <summary>
     /// 時間スコアを設定
     /// </summary>
-    public void SetTimeScore(float time)
+    public void SetTimeScore(string time)
     {
-        _timeScoreText.text = $"⏳ 時間: {time}s";
+        _timeScoreText.text = $"時間: {time}s";
     }
 
     /// <summary>
@@ -101,7 +106,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void MissionSuccess()
     {
-        Debug.Log("🎉 正解！");
+        Debug.Log("正解！");
 
         _successImage.SetActive(true);
         _failImage.SetActive(false);
@@ -125,5 +130,32 @@ public class MissionsDisplay : MonoBehaviour
         {
             _wordsText.color = _defaultTextColor; // 元の色に戻す
         });
+    }
+
+    /// <summary>
+    /// メッセージパネルを表示する場合のUIアニメーション
+    /// </summary>
+    public void ShowMessagePanel()
+    {
+        _messagePanel.SetActive(true);
+        _messagePanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack);
+
+        // 3秒後に非表示にする
+        DOVirtual.DelayedCall(3f,
+            () =>
+            {
+                _messagePanel.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack).OnComplete(() =>
+                {
+                    _messagePanel.SetActive(false);
+                });
+            });
+    }
+
+    /// <summary>
+    /// メッセージパネルの画像を設定する
+    /// </summary>
+    public void SetMessagePanel(VoiceNameEnum index)
+    {
+        _messagePanel.GetComponent<Image>().sprite = _messageSprites[(int)index];
     }
 }

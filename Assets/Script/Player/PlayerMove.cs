@@ -1,26 +1,37 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// プレイヤーが振り子から振り子に移るスクリプト
 /// </summary>
 public class PlayerMove : MonoBehaviour
 {
-    [Header("ジャンプの設定")]
-    [SerializeField, Tooltip("ジャンプ時間")] private float _jumpDuration = 1.0f;
-    [SerializeField, Tooltip("最大高さ")] private float height = 3.0f;
-    [SerializeField, Tooltip("重力加速度")] private float _gravity = 9.8f;
     [SerializeField] private PlayerJumpingSprite _playerJumpingSprite;
     [SerializeField] private PlayerAnimation _animation;
+    [SerializeField] private ParticleGenerater _particleGenerater;
 
+    private float _jumpDuration;
+    private float _height;
+    private float _gravity;
+    public ParticleGenerater ParticleGenerater => _particleGenerater;
     private Vector3 _initialLocalPos;
 
     public bool IsJumping { get; private set; } // ジャンプ中か
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _jumpDuration = settings.PlayerSettings.JumpDuration;
+            _height = settings.PlayerSettings.Height;
+            _gravity = settings.PlayerSettings.Gravity;
+        }
+
         _initialLocalPos = transform.localPosition;
+        transform.SetParent(Foundation.InGameLane[2][0].transform);
         _animation.SetPendulumController(transform.parent.GetComponent<PendulumController>());
     }
 
@@ -70,6 +81,7 @@ public class PlayerMove : MonoBehaviour
     /// </summary>
     private void Catch()
     {
+        _particleGenerater.PlayCatchParticle(); // 振り子を掴んだ時のパーティクルを再生する
         transform.localPosition = _initialLocalPos;
         transform.localRotation = Quaternion.identity;
         IsJumping = false;

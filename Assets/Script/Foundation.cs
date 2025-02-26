@@ -11,6 +11,8 @@ public static class Foundation
     public const string INGAME_SCENE_NAME = "InGame";
     public const string RESULT_SCENE_NAME = "Result";
 
+    public static int MovedDistance;
+
     public static string CurrentScene => SceneManager.GetActiveScene().name;
 
     public static List<GameObject>[] InGameLane { get; private set; }
@@ -52,12 +54,19 @@ public static class Foundation
         return;
 #endif
 
+        MovedDistance = 0;
+
         StartGameAsync().Forget();
     }
 
     public static void EndGame()
     {
         EndGameAsync().Forget();
+    }
+
+    public static void ResetGame()
+    {
+        ResetGameAsync().Forget();
     }
 
     public static void NotifyGameOver()
@@ -116,6 +125,23 @@ public static class Foundation
         DisposeScene(INGAME_SCENE_NAME);
     }
 
+    private static async UniTask ResetGameAsync()
+    {
+        // InGameシーンとResultシーンをアンロード
+        await DisposeSceneAsync(INGAME_SCENE_NAME);
+
+        // タイトルシーンをロード
+        await LoadSceneAsync(TITLE_SCENE_NAME);
+
+        // タイトルシーンをアクティブに設定
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(TITLE_SCENE_NAME));
+
+        // イベントを発火
+        TaskOnChangedScene?.Invoke(TITLE_SCENE_NAME);
+
+        await DisposeSceneAsync(RESULT_SCENE_NAME);
+    }
+
     private static void LoadSceneAdditive(string sceneName)
     {
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
@@ -142,5 +168,21 @@ public static class Foundation
         }
 
         return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName));
+    }
+
+    private static async UniTask DisposeSceneAsync(string sceneName)
+    {
+        if (!SceneManager.GetSceneByName(sceneName).IsValid())
+        {
+            return;
+        }
+
+        await SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName(sceneName));
+    }
+
+    private static async UniTask LoadSceneAsync(string sceneName)
+    {
+        await SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        TaskOnLoadScene?.Invoke(sceneName);
     }
 }

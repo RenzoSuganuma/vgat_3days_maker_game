@@ -654,6 +654,10 @@ PrefabInstance:
       propertyPath: missionsDisplay
       value: 
       objectReference: {fileID: 1416782383}
+    - target: {fileID: 7658202002199759813, guid: 9ebb31be068b4164cbaa0be553de2f46, type: 3}
+      propertyPath: _missionsDisplay
+      value: 
+      objectReference: {fileID: 1416782383}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

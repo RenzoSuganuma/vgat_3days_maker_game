@@ -12,14 +12,23 @@ public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] private List<Sprite> _sprites;
     [SerializeField] private SpriteRenderer _image;
-    [SerializeField, Tooltip("キャラクターの画像を変更しておく時間")] private float _duration = 1f;
-    [SerializeField] private int _angle = 40;
+
     private PendulumController _pendulumController;
 
-    private  CompositeDisposable _disposable = new  CompositeDisposable();
+    private float _duration;
+    private int _angle;
+
+    private CompositeDisposable _disposable = new CompositeDisposable();
 
     private void Start()
     {
+        var settings = Resources.Load<GameSettings>("GameSettings");
+        if (settings != null)
+        {
+            _duration = settings.PlayerSettings.AnimationDuration;
+            _angle = settings.PlayerSettings.Angle;
+        }
+
         _image.sprite = _sprites[0];
     }
 
@@ -27,7 +36,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         _disposable?.Dispose();
 
-        if(_pendulumController == null) return;
+        if (_pendulumController == null) return;
         _pendulumController.OnEdgeLeft -= OnEdge;
         _pendulumController.OnEdgeRight -= OnRelease;
     }
@@ -64,16 +73,13 @@ public class PlayerAnimation : MonoBehaviour
     private async UniTask ChangeSprite(int index, int angle)
     {
         _image.sprite = _sprites[index];
-        
+
         float elapsedTime = 0f;
         var rotationProgress = new ReactiveProperty<float>(0f);
 
         rotationProgress
             .Select(progress => Mathf.Lerp(0f, angle, progress))
-            .Subscribe(angle =>
-            {
-                transform.localRotation = Quaternion.Euler(0f, 0f, angle);
-            })
+            .Subscribe(angle => { transform.localRotation = Quaternion.Euler(0f, 0f, angle); })
             .AddTo(_disposable);
 
         while (elapsedTime < _duration)
@@ -85,5 +91,6 @@ public class PlayerAnimation : MonoBehaviour
 
         _image.sprite = _sprites[0];
         transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        AudioManager.Instance.PlaySE(SENameEnum.Swing);
     }
 }

@@ -9,8 +9,8 @@ using Cysharp.Threading.Tasks;
 public class SpeechToTextVolume : IDisposable
 {
     private DictationRecognizer _dictationRecognizer;
-    public Subject<string> OnSpeechResult = new Subject<string>();
-    public Subject<float> OnSpeechVolume = new Subject<float>();
+    public Subject<string> OnSpeechResult = new Subject<string>(); // 音声認識結果
+    public Subject<float> OnSpeechVolume = new Subject<float>(); // 音量データ
 
     private string _deviceName;
     private string _targetDevice = "";
@@ -103,7 +103,6 @@ public class SpeechToTextVolume : IDisposable
     /// </summary>
     private void DictationRecResult(string text, ConfidenceLevel confidence)
     {
-        Debug.Log($"🎤 認識した音声： {text}");
         OnSpeechResult.OnNext(text);
     }
 
@@ -121,7 +120,7 @@ public class SpeechToTextVolume : IDisposable
             {
                 float volume = GetUpdatedAudioRelative();
                 maxVolume = Mathf.Max(maxVolume, volume);
-                await UniTask.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: cancellationToken);
+                await UniTask.Delay(TimeSpan.FromMilliseconds(1), cancellationToken: cancellationToken);
             }
         }
         catch (OperationCanceledException) // タイムアップ

@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TitlePanelImpl : MonoBehaviour
 {
     [SerializeField] private CanvasGroup _hideOnScneChange;
     [SerializeField] private List<GameObject> _ddols = new();
+    [SerializeField] private Button _buttonStart;
+
+    private bool _test;
 
     private void Start()
     {
@@ -34,17 +38,26 @@ public class TitlePanelImpl : MonoBehaviour
                 FindAnyObjectByType<MissionsDisplay>().GetComponent<CanvasGroup>().alpha = 1;
             }
         };
+
+        _buttonStart.onClick.AddListener(() =>
+        {
+            FindAnyObjectByType<SceneLoaderImpl>().StartGame();
+        } );
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            FindAnyObjectByType<VoiceInputHandler>().StopSpeechRecognition();
             FindAnyObjectByType<VoiceInputHandler>().StartSpeechRecognition();
+
+            _test = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (_test && Input.GetKeyUp(KeyCode.Space))
         {
+            _test = false;
             FindAnyObjectByType<VoiceInputHandler>().StopSpeechRecognition();
         }
     }
