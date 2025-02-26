@@ -64,6 +64,31 @@ public class MissionsDisplay : MonoBehaviour
         _timeScoreText.text = $"⏳ 時間: {time}s";
     }
 
+    public void SetPlayerText(string text)
+    {
+        _playerText.text = text;
+    }
+
+    public void SetNextText(string text)
+    {
+        _nextText.text = text;
+    }
+
+    public void SetDistanceScore(int distance)
+    {
+        _distanceScoreText.text = $"🏃 距離: {distance}m";
+    }
+
+    public void SetHeightScore(int height)
+    {
+        _heightScoreText.text = $"📏 高さ: {height}m";
+    }
+
+    public void SetTimeScore(int time)
+    {
+        _timeScoreText.text = $"⏳ 時間: {time}s";
+    }
+
     /// <summary>
     /// 正しい発音をした場合の UI アニメーション
     /// </summary>
