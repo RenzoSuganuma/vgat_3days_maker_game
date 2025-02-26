@@ -23,7 +23,7 @@ public class RandomObjectChooser : MonoBehaviour
         weightSum = probability;
     }
 
-    public GameObject Choose()
+    public RObject Choose()
     {
         Random.InitState(System.DateTime.Now.Millisecond + _seedAdd);
         _seedAdd++;
@@ -34,18 +34,19 @@ public class RandomObjectChooser : MonoBehaviour
             // ’Š‘I
             if (weights[i] < p && p <= weights[i + 1])
             {
-                return randomObjects[i].prefab;
+                return randomObjects[i];
             }
         }
 
         Debug.Log("¶¬‚·‚éáŠQ•¨‚ð’Š‘I‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½");
-        return null;
+        return default;
     }
 }
 
 [System.Serializable]
-public struct RObject
+public class RObject
 {
-    public GameObject prefab;
+    public GameObject obj;
     public int weight;
+    public bool mid;
 }

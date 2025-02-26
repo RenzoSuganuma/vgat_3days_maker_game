@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 public class LaneObjectGenerator : MonoBehaviour
 {
-    [SerializeField] RandomObjectChooser _chooser;
-    [SerializeField] float _probability = 0.1f;
+    [SerializeField] RandomObjectChooser _objChooser;
+    [SerializeField] float _probability = 0.6f;
     [SerializeField] int[] _generatedIndex = new int[6];
     List<Transform> _parents = new();
     int _seedAdd;
@@ -27,19 +27,33 @@ public class LaneObjectGenerator : MonoBehaviour
         var lane = Foundation.InGameLane[layer];
         for (int i = _generatedIndex[layer]; i < lane.Count - 1; i++)
         {
-            // 確立で生成
+            // 確率で生成
             Random.InitState(System.DateTime.Now.Millisecond + _seedAdd);
             _seedAdd++;
             _generatedIndex[layer]++;
-            if (Random.value > _probability) continue;
 
-            // 振り子の中点を取得
-            var prev = lane[i].transform.position;
-            var below = lane[i + 1].transform.position;
-            var pos = prev + (below - prev) / 2;
+            if (Random.value > _probability) return;
 
             // ランダムなオブジェクトを生成
-            Instantiate(_chooser.Choose(), pos, Quaternion.identity, _parents[layer]);
+            var randObj = _objChooser.Choose();
+            var obj = randObj.obj;
+
+            if (obj == null) return;
+
+            if (randObj.mid)
+            {
+                // 振り子の中点を中心に生成
+                var left = lane[i].transform.position;
+                var right = lane[i + 1].transform.position;
+                var pos = left + (right - left) / 2;
+
+                Instantiate(obj, pos, Quaternion.identity, _parents[layer]);
+            }
+            else
+            {
+                // 振り子を中心に生成
+                Instantiate(obj, lane[i].transform.position, Quaternion.identity, _parents[layer]);
+            }
         }
     }
 }
