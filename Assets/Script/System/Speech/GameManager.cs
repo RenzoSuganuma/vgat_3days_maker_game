@@ -66,12 +66,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetNextMission()
     {
-        if (_wordStack.Count == 0)
+        if (_wordStack.Count == 1)
         {
             InitializeWordStack();
         }
 
-        if (_wordStack.Count > 0)
+        if (_wordStack.Count > 1)
         {
             _currentPhrase = _wordStack.Pop();
             _missionsDisplay.SetMissionText(_currentPhrase);
