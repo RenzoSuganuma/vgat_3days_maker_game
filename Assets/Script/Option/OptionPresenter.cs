@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class OptionPresenter : MonoBehaviour
 {
@@ -24,26 +22,15 @@ public class OptionPresenter : MonoBehaviour
         _optionModel = new OptionModel(_defaultSettings);
 
         // コントロールパネルを初期化
-        InitializeOptionSettings();
+        _controlPresenter.Initialize(_optionModel);
         _optionView.Initialize(CloseOptionPanel);
     }
 
-    private void InitializeOptionSettings()
-    {
-        _controlPresenter.Initialize(_optionModel);
-    }
-
-    /// <summary>
-    /// オプションパネルを開く
-    /// </summary>
     public void OpenOptionPanel()
     {
         _optionView.ShowOptionPanel();
     }
 
-    /// <summary>
-    /// オプションパネルを閉じる
-    /// </summary>
     public void CloseOptionPanel()
     {
         _optionView.HideOptionPanel();
