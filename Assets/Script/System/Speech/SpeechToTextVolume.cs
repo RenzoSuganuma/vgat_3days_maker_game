@@ -9,8 +9,8 @@ using Cysharp.Threading.Tasks;
 public class SpeechToTextVolume : IDisposable
 {
     private DictationRecognizer _dictationRecognizer;
-    public Subject<string> OnSpeechResult = new Subject<string>();
-    public Subject<float> OnSpeechVolume = new Subject<float>();
+    public Subject<string> OnSpeechResult = new Subject<string>(); // 音声認識結果
+    public Subject<float> OnSpeechVolume = new Subject<float>(); // 音量データ
 
     private string _deviceName;
     private string _targetDevice = "";
