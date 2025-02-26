@@ -21,6 +21,7 @@ public class AudienceBeatSync : MonoBehaviour
 
     private void OnBeat()
     {
-        _sprite.DOMoveY(transform.position.y + 0.2f, 0.1f).SetLoops(2, LoopType.Yoyo);
+        _sprite.DOMoveY(transform.position.y + 0.2f, 0.24f)　// 0.24 は 60 / 128BPM の約半分の時間
+            .SetLoops(2, LoopType.Yoyo);
     }
 }
