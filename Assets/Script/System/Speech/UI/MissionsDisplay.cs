@@ -103,9 +103,9 @@ public class MissionsDisplay : MonoBehaviour
     /// <summary>
     /// 時間スコアを設定
     /// </summary>
-    public void SetTimeScore(float time)
+    public void SetTimeScore(string time)
     {
-        _timeScoreText.text = $"時間: {time}s";
+        _timeScoreText.text = "時間: " + time + "s";
     }
 
     /// <summary>

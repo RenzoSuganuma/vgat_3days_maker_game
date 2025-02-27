@@ -19,7 +19,7 @@ public class TimerController : MonoBehaviour
     void Update()
     {
         _time -= Time.deltaTime;
-        _scorebord.SetTimeScore(_time);
+        _scorebord.SetTimeScore(_time.ToString("c0"));
 
         if (_time <= 0)
         {

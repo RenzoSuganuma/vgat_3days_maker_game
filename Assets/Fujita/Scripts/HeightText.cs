@@ -14,7 +14,7 @@ public class HeightText : MonoBehaviour
 
     void Update()
     {
-        _height = DestinatinCheck._currentLaneIndex * 10 + 10;
+        _height = DestinatinCheck._currentLaneIndex * 10 + 30;
         _scorebord.SetHeightScore(_height);
     }
 }
