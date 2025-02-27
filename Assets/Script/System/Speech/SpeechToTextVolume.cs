@@ -21,6 +21,7 @@ public class SpeechToTextVolume : IDisposable
     private CancellationTokenSource _cancellationTokenSource;
     private MissionsDisplay _missionsDisplay;
 
+
     public SpeechToTextVolume(GameSettings gameSettings)
     {
         _gameSettings = gameSettings;
@@ -30,51 +31,38 @@ public class SpeechToTextVolume : IDisposable
         _dictationRecognizer.DictationError += DictationRecError;
 
         _deviceName = _gameSettings.MicDeviceSettings.DeviceName;
-        InitMicrophone();
+        InitMicrophone(_gameSettings.MicDeviceSettings.DeviceName);
         Debug.Log("SpeechToTextVolume: 初期化完了");
     }
 
     /// <summary>
     /// マイクを初期化し、録音を開始
     /// </summary>
-    private void InitMicrophone()
+    private void InitMicrophone(string targetDevice)
     {
-        foreach (var device in Microphone.devices)
-        {
-            Debug.Log($"Device Name: {device}");
-            if (device.Contains(_deviceName))
-            {
-                _targetDevice = device;
-            }
-            else
-            {
-                _targetDevice = Microphone.devices[0];
-            }
-        }
-
-        if (string.IsNullOrEmpty(_targetDevice))
+        if (string.IsNullOrEmpty(targetDevice))
         {
             Debug.LogError("⚠ マイクデバイスが見つかりません！");
             return;
         }
 
-        Debug.Log($"🎤 録音デバイス: {_targetDevice}");
-        _audioClip = Microphone.Start(_targetDevice, true, 10, _gameSettings.MicDeviceSettings.SampleRate);
+        Debug.Log($"🎤 録音デバイス: {targetDevice}");
+        _audioClip = Microphone.Start(targetDevice, true, 10, _gameSettings.MicDeviceSettings.SampleRate);
     }
 
 
     /// <summary>
     /// デバイス名を設定
     /// </summary>
-    public void SetDeviceName(string deviceName)
+    public void SetDeviceName(string targetDevice)
     {
-        _deviceName = deviceName;
+        _deviceName = targetDevice;
         if (_gameSettings != null)
         {
             _gameSettings.MicDeviceSettings.DeviceName = _deviceName;
         }
 
-        InitMicrophone(); // 新しいデバイスでマイクを再初期化
+        InitMicrophone(_deviceName); // 新しいデバイスでマイクを再初期化
     }
 
     /// <summary>

@@ -7,11 +7,13 @@ using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
-    private string _resourcesLoadPath = "GloomyBeat_speechText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
     [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
+    private GameSettings _gameSettings;
+
+    private string _resourcesLoadPath ;
     private readonly Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
 
@@ -35,20 +37,19 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        var settings = Resources.Load<GameSettings>("GameSettings");
-        if (settings != null)
+        _gameSettings = Resources.Load<GameSettings>("GameSettings");
+        if (_gameSettings != null)
         {
-            _voiceRecognitionSettings.LowThreshold = settings.VoiceRecognitionSettings.LowThreshold;
-            _voiceRecognitionSettings.MidThreshold = settings.VoiceRecognitionSettings.MidThreshold;
-            _voiceRecognitionSettings.HighThreshold = settings.VoiceRecognitionSettings.HighThreshold;
-            _voiceRecognitionSettings.Similarity = settings.VoiceRecognitionSettings.Similarity;
+            _voiceRecognitionSettings.LowThreshold = _gameSettings.VoiceRecognitionSettings.LowThreshold;
+            _voiceRecognitionSettings.MidThreshold = _gameSettings.VoiceRecognitionSettings.MidThreshold;
+            _voiceRecognitionSettings.HighThreshold = _gameSettings.VoiceRecognitionSettings.HighThreshold;
+            _voiceRecognitionSettings.Similarity = _gameSettings.VoiceRecognitionSettings.Similarity;
 
-            _gameFlowSettings.StackSize = settings.GameFlowSettings.StackSize;
-            _gameFlowSettings.NextTurnMilliSecDelay = settings.GameFlowSettings.NextTurnMilliSecDelay;
+            _gameFlowSettings.StackSize = _gameSettings.GameFlowSettings.StackSize;
+            _gameFlowSettings.NextTurnMilliSecDelay = _gameSettings.GameFlowSettings.NextTurnMilliSecDelay;
 
-            _resourcesLoadPath = settings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
+            _resourcesLoadPath = _gameSettings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
         }
-
 
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
@@ -59,10 +60,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _speechToTextVolume = new SpeechToTextVolume(settings);
-        _dropDownDevice.Construct(_speechToTextVolume);
-        _voiceJudgement = new VoiceJudgement(this);
+        _speechToTextVolume = new SpeechToTextVolume(_gameSettings);
 
+        _dropDownDevice.Construct(_gameSettings, _speechToTextVolume);
+
+        _voiceJudgement = new VoiceJudgement(this);
         _voiceInputHandler.Initialize(this);
 
         SetNextMission();

@@ -24,7 +24,7 @@ MonoBehaviour:
     _resourcesLoadSpeechTextPath: GloomyBeat_speechText
     _saveDataPath: saveData
   _micDeviceSettings:
-    _deviceName: Microphone
+    _deviceName: CORSAIR VIRTUOSO Wireless Gaming Headset
     _sampleRate: 48000
   _audioVolumeSettings:
     _masterVolume: 0.8
@@ -50,6 +50,7 @@ MonoBehaviour:
     _initialLayer: 2
     _generateDistance: 100
     _generatePerMoveDistance: 50
+    _timeLimit: 120
   _objectBeatSettings:
     _shakeDuration: 0.1
     _scaleMultiplier: 1.05
