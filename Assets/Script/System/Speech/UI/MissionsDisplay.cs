@@ -56,7 +56,7 @@ public class MissionsDisplay : MonoBehaviour
     /// </summary>
     public void SetMissionText(string phrase)
     {
-        _wordsText.text = $"読み上げてください: {phrase}";
+        _wordsText.text = $"{phrase}";
 
         var c = _wordsText.color;
         c.a = 1;
