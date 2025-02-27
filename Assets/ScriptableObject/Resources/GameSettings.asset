@@ -50,7 +50,7 @@ MonoBehaviour:
     _initialLayer: 2
     _generateDistance: 100
     _generatePerMoveDistance: 50
-    _timeLimit: 120
+    _timeLimit: 45
   _objectBeatSettings:
     _shakeDuration: 0.1
     _scaleMultiplier: 1.05
