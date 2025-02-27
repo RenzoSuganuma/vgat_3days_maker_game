@@ -30,8 +30,9 @@ public class SpeechToTextVolume : IDisposable
         _dictationRecognizer.DictationResult += DictationRecResult;
         _dictationRecognizer.DictationError += DictationRecError;
 
-        _deviceName = _gameSettings.MicDeviceSettings.DeviceName;
-        InitMicrophone(_gameSettings.MicDeviceSettings.DeviceName);
+        _deviceName = ValidateMicDevice(_gameSettings.MicDeviceSettings.DeviceName);
+
+        InitMicrophone(_deviceName);
         Debug.Log("SpeechToTextVolume: 初期化完了");
     }
 

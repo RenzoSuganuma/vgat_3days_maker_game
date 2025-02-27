@@ -15,10 +15,10 @@ public class GameManager : MonoBehaviour
 
     private string _resourcesLoadPath ;
     private readonly Stack<string> _wordStack = new();
-    private Dictionary<string, string> _voiceData;
+    private Dictionary<string, string> _voiceData = new();
 
-    private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new VoiceRecognitionSettings();
-    private readonly GameFlowSettings _gameFlowSettings = new GameFlowSettings();
+    private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new();
+    private readonly GameFlowSettings _gameFlowSettings = new();
 
 
     private SpeechToTextVolume _speechToTextVolume;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, string> VoiceData => _voiceData;
 
 
-    private void Awake()
+    private void Start()
     {
         _gameSettings = Resources.Load<GameSettings>("GameSettings");
         if (_gameSettings != null)
