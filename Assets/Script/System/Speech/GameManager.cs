@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, string> _voiceData = new();
 
     private string _resourcesLoadPath ;
-    private readonly Stack<string> _wordStack = new();
-    private Dictionary<string, string> _voiceData = new();
 
     private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new();
     private readonly GameFlowSettings _gameFlowSettings = new();
