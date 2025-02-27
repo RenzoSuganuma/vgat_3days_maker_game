@@ -9,6 +9,7 @@ public class VoiceInputHandler : MonoBehaviour
     private GameManager _gameManager;
     private SpeechToTextVolume _speechToText;
     private VoiceJudgement _voiceJudgement;
+    private MissionsDisplay _missionsDisplay;
 
     // 認識したフレーズ
     public ReactiveProperty<string> RecognizedText = new ReactiveProperty<string>();
@@ -33,6 +34,7 @@ public class VoiceInputHandler : MonoBehaviour
         _gameManager = gameManager;
         _speechToText = gameManager.SpeechToTextVolume;
         _voiceJudgement = gameManager.VoiceJudgement;
+        _missionsDisplay = gameManager.MissionsDisplay;
 
         InitializeSubscriptions();
     }
@@ -51,6 +53,7 @@ public class VoiceInputHandler : MonoBehaviour
             RecognizedText.Value = text;
             IsVoiceInputSuccessful.Value = true;
             IsCorrectVoice.Value = _voiceJudgement.CheckVoice(text);
+            _missionsDisplay.SetPlayerText(text);
         });
 
         // 音量データを受け取る
@@ -58,6 +61,7 @@ public class VoiceInputHandler : MonoBehaviour
         {
             MaxSpeechVolume.Value = volume;
             LaneChange.Value = _voiceJudgement.DetermineLaneChange(volume);
+            _missionsDisplay.SetMaxDbText(volume);
         });
 
         // 音声入力成功フラグを1秒後にリセット
@@ -69,7 +73,21 @@ public class VoiceInputHandler : MonoBehaviour
             }
         });
     }
+    /// <summary>
+    /// ミッションのテキストを更新
+    /// </summary>
+    public void SetMissionText(string phrase)
+    {
+        _missionsDisplay.SetMissionText(phrase);
+    }
 
+    /// <summary>
+    /// 次のミッションのテキストを更新
+    /// </summary>
+    public void SetNextText(string text)
+    {
+        _missionsDisplay.SetNextText(text);
+    }
 
     /// <summary>
     /// 音声認識を開始（Presenter経由で呼び出し）

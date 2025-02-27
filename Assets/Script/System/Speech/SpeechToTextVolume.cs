@@ -13,13 +13,13 @@ public class SpeechToTextVolume : IDisposable
     private DictationRecognizer _dictationRecognizer;
     public Subject<string> OnSpeechResult = new Subject<string>(); // 音声認識結果
     public Subject<float> OnSpeechVolume = new Subject<float>(); // 音量データ
-    public Observable<string> OnDeviceName = new Subject<string>(); // デバイス名
 
     private string _deviceName;
     private string _targetDevice = "";
     private AudioClip _audioClip;
     private int _lastAudioPos;
     private CancellationTokenSource _cancellationTokenSource;
+    private MissionsDisplay _missionsDisplay;
 
     public SpeechToTextVolume(GameSettings gameSettings)
     {

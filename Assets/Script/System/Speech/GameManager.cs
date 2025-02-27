@@ -12,11 +12,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
-    private Stack<string> _wordStack = new();
+    private readonly Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData;
 
-    private VoiceRecognitionSettings _voiceRecognitionSettings;
-    private GameFlowSettings _gameFlowSettings;
+    private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new VoiceRecognitionSettings();
+    private readonly GameFlowSettings _gameFlowSettings = new GameFlowSettings();
 
 
     private SpeechToTextVolume _speechToTextVolume;
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private TextGenerator _textGenerator;
     private string _currentPhrase;
 
+    public MissionsDisplay MissionsDisplay => _missionsDisplay;
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
     public GameFlowSettings GameFlowSettings => _gameFlowSettings;
 
@@ -49,7 +50,6 @@ public class GameManager : MonoBehaviour
         }
 
 
-        _dropDownDevice.Construct(_speechToTextVolume);
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
 
@@ -60,14 +60,11 @@ public class GameManager : MonoBehaviour
         }
 
         _speechToTextVolume = new SpeechToTextVolume(settings);
+        _dropDownDevice.Construct(_speechToTextVolume);
         _voiceJudgement = new VoiceJudgement(this);
 
         _voiceInputHandler.Initialize(this);
-        _dropDownDevice.Construct(_speechToTextVolume);
 
-
-        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { _missionsDisplay.SetMaxDbText(volume); });
-        SpeechToTextVolume.OnSpeechResult.Subscribe(volume => { _missionsDisplay.SetPlayerText(volume); });
         SetNextMission();
     }
 
@@ -85,7 +82,7 @@ public class GameManager : MonoBehaviour
         if (_wordStack.Count > 0)
         {
             _currentPhrase = _wordStack.Pop();
-            _missionsDisplay.SetMissionText(_currentPhrase);
+            _voiceInputHandler.SetMissionText(_currentPhrase);
 
             _missionsDisplay.SetNextText(_wordStack.Peek());
         }
