@@ -16,16 +16,19 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private ClipDataSO _se;
     [SerializeField] private VoiceDataSO _voice;
 
+    public AudioSource BgmSource => _bgmAudioSource;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
+            return;
         }
 
         Foundation.TaskOnChangedScene += ChangeBGM; // Foundationクラスのシーン遷移時に呼ばれるイベントを購読

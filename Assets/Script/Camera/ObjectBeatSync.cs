@@ -4,7 +4,6 @@ using DG.Tweening;
 
 public class ObjectBeatSync : MonoBehaviour
 {
-    [Header("設定")] [SerializeField, Tooltip("BGMのAudioSource")]
     private AudioSource _audioSource;
 
     private float _bpm;
@@ -16,6 +15,8 @@ public class ObjectBeatSync : MonoBehaviour
 
     private void Start()
     {
+        _audioSource = AudioManager.Instance.BgmSource;
+
         var settings = Resources.Load<GameSettings>("GameSettings");
         if (settings != null)
         {
