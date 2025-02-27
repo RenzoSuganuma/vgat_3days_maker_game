@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b7dbd9276f64474ea769a1d3d5bf65b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisScoreText: {fileID: 351605579}
+  _thisScoreText: {fileID: 1036850583}
   _rankingTexts:
   - {fileID: 1104124553}
   - {fileID: 348575732}
