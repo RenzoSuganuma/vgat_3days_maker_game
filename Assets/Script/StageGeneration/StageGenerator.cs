@@ -49,14 +49,6 @@ public class StageGenerator : MonoBehaviour
         // �X�e�[�W����
         GenerateStage();
 
-        for (int layer = 0; layer < _generateLayers; layer++)
-        {
-            if (_obstacleGenerator != null)
-            {
-                _obstacleGenerator.Generate(layer);
-            }
-        }
-
         _player.GetComponent<PlayerMove>().Initialize();
     }
 

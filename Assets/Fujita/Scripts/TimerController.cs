@@ -20,5 +20,10 @@ public class TimerController : MonoBehaviour
     {
         _time -= Time.deltaTime;
         _scorebord.SetTimeScore(_time);
+
+        if (_time <= 0)
+        {
+            Foundation.NotifyGameOver();
+        }
     }
 }

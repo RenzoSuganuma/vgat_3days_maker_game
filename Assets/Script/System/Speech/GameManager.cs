@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
     private GameSettings _gameSettings;
+    private Stack<string> _wordStack = new();
+    private Dictionary<string, string> _voiceData = new();
 
     private string _resourcesLoadPath ;
     private readonly Stack<string> _wordStack = new();
@@ -19,7 +21,6 @@ public class GameManager : MonoBehaviour
 
     private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new();
     private readonly GameFlowSettings _gameFlowSettings = new();
-
 
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
@@ -66,6 +67,7 @@ public class GameManager : MonoBehaviour
 
         _voiceJudgement = new VoiceJudgement(this);
         _voiceInputHandler.Initialize(this);
+        _missionsDisplay = FindAnyObjectByType<MissionsDisplay>();
 
         SetNextMission();
     }
@@ -76,18 +78,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetNextMission()
     {
-        if (_wordStack.Count == 0)
+        if (_wordStack.Count < 2)
         {
             InitializeWordStack();
         }
 
-        if (_wordStack.Count > 0)
-        {
-            _currentPhrase = _wordStack.Pop();
-            _voiceInputHandler.SetMissionText(_currentPhrase);
-
-            _missionsDisplay.SetNextText(_wordStack.Peek());
-        }
+        _currentPhrase = _wordStack.Pop();
+        _missionsDisplay.SetMissionText(_currentPhrase);
+        _missionsDisplay.SetNextText(_wordStack.Peek());
     }
 
 
