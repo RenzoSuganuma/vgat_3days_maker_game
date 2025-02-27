@@ -15,10 +15,10 @@ MonoBehaviour:
   Clips:
   - ClipName: 0
     Clip: {fileID: 8300000, guid: 9ed7179edb9a1224b9f8ff4ce0881c73, type: 3}
-    Volume: 1
+    Volume: 0.25
   - ClipName: 1
     Clip: {fileID: 8300000, guid: 10b80c547e0fcff4bb52cf04c366bcae, type: 3}
-    Volume: 0.75
+    Volume: 0.35
   - ClipName: 2
     Clip: {fileID: 8300000, guid: 6f8c1fd68753ce341b448f35ad543101, type: 3}
     Volume: 0.6
@@ -27,4 +27,4 @@ MonoBehaviour:
     Volume: 0.6
   - ClipName: 4
     Clip: {fileID: 8300000, guid: bea8322d80019254e99de26a3129fe41, type: 3}
-    Volume: 0.9
+    Volume: 0.45
