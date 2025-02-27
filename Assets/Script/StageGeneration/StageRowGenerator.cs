@@ -21,7 +21,7 @@ public class StageRowGenerator : MonoBehaviour
         _layer = layer;
     }
 
-    public void Generate(float maxX, Transform parent, Transform child = null)
+    public void Generate(float maxX, Transform parent)
     {
         for (int i = 0; i < 1000; i++)
         {
