@@ -15,6 +15,11 @@ public class LaneObjectGenerator : MonoBehaviour
 
     public void Generate()
     {
+        for (int i = 0; i < _generatedIndex.Length; i++)
+        {
+            _generatedIndex[i] = 1;
+        }
+
         for (int layer = 0; layer < 6; layer++)
         {
             _parents.Add(new GameObject("ObstacleRow").transform);

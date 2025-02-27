@@ -73,6 +73,7 @@ public static class Foundation
     public static void NotifyGameOver()
     {
         OnGameOver?.Invoke();
+        EndGame();
     }
 
     private static async UniTask StartGameAsync()
