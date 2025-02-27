@@ -24,10 +24,10 @@ MonoBehaviour:
     _resourcesLoadSpeechTextPath: GloomyBeat_speechText
     _saveDataPath: saveData
   _micDeviceSettings:
-    _deviceName: Microphone
+    _deviceName: "MacBook Pro\u306E\u30DE\u30A4\u30AF"
     _sampleRate: 48000
   _audioVolumeSettings:
-    _masterVolume: 0.8
+    _masterVolume: 0.4
     _bgmVolume: 0.8
     _seVolume: 0.8
     _voiceVolume: 0.8
