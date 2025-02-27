@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
@@ -32,12 +33,20 @@ public class ResultManager : MonoBehaviour
         UpdateResultText(score, _rankingManager.LoadScores()); // UI更新
 
         // ボタン関係
-        _backTitleButton.onClick.AddListener(Foundation.ResetGame);
+        // _backTitleButton.onClick.AddListener(Foundation.ResetGame);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Foundation.ResetGame();
+        }
     }
 
     private void OnDestroy()
     {
-        _backTitleButton.onClick.RemoveAllListeners();
+        // _backTitleButton.onClick.RemoveAllListeners();
     }
 
     /// <summary>
@@ -53,8 +62,7 @@ public class ResultManager : MonoBehaviour
         {
             if (i < ranking.Count)
             {
-                _rankingTexts[i].text = $"{i+1}位 {ranking[i]}m";
-
+                _rankingTexts[i].text = $"{i + 1}位 {ranking[i]}m";
             }
             else
             {
@@ -62,7 +70,7 @@ public class ResultManager : MonoBehaviour
             }
 
             _rankingTexts[i].gameObject.SetActive(true); // アクティブにする
-            
+
             await UniTask.Delay(500);
         }
 
