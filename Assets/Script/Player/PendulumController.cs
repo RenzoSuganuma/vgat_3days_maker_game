@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using DG.Tweening;
 using Sequence = DG.Tweening.Sequence;
@@ -20,19 +19,7 @@ public class PendulumController : MonoBehaviour
 
     [SerializeField] private Transform _playerAnchor;
 
-    public Transform PlayerAnchor
-    {
-        get
-        {
-            if (_playerAnchor == null)
-            {
-                var c = transform.GetComponentsInChildren<Transform>().FirstOrDefault(e => e.name is "PlayerAnchor");
-                _playerAnchor = c;
-            }
-
-            return _playerAnchor;
-        }
-    }
+    public Transform PlayerAnchor => _playerAnchor;
 
     public event Action OnReachTheEdge; // 端に到達した時のEvent
     public event Action OnEdgeLeft;
