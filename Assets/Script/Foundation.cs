@@ -127,19 +127,11 @@ public static class Foundation
 
     private static async UniTask ResetGameAsync()
     {
-        // InGameシーンとResultシーンをアンロード
-        await DisposeSceneAsync(INGAME_SCENE_NAME);
-
         // タイトルシーンをロード
-        await LoadSceneAsync(TITLE_SCENE_NAME);
-
-        // タイトルシーンをアクティブに設定
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName(TITLE_SCENE_NAME));
+        LoadScene(TITLE_SCENE_NAME);
 
         // イベントを発火
         TaskOnChangedScene?.Invoke(TITLE_SCENE_NAME);
-
-        await DisposeSceneAsync(RESULT_SCENE_NAME);
     }
 
     private static void LoadSceneAdditive(string sceneName)
