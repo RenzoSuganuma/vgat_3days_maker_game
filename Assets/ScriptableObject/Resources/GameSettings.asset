@@ -43,13 +43,14 @@ MonoBehaviour:
     _animationDuration: 1
     _angle: 40
   _stageSettings:
-    _baseWidth: 5
+    _baseWidth: 20
     _widthPerLayer: 1
-    _heightPerLayer: 5
+    _heightPerLayer: 15
     _generateLayers: 6
     _initialLayer: 2
     _generateDistance: 100
     _generatePerMoveDistance: 50
+    _timeLimit: 120
   _objectBeatSettings:
     _shakeDuration: 0.1
     _scaleMultiplier: 1.05
