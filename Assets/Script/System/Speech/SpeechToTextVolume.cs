@@ -101,6 +101,30 @@ public class SpeechToTextVolume : IDisposable
         Debug.Log("🛑 音量測定がキャンセルされました");
     }
 
+
+    /// <summary>
+    /// 指定されたマイクデバイスが存在するか確認
+    /// </summary>
+    private string ValidateMicDevice(string deviceName)
+    {
+        if (Microphone.devices.Length == 0)
+        {
+            Debug.LogError("⚠ マイクデバイスが見つかりません！");
+            return null;
+        }
+
+        // 指定されたデバイスが `Microphone.devices` に含まれているかチェック
+        if (Microphone.devices.Contains(deviceName))
+        {
+            return deviceName;
+        }
+
+        // 存在しない場合はデフォルトデバイスを使用
+        Debug.LogWarning($"⚠ 指定されたデバイス `{deviceName}` が見つかりません。デフォルト `{Microphone.devices[0]}` を使用します。");
+        _gameSettings.MicDeviceSettings.DeviceName = Microphone.devices[0]; // 設定を更新
+        return Microphone.devices[0];
+    }
+
     /// <summary>
     /// 音声が認識されたときに発生するイベント
     /// </summary>
@@ -183,7 +207,6 @@ public class SpeechToTextVolume : IDisposable
 
         return Mathf.Clamp(db, -80f, 20f); // `-80dB ~ 20dB` の範囲に収める
     }
-
 
     /// <summary>
     /// 音声認識でエラーが発生した場合
