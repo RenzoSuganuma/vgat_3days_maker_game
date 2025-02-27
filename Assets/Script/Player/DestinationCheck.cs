@@ -65,6 +65,11 @@ public class DestinatinCheck : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_pendulumController == null)
+        {
+            return;
+        }
+
         _pendulumController.OnReachTheEdge -= Move;
     }
 
