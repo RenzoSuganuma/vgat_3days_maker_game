@@ -25,6 +25,11 @@ public class TitlePanelImpl : MonoBehaviour
         {
             DontDestroyOnLoad(ddol);
         }
+
+        _buttonStart.onClick.AddListener(() =>
+        {
+            FindAnyObjectByType<SceneLoaderImpl>()?.StartGame();
+        } );
     }
 
     private void Update()
