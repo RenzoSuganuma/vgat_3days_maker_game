@@ -16,7 +16,7 @@ MonoBehaviour:
     _lowThreshold: -20
     _midThreshold: -15
     _highThreshold: -10
-    _similarity: 0.1
+    _similarity: 0.5
   _gameFlowSettings:
     _stackSize: 10
     _nextTurnMilliSecDelay: 1000
@@ -24,16 +24,16 @@ MonoBehaviour:
     _resourcesLoadSpeechTextPath: GloomyBeat_speechText
     _saveDataPath: saveData
   _micDeviceSettings:
-    _deviceName: "MacBook Pro\u306E\u30DE\u30A4\u30AF"
+    _deviceName: CORSAIR VIRTUOSO Wireless Gaming Headset
     _sampleRate: 48000
   _audioVolumeSettings:
-    _masterVolume: 0.4
+    _masterVolume: 0.8
     _bgmVolume: 0.8
     _seVolume: 0.8
     _voiceVolume: 0.8
   _playerSettings:
     _jumpDuration: 1
-    height: 0
+    height: 3
     _gravity: 9.8
     _animSpeed: 0.06
     _swingAngle: 90
@@ -43,9 +43,9 @@ MonoBehaviour:
     _animationDuration: 1
     _angle: 40
   _stageSettings:
-    _baseWidth: 20
+    _baseWidth: 5
     _widthPerLayer: 1
-    _heightPerLayer: 15
+    _heightPerLayer: 5
     _generateLayers: 6
     _initialLayer: 2
     _generateDistance: 100
