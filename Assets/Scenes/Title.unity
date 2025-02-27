@@ -802,6 +802,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2786970236888863750, guid: c9aa33c66df064349826e1689bc5d9f1, type: 3}
+      propertyPath: m_Volume
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 3000914038771849886, guid: c9aa33c66df064349826e1689bc5d9f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -841,6 +845,10 @@ PrefabInstance:
     - target: {fileID: 3000914038771849886, guid: c9aa33c66df064349826e1689bc5d9f1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081639414949568760, guid: c9aa33c66df064349826e1689bc5d9f1, type: 3}
+      propertyPath: m_Volume
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 6081639414949568760, guid: c9aa33c66df064349826e1689bc5d9f1, type: 3}
       propertyPath: m_Resource
@@ -938,9 +946,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63bb34cd1e9cd204d99e7ab30f8e75f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hideOnScneChange: {fileID: 0}
-  _ddols: []
-  _buttonStart: {fileID: 1948331691}
 --- !u!4 &1483435055
 Transform:
   m_ObjectHideFlags: 0
@@ -1530,19 +1535,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1948331692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1483435056}
-        m_TargetAssemblyTypeName: SceneLoaderImpl, Assembly-CSharp
-        m_MethodName: StartGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1948331692
 MonoBehaviour:
   m_ObjectHideFlags: 0
