@@ -23,6 +23,8 @@ public class MissionsDisplay : MonoBehaviour
 
     private Color _defaultTextColor;
 
+    public TMP_Text NextText => _nextText;
+
     private void Awake()
     {
         // 初期化
@@ -55,6 +57,11 @@ public class MissionsDisplay : MonoBehaviour
     public void SetMissionText(string phrase)
     {
         _wordsText.text = $"読み上げてください: {phrase}";
+
+        var c = _wordsText.color;
+        c.a = 1;
+        _wordsText.color = c;
+
         _successImage.SetActive(false);
         _failImage.SetActive(false);
     }
