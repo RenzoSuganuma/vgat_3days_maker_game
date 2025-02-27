@@ -34,7 +34,6 @@ public static class Foundation
         StartGame();
         return;
 #endif
-        Cursor.lockState = CursorLockMode.Locked;
 
         SceneManager.LoadScene(TITLE_SCENE_NAME);
 
