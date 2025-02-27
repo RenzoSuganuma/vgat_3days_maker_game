@@ -788,7 +788,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 30
   m_TargetDisplay: 0
 --- !u!114 &5650054937045188007
 MonoBehaviour:
@@ -838,6 +838,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5171185312900242944}
     m_Modifications:
+    - target: {fileID: 1704089321987503125, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
+      propertyPath: _soundType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5457568067737017135, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1072,6 +1076,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5171185312900242944}
     m_Modifications:
+    - target: {fileID: 1704089321987503125, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
+      propertyPath: _soundType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5457568067737017135, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1189,6 +1197,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5171185312900242944}
     m_Modifications:
+    - target: {fileID: 1704089321987503125, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
+      propertyPath: _soundType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5457568067737017135, guid: d91041059656d0d40b2230fb2e8e3b42, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

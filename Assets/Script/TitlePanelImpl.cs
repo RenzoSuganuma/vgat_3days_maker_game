@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class TitlePanelImpl : MonoBehaviour
 {
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))

@@ -13,13 +13,14 @@ public class SpeechToTextVolume : IDisposable
     private DictationRecognizer _dictationRecognizer;
     public Subject<string> OnSpeechResult = new Subject<string>(); // 音声認識結果
     public Subject<float> OnSpeechVolume = new Subject<float>(); // 音量データ
-    public Observable<string> OnDeviceName = new Subject<string>(); // デバイス名
 
     private string _deviceName;
     private string _targetDevice = "";
     private AudioClip _audioClip;
     private int _lastAudioPos;
     private CancellationTokenSource _cancellationTokenSource;
+    private MissionsDisplay _missionsDisplay;
+
 
     public SpeechToTextVolume(GameSettings gameSettings)
     {
@@ -29,52 +30,40 @@ public class SpeechToTextVolume : IDisposable
         _dictationRecognizer.DictationResult += DictationRecResult;
         _dictationRecognizer.DictationError += DictationRecError;
 
-        _deviceName = _gameSettings.MicDeviceSettings.DeviceName;
-        InitMicrophone();
+        _deviceName = ValidateMicDevice(_gameSettings.MicDeviceSettings.DeviceName);
+
+        InitMicrophone(_deviceName);
         Debug.Log("SpeechToTextVolume: 初期化完了");
     }
 
     /// <summary>
     /// マイクを初期化し、録音を開始
     /// </summary>
-    private void InitMicrophone()
+    private void InitMicrophone(string targetDevice)
     {
-        foreach (var device in Microphone.devices)
-        {
-            Debug.Log($"Device Name: {device}");
-            if (device.Contains(_deviceName))
-            {
-                _targetDevice = device;
-            }
-            else
-            {
-                _targetDevice = Microphone.devices[0];
-            }
-        }
-
-        if (string.IsNullOrEmpty(_targetDevice))
+        if (string.IsNullOrEmpty(targetDevice))
         {
             Debug.LogError("⚠ マイクデバイスが見つかりません！");
             return;
         }
 
-        Debug.Log($"🎤 録音デバイス: {_targetDevice}");
-        _audioClip = Microphone.Start(_targetDevice, true, 10, _gameSettings.MicDeviceSettings.SampleRate);
+        Debug.Log($"🎤 録音デバイス: {targetDevice}");
+        _audioClip = Microphone.Start(targetDevice, true, 10, _gameSettings.MicDeviceSettings.SampleRate);
     }
 
 
     /// <summary>
     /// デバイス名を設定
     /// </summary>
-    public void SetDeviceName(string deviceName)
+    public void SetDeviceName(string targetDevice)
     {
-        _deviceName = deviceName;
+        _deviceName = targetDevice;
         if (_gameSettings != null)
         {
             _gameSettings.MicDeviceSettings.DeviceName = _deviceName;
         }
 
-        InitMicrophone(); // 新しいデバイスでマイクを再初期化
+        InitMicrophone(_deviceName); // 新しいデバイスでマイクを再初期化
     }
 
     /// <summary>
@@ -111,6 +100,30 @@ public class SpeechToTextVolume : IDisposable
         if (_dictationRecognizer.Status != SpeechSystemStatus.Running) return;
         _cancellationTokenSource?.Cancel();
         Debug.Log("🛑 音量測定がキャンセルされました");
+    }
+
+
+    /// <summary>
+    /// 指定されたマイクデバイスが存在するか確認
+    /// </summary>
+    private string ValidateMicDevice(string deviceName)
+    {
+        if (Microphone.devices.Length == 0)
+        {
+            Debug.LogError("⚠ マイクデバイスが見つかりません！");
+            return null;
+        }
+
+        // 指定されたデバイスが `Microphone.devices` に含まれているかチェック
+        if (Microphone.devices.Contains(deviceName))
+        {
+            return deviceName;
+        }
+
+        // 存在しない場合はデフォルトデバイスを使用
+        Debug.LogWarning($"⚠ 指定されたデバイス `{deviceName}` が見つかりません。デフォルト `{Microphone.devices[0]}` を使用します。");
+        _gameSettings.MicDeviceSettings.DeviceName = Microphone.devices[0]; // 設定を更新
+        return Microphone.devices[0];
     }
 
     /// <summary>
@@ -195,7 +208,6 @@ public class SpeechToTextVolume : IDisposable
 
         return Mathf.Clamp(db, -80f, 20f); // `-80dB ~ 20dB` の範囲に収める
     }
-
 
     /// <summary>
     /// 音声認識でエラーが発生した場合

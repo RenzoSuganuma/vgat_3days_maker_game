@@ -33,7 +33,7 @@ public class PendulumController : MonoBehaviour
             return _playerAnchor;
         }
     }
-
+    
     public event Action OnReachTheEdge; // 端に到達した時のEvent
     public event Action OnEdgeLeft;
     public event Action OnEdgeRight;

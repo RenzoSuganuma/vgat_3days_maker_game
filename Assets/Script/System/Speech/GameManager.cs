@@ -7,22 +7,27 @@ using Cysharp.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
-    private string _resourcesLoadPath = "GloomyBeat_speechText";
     [SerializeField] private VoiceInputHandler _voiceInputHandler;
     [SerializeField] private DropDownDevice _dropDownDevice;
     [SerializeField] private MissionsDisplay _missionsDisplay;
 
+    private GameSettings _gameSettings;
     private Stack<string> _wordStack = new();
     private Dictionary<string, string> _voiceData = new();
 
-    private VoiceRecognitionSettings _voiceRecognitionSettings;
-    private GameFlowSettings _gameFlowSettings;
+    private string _resourcesLoadPath ;
+    private readonly Stack<string> _wordStack = new();
+    private Dictionary<string, string> _voiceData = new();
+
+    private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new();
+    private readonly GameFlowSettings _gameFlowSettings = new();
 
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
     private TextGenerator _textGenerator;
     private string _currentPhrase;
 
+    public MissionsDisplay MissionsDisplay => _missionsDisplay;
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
     public GameFlowSettings GameFlowSettings => _gameFlowSettings;
 
@@ -33,25 +38,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        var settings = Resources.Load<GameSettings>("GameSettings");
-        if (settings != null)
+        _gameSettings = Resources.Load<GameSettings>("GameSettings");
+        if (_gameSettings != null)
         {
-            _voiceRecognitionSettings = new();
+            _voiceRecognitionSettings.LowThreshold = _gameSettings.VoiceRecognitionSettings.LowThreshold;
+            _voiceRecognitionSettings.MidThreshold = _gameSettings.VoiceRecognitionSettings.MidThreshold;
+            _voiceRecognitionSettings.HighThreshold = _gameSettings.VoiceRecognitionSettings.HighThreshold;
+            _voiceRecognitionSettings.Similarity = _gameSettings.VoiceRecognitionSettings.Similarity;
 
-            _voiceRecognitionSettings.LowThreshold = settings.VoiceRecognitionSettings.LowThreshold;
-            _voiceRecognitionSettings.MidThreshold = settings.VoiceRecognitionSettings.MidThreshold;
-            _voiceRecognitionSettings.HighThreshold = settings.VoiceRecognitionSettings.HighThreshold;
-            _voiceRecognitionSettings.Similarity = settings.VoiceRecognitionSettings.Similarity;
+            _gameFlowSettings.StackSize = _gameSettings.GameFlowSettings.StackSize;
+            _gameFlowSettings.NextTurnMilliSecDelay = _gameSettings.GameFlowSettings.NextTurnMilliSecDelay;
 
-            _gameFlowSettings = new();
-            _gameFlowSettings.StackSize = settings.GameFlowSettings.StackSize;
-            _gameFlowSettings.NextTurnMilliSecDelay = settings.GameFlowSettings.NextTurnMilliSecDelay;
-
-            _resourcesLoadPath = settings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
+            _resourcesLoadPath = _gameSettings.GameLoadResourcesSettings.ResourcesLoadSpeechTextPath;
         }
 
-
-        _dropDownDevice.Construct(_speechToTextVolume);
         _textGenerator = new TextGenerator(_resourcesLoadPath);
         _voiceData = _textGenerator.GetVoiceData();
 
@@ -61,15 +61,12 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _speechToTextVolume = new SpeechToTextVolume(settings);
+        _speechToTextVolume = new SpeechToTextVolume(_gameSettings);
+
+        _dropDownDevice.Construct(_gameSettings, _speechToTextVolume);
+
         _voiceJudgement = new VoiceJudgement(this);
-
         _voiceInputHandler.Initialize(this);
-        _dropDownDevice.Construct(_speechToTextVolume);
-
-        _voiceInputHandler.MaxSpeechVolume.Subscribe(volume => { _missionsDisplay.SetMaxDbText(volume); });
-        SpeechToTextVolume.OnSpeechResult.Subscribe(volume => { _missionsDisplay.SetPlayerText(volume); });
-
         _missionsDisplay = FindAnyObjectByType<MissionsDisplay>();
 
         SetNextMission();
