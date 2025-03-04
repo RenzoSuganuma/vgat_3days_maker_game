@@ -20,11 +20,14 @@ public class GameManager : MonoBehaviour
     private readonly VoiceRecognitionSettings _voiceRecognitionSettings = new();
     private readonly GameFlowSettings _gameFlowSettings = new();
 
+    private MicrophoneManager _microphoneManager;
     private SpeechToTextVolume _speechToTextVolume;
     private VoiceJudgement _voiceJudgement;
     private TextGenerator _textGenerator;
     private string _currentPhrase;
 
+
+    public VoiceInputHandler VoiceInputHandler => _voiceInputHandler;
     public MissionsDisplay MissionsDisplay => _missionsDisplay;
     public VoiceRecognitionSettings VoiceRecognitionSettings => _voiceRecognitionSettings;
     public GameFlowSettings GameFlowSettings => _gameFlowSettings;
@@ -59,9 +62,10 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        _speechToTextVolume = new SpeechToTextVolume(_gameSettings);
+        _microphoneManager = new MicrophoneManager(_gameSettings);
+        _speechToTextVolume = new SpeechToTextVolume(_microphoneManager);
 
-        _dropDownDevice.Construct(_gameSettings, _speechToTextVolume);
+        _dropDownDevice.Construct(_microphoneManager);
 
         _voiceJudgement = new VoiceJudgement(this);
         _voiceInputHandler.Initialize(this);

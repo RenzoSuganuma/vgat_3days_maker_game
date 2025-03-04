@@ -6,12 +6,14 @@ public class OptionView : MonoBehaviour
 {
     [SerializeField] private GameObject _optionPanel;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private DropDownDevice _dropDownDevice;
 
     public void Initialize(Action onBackButtonPressed)
     {
         if (_closeButton != null)
         {
             _closeButton.onClick.AddListener(() => onBackButtonPressed?.Invoke());
+            _dropDownDevice.
         }
     }
 
@@ -32,4 +34,11 @@ public class OptionView : MonoBehaviour
     {
         _optionPanel.SetActive(!_optionPanel.activeSelf);
     }
+
+    public void SetDropDownDevice(DropDownDevice dropDownDevice)
+    {
+        _dropDownDevice = dropDownDevice;
+    }
+
+
 }

@@ -1,94 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DropDownDevice : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown _dropdown;
-    private readonly List<string> _devicelist = new();
-    private SpeechToTextVolume _speechToTextVolume;
-    private GameSettings _gameSettings;
+    [SerializeField] TMP_Dropdown _dropdown;
+    private MicrophoneManager _microphoneManager;
     private string _currentDevice;
 
-    public void Construct(GameSettings gameSettings, SpeechToTextVolume speechToTextVolume)
+    public void Construct(MicrophoneManager microphoneManager)
     {
-        _gameSettings = gameSettings;
-        _speechToTextVolume = speechToTextVolume;
+        _microphoneManager = microphoneManager;
     }
 
     private void Start()
     {
-        if (_gameSettings == null || _speechToTextVolume == null)
-        {
-            Debug.LogError("⚠ GameSettings または SpeechToTextVolume が設定されていません！");
-            return;
-        }
-
-        // すべての Options をクリア
         _dropdown.ClearOptions();
-
-        // マイクデバイスリストを取得
-        GetMicrophoneDevices();
-
-        // `GameSettings` のデバイスが `Microphone.devices` にあるか確認
-        _currentDevice = _gameSettings.MicDeviceSettings.DeviceName;
-        if (!_devicelist.Contains(_currentDevice))
-        {
-            Debug.LogWarning($"⚠ `{_currentDevice}` は利用できません。デフォルト `{_devicelist[0]}` を使用します。");
-            _currentDevice = _devicelist[0]; // デフォルトデバイスに設定
-            _gameSettings.MicDeviceSettings.DeviceName = _currentDevice;
-        }
-
-        _dropdown.AddOptions(_devicelist);
-
-        _dropdown.value = _devicelist.IndexOf(_currentDevice);
-
-        SetMicrophoneDevice(_currentDevice);
-
-        // `Dropdown` の変更イベントを追加
-        _dropdown.onValueChanged.AddListener(delegate { OnDropdownValueChanged(); });
+        _currentDevice = _microphoneManager.SelectedDevice;
+        RefreshDropdownOptions();
+        SetMicrophoneDevice();
     }
 
     /// <summary>
-    /// マイクデバイスリストを取得
+    /// マイクデバイスリストを取得し、Dropdownを更新
     /// </summary>
-    private void GetMicrophoneDevices()
+    private void RefreshDropdownOptions()
     {
-        _devicelist.Clear();
-        foreach (var device in Microphone.devices)
+        _dropdown.ClearOptions();
+        List<string> deviceList = new List<string>(_microphoneManager.DeviceList);
+        _dropdown.AddOptions(deviceList);
+
+        if (deviceList.Contains(_currentDevice))
         {
-            _devicelist.Add(device);
+            _dropdown.value = deviceList.IndexOf(_currentDevice);
+        }
+        else
+        {
+            _dropdown.value = 0;
         }
     }
 
     /// <summary>
-    /// `Dropdown` から選択されたマイクデバイスを適用
+    /// 選択されたデバイスを設定
     /// </summary>
-    private void OnDropdownValueChanged()
+    public void SetMicrophoneDevice()
     {
-        string selectedDevice = _devicelist[_dropdown.value];
-        SetMicrophoneDevice(selectedDevice);
-    }
-
-    /// <summary>
-    /// 指定されたマイクデバイスを適用
-    /// </summary>
-    public void SetMicrophoneDevice(string device)
-    {
-        if (!_devicelist.Contains(device))
-        {
-            Debug.LogError($"⚠ `{device}` はリストに存在しません。");
-            return;
-        }
-
-        _currentDevice = device;
-        _gameSettings.MicDeviceSettings.DeviceName = _currentDevice;
-        Debug.Log($"🎤 選択されたデバイス: {_currentDevice}");
-
-        // SpeechToTextVolume のデバイスを更新
-        _speechToTextVolume.SetDeviceName(_currentDevice);
+        string selectedDevice = _dropdown.options[_dropdown.value].text;
+        Debug.Log($"🎤 選択されたデバイス: {selectedDevice}");
+        _microphoneManager.SetDevice(selectedDevice);
     }
 }
